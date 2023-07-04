@@ -1,17 +1,38 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import ListContacts from './pages/ListContacts'
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import "./App.css";
+import ListContacts from "./pages/ListContacts";
+import ContactDetails from "./pages/ContactDetails";
+import AddContact from "./pages/AddContact";
+import BottomNavigation from "./components/BottomNavigation";
+import MainPage from "./pages/MainPage";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const appRouter = createBrowserRouter([
+    {
+      path: "/",
+      element: <MainPage />,
+      children: [
+        {
+          path: "/",
+          element: <ListContacts />,
+        },
+        {
+          path: "/contactDetails",
+          element: <ContactDetails />,
+        },
+        {
+          path: "/addNew",
+          element: <AddContact />,
+        },
+      ],
+    },
+  ]);
 
   return (
-    <>
-      <ListContacts/>
-    </>
-  )
+    <div className="h-screen">
+      <RouterProvider router={appRouter} />
+    </div>
+  );
 }
 
-export default App
+export default App;
