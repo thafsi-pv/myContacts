@@ -14,7 +14,7 @@ function AddContact() {
   };
 
   return (
-    <div className="p-5 space-y-3 mb-[500px]">
+    <div className="p-5 space-y-3 mb-[500px] mt-16">
       <div>
         <label htmlFor="name">Name</label>
         <Input />
@@ -64,24 +64,22 @@ function AddContact() {
           />
         </div>
       </div>
-      
-        {phoneInput.map((input,index) => (
-          <div key={input.id}>
-            <label htmlFor="office">
-              Phone {index + 1}
-            </label>
-            <div className="w-full ">
-              <PhoneInput
-                containerClass="w-100 "
-                inputClass="p-5 !w-full"
-                country={"in"}
-                value={phone}
-                onChange={(phone) => setPhone(phone)}
-              />
-            </div>
+
+      {phoneInput.map((input, index) => (
+        <div key={input.id}>
+          <label htmlFor="office">Phone {index + 1}</label>
+          <div className="w-full ">
+            <PhoneInput
+              containerClass="w-100 "
+              inputClass="p-5 !w-full"
+              country={"in"}
+              value={phone}
+              onChange={(phone) => setPhone(phone)}
+            />
           </div>
-        ))}
-      
+        </div>
+      ))}
+
       <div className="w-full flex justify-end">
         <span
           className="flex items-center font-semibold"
@@ -95,9 +93,8 @@ function AddContact() {
         <textarea className="w-full" id="" cols="30" rows="3"></textarea>
       </div>
       <div className="w-full space-y-3">
-    
-      <button className="btn btn-primary w-full">Save</button>
-      <button className="btn btn-neutral w-full">Clear</button>
+        <button className="btn btn-primary w-full">Save</button>
+        <button className="btn btn-neutral w-full">Clear</button>
       </div>
     </div>
   );

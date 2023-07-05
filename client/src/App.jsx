@@ -3,8 +3,10 @@ import "./App.css";
 import ListContacts from "./pages/ListContacts";
 import ContactDetails from "./pages/ContactDetails";
 import AddContact from "./pages/AddContact";
+import AddDept from "./pages/AddDept";
 import BottomNavigation from "./components/BottomNavigation";
 import MainPage from "./pages/MainPage";
+import Settings from "./pages/Settings";
 
 function App() {
   const appRouter = createBrowserRouter([
@@ -23,6 +25,14 @@ function App() {
         {
           path: "/addNew",
           element: <AddContact />,
+        },
+        {
+          path: "/dept",
+          element: <AddDept />,
+        },
+        {
+          path: "/settings",
+          element: <Settings />,
         },
       ],
     },

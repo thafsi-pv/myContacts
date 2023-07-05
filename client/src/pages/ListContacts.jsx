@@ -12,8 +12,8 @@ function ListContacts() {
   };
 
   return (
-    <div className="flex justify-center">
-      <div className="fixed top-0 w-[90%] z-10">
+    <div className="flex flex-col justify-center mt-16">
+      <div className=" top-0 w-[100%]">
         <Input />
       </div>
       <div className="overflow-x-auto h-[800px] w-screen mt-20 p-3">

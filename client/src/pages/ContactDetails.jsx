@@ -24,7 +24,7 @@ function ContactDetails() {
     };
 
   return (
-    <div className="flex justify-center align-middle w-full items-center h-full">
+    <div className="flex justify-center align-middle w-full items-center h-full mt-16">
       <div className=" h-[50%] p-5 m-3 w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
         <div className="flex flex-col items-center pb-10">
           <img
