@@ -6,7 +6,6 @@ import { Link } from "react-router-dom";
 
 function BottomNavigation() {
   const [activeTab,setActiveTab]=useState(1)
-  console.log("🚀 ~ file: BottomNavigation.jsx:9 ~ BottomNavigation ~ activeTab:", activeTab)
   return (
     <div className="btm-nav">
       <button className= {`${activeTab==1?"active":''}`} onClick={()=>setActiveTab(1)}>

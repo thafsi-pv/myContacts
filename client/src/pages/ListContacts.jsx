@@ -1,26 +1,41 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Input from "../components/Input";
 import { BsArrowRight } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 import BottomNavigation from "../components/BottomNavigation";
-import PDFFile from '../components/PDFFile';
+import PDFFile from "../components/PDFFile";
 import { PDFDownloadLink } from "@react-pdf/renderer";
+import axios from "axios";
 
 function ListContacts() {
+  const [allContacts, setAllContacts] = useState([]);
   const navigate = useNavigate();
 
   const handleContact = () => {
     navigate("/contactDetails");
   };
 
+  useEffect(() => {
+    getAllContacts();
+  }, []);
 
+  const getAllContacts = async () => {
+    const response = await axios("http://localhost:3458/api/contacts");
+    setAllContacts(response?.data);
+  };
 
   return (
     <div className="flex flex-col justify-center mt-16">
       <div>
-      <PDFDownloadLink document={<PDFFile />} filename="FORM">
-      {({loading}) => (loading ? <button>Loading Document...</button> : <button>Download</button> )}
-      </PDFDownloadLink>
+        <PDFDownloadLink document={<PDFFile />} filename="FORM">
+          {({ loading }) =>
+            loading ? (
+              <button>Loading Document...</button>
+            ) : (
+              <button>Download</button>
+            )
+          }
+        </PDFDownloadLink>
       </div>
       <div className=" top-0 w-[100%]">
         <Input />
@@ -35,234 +50,24 @@ function ListContacts() {
             </tr>
           </thead>
           <tbody>
-            <tr className="h-10">
-              <th>1</th>
-              <td className="w-[80%]" onClick={handleContact}>
-                <div className="flex flex-col justify-start">
-                  <span className="text-lg">Cy Ganderton</span>
-                  <span>Dept Name</span>
-                </div>
-              </td>
-              <td>
-                <BsArrowRight className="h-6 w-6" />
-              </td>
-            </tr>
-            <tr className="h-10">
-              <th>1</th>
-              <td className="w-[80%]">
-                <div className="flex flex-col justify-start">
-                  <span className="text-lg">Cy Ganderton</span>
-                  <span>Dept Name</span>
-                </div>
-              </td>
-              <td>
-                <BsArrowRight className="h-6 w-6" />
-              </td>
-            </tr>
-            <tr className="h-10">
-              <th>1</th>
-              <td className="w-[80%]">
-                <div className="flex flex-col justify-start">
-                  <span className="text-lg">Cy Ganderton</span>
-                  <span>Dept Name</span>
-                </div>
-              </td>
-              <td>
-                <BsArrowRight className="h-6 w-6" />
-              </td>
-            </tr>
-            <tr className="h-10">
-              <th>1</th>
-              <td className="w-[80%]">
-                <div className="flex flex-col justify-start">
-                  <span className="text-lg">Cy Ganderton</span>
-                  <span>Dept Name</span>
-                </div>
-              </td>
-              <td>
-                <BsArrowRight className="h-6 w-6" />
-              </td>
-            </tr>
-            <tr className="h-10">
-              <th>1</th>
-              <td className="w-[80%]">
-                <div className="flex flex-col justify-start">
-                  <span className="text-lg">Cy Ganderton</span>
-                  <span>Dept Name</span>
-                </div>
-              </td>
-              <td>
-                <BsArrowRight className="h-6 w-6" />
-              </td>
-            </tr>
-            <tr className="h-10">
-              <th>1</th>
-              <td className="w-[80%]">
-                <div className="flex flex-col justify-start">
-                  <span className="text-lg">Cy Ganderton</span>
-                  <span>Dept Name</span>
-                </div>
-              </td>
-              <td>
-                <BsArrowRight className="h-6 w-6" />
-              </td>
-            </tr>
-            <tr className="h-10">
-              <th>1</th>
-              <td className="w-[80%]">
-                <div className="flex flex-col justify-start">
-                  <span className="text-lg">Cy Ganderton</span>
-                  <span>Dept Name</span>
-                </div>
-              </td>
-              <td>
-                <BsArrowRight className="h-6 w-6" />
-              </td>
-            </tr>
-            <tr className="h-10">
-              <th>1</th>
-              <td className="w-[80%]">
-                <div className="flex flex-col justify-start">
-                  <span className="text-lg">Cy Ganderton</span>
-                  <span>Dept Name</span>
-                </div>
-              </td>
-              <td>
-                <BsArrowRight className="h-6 w-6" />
-              </td>
-            </tr>
-            <tr className="h-10">
-              <th>1</th>
-              <td className="w-[80%]">
-                <div className="flex flex-col justify-start">
-                  <span className="text-lg">Cy Ganderton</span>
-                  <span>Dept Name</span>
-                </div>
-              </td>
-              <td>
-                <BsArrowRight className="h-6 w-6" />
-              </td>
-            </tr>
-            <tr className="h-10">
-              <th>1</th>
-              <td className="w-[80%]">
-                <div className="flex flex-col justify-start">
-                  <span className="text-lg">Cy Ganderton</span>
-                  <span>Dept Name</span>
-                </div>
-              </td>
-              <td>
-                <BsArrowRight className="h-6 w-6" />
-              </td>
-            </tr>
-            <tr className="h-10">
-              <th>1</th>
-              <td className="w-[80%]">
-                <div className="flex flex-col justify-start">
-                  <span className="text-lg">Cy Ganderton</span>
-                  <span>Dept Name</span>
-                </div>
-              </td>
-              <td>
-                <BsArrowRight className="h-6 w-6" />
-              </td>
-            </tr>
-            <tr className="h-10">
-              <th>1</th>
-              <td className="w-[80%]">
-                <div className="flex flex-col justify-start">
-                  <span className="text-lg">Cy Ganderton</span>
-                  <span>Dept Name</span>
-                </div>
-              </td>
-              <td>
-                <BsArrowRight className="h-6 w-6" />
-              </td>
-            </tr>
-            <tr className="h-10">
-              <th>1</th>
-              <td className="w-[80%]">
-                <div className="flex flex-col justify-start">
-                  <span className="text-lg">Cy Ganderton</span>
-                  <span>Dept Name</span>
-                </div>
-              </td>
-              <td>
-                <BsArrowRight className="h-6 w-6" />
-              </td>
-            </tr>
-            <tr className="h-10">
-              <th>1</th>
-              <td className="w-[80%]">
-                <div className="flex flex-col justify-start">
-                  <span className="text-lg">Cy Ganderton</span>
-                  <span>Dept Name</span>
-                </div>
-              </td>
-              <td>
-                <BsArrowRight className="h-6 w-6" />
-              </td>
-            </tr>
-            <tr className="h-10">
-              <th>1</th>
-              <td className="w-[80%]">
-                <div className="flex flex-col justify-start">
-                  <span className="text-lg">Cy Ganderton</span>
-                  <span>Dept Name</span>
-                </div>
-              </td>
-              <td>
-                <BsArrowRight className="h-6 w-6" />
-              </td>
-            </tr>
-            <tr className="h-10">
-              <th>1</th>
-              <td className="w-[80%]">
-                <div className="flex flex-col justify-start">
-                  <span className="text-lg">Cy Ganderton</span>
-                  <span>Dept Name</span>
-                </div>
-              </td>
-              <td>
-                <BsArrowRight className="h-6 w-6" />
-              </td>
-            </tr>
-            <tr className="h-10">
-              <th>1</th>
-              <td className="w-[80%]">
-                <div className="flex flex-col justify-start">
-                  <span className="text-lg">Cy Ganderton</span>
-                  <span>Dept Name</span>
-                </div>
-              </td>
-              <td>
-                <BsArrowRight className="h-6 w-6" />
-              </td>
-            </tr>
-            <tr className="h-10">
-              <th>1</th>
-              <td className="w-[80%]">
-                <div className="flex flex-col justify-start">
-                  <span className="text-lg">Cy Ganderton</span>
-                  <span>Dept Name</span>
-                </div>
-              </td>
-              <td>
-                <BsArrowRight className="h-6 w-6" />
-              </td>
-            </tr>
-            <tr className="h-10">
-              <th>1</th>
-              <td className="w-[80%]">
-                <div className="flex flex-col justify-start">
-                  <span className="text-lg">Cy Ganderton</span>
-                  <span>Dept Name</span>
-                </div>
-              </td>
-              <td>
-                <BsArrowRight className="h-6 w-6" />
-              </td>
-            </tr>
+            {allContacts.map((item, index) => {
+              return (
+                <tr key={item._id} className="h-10">
+                  <th>{index + 1}</th>
+                  <td className="w-[80%]" onClick={handleContact}>
+                    <div className="flex flex-col justify-start">
+                      <span className="text-lg">
+                        {item.firstName} {item.lastName}
+                      </span>
+                      <span>Dept Name</span>
+                    </div>
+                  </td>
+                  <td>
+                    <BsArrowRight className="h-6 w-6" />
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>

@@ -7,7 +7,14 @@ const contactSchema = mongoose.Schema(
     mobile: { type: Number, required: true },
     whatsApp: { type: Number },
     notes: { type: String },
+    department: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref:'department'
+      },
+    ],
   },
+
   {
     timestamps: true,
   }

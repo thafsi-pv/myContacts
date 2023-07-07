@@ -7,6 +7,7 @@ import Select from "react-select";
 import { changeKeyInArray } from "../utils/utils";
 import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
+import { toast } from "react-hot-toast";
 
 const keyChanges = {
   _id: "value",
@@ -50,15 +51,18 @@ function AddContact() {
     setNewContact((prev) => ({ ...prev, [name]: value }));
   };
 
+  const handleDepartmentChange = (selectedOptions) => {
+    setNewContact((prev) => ({ ...prev, department: selectedOptions.value }));
+  };
+
   const handleAddNewContact = async () => {
     const response = await axios("http://localhost:3458/api/contacts", {
       method: "POST",
       data: { newContact },
     });
-    console.log(
-      "🚀 ~ file: AddContact.jsx:58 ~ handleAddNewContact ~ response:",
-      response
-    );
+    if(response.status==200){
+      toast.success('New contact added successfully');
+    }
   };
 
   return (
@@ -83,7 +87,10 @@ function AddContact() {
       </div>
       <div className="w-full ">
         <label htmlFor="office">Department</label>
-        <Select options={departments} />
+        <Select
+          options={departments}
+          onChange={(e) => handleDepartmentChange(e)}
+        />
       </div>
       {phoneInput.map((input, index) => (
         <div key={input.id}>
@@ -121,6 +128,7 @@ function AddContact() {
         <textarea
           onChange={handleInputChange}
           className="w-full rounded-md bg-gray-800"
+          name="notes"
           id=""
           cols="30"
           rows="3"></textarea>
