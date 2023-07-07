@@ -15,6 +15,7 @@ const keyChanges = {
 };
 function AddContact() {
   const [newContact, setNewContact] = useState();
+  const [contactNos, setContactNos] = useState();
   const [phoneInput, setPhoneInput] = useState([
     { id: uuidv4(), phone: "Mobile", name: "mobile" },
     { id: uuidv4(), phone: "WhatsApp", name: "whatsApp" },
@@ -48,7 +49,7 @@ function AddContact() {
 
   const handlePhoneInputChange = (value, countryData, event) => {
     const { name } = event.target;
-    setNewContact((prev) => ({ ...prev, [name]: value }));
+    setContactNos((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleDepartmentChange = (selectedOptions) => {
@@ -58,10 +59,10 @@ function AddContact() {
   const handleAddNewContact = async () => {
     const response = await axios("http://localhost:3458/api/contacts", {
       method: "POST",
-      data: { newContact },
+      data: { newContact, contactNos },
     });
-    if(response.status==200){
-      toast.success('New contact added successfully');
+    if (response.status == 200) {
+      toast.success("New contact added successfully");
     }
   };
 

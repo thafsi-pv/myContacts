@@ -19,7 +19,7 @@ function App() {
           element: <ListContacts />,
         },
         {
-          path: "/contactDetails",
+          path: "/contactDetails/:id",
           element: <ContactDetails />,
         },
         {

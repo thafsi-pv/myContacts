@@ -4,17 +4,21 @@ const contactSchema = mongoose.Schema(
   {
     firstName: { type: String, required: true, trim: true },
     lastName: { type: String, trim: true },
-    mobile: { type: Number, required: true },
-    whatsApp: { type: Number },
     notes: { type: String },
     department: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref:'department'
+        ref: "department",
+      },
+    ],
+    contactNos: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "contactNumbers",
       },
     ],
   },
-
+  { strict: false },
   {
     timestamps: true,
   }

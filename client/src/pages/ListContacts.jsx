@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Input from "../components/Input";
 import { BsArrowRight } from "react-icons/bs";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import BottomNavigation from "../components/BottomNavigation";
 import PDFFile from "../components/PDFFile";
 import { PDFDownloadLink } from "@react-pdf/renderer";
@@ -11,7 +11,7 @@ function ListContacts() {
   const [allContacts, setAllContacts] = useState([]);
   const navigate = useNavigate();
 
-  const handleContact = () => {
+  const handleContact = (id) => {
     navigate("/contactDetails");
   };
 
@@ -54,7 +54,7 @@ function ListContacts() {
               return (
                 <tr key={item._id} className="h-10">
                   <th>{index + 1}</th>
-                  <td className="w-[80%]" onClick={handleContact}>
+                  <td className="w-[80%]">
                     <div className="flex flex-col justify-start">
                       <span className="text-lg">
                         {item.firstName} {item.lastName}
@@ -63,7 +63,9 @@ function ListContacts() {
                     </div>
                   </td>
                   <td>
-                    <BsArrowRight className="h-6 w-6" />
+                    <Link to={`/contactDetails/${item._id}`}>
+                      <BsArrowRight className="h-6 w-6" />
+                    </Link>
                   </td>
                 </tr>
               );
