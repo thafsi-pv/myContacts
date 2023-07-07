@@ -3,6 +3,8 @@ import Input from "../components/Input";
 import { BsArrowRight } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 import BottomNavigation from "../components/BottomNavigation";
+import PDFFile from '../components/PDFFile';
+import { PDFDownloadLink } from "@react-pdf/renderer";
 
 function ListContacts() {
   const navigate = useNavigate();
@@ -11,8 +13,15 @@ function ListContacts() {
     navigate("/contactDetails");
   };
 
+
+
   return (
     <div className="flex flex-col justify-center mt-16">
+      <div>
+      <PDFDownloadLink document={<PDFFile />} filename="FORM">
+      {({loading}) => (loading ? <button>Loading Document...</button> : <button>Download</button> )}
+      </PDFDownloadLink>
+      </div>
       <div className=" top-0 w-[100%]">
         <Input />
       </div>
@@ -257,6 +266,7 @@ function ListContacts() {
           </tbody>
         </table>
       </div>
+
       <BottomNavigation />
     </div>
   );

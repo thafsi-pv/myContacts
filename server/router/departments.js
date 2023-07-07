@@ -13,9 +13,14 @@ departmentRouter.get("/", async (req, res) => {
 });
 
 departmentRouter.post("/", async (req, res) => {
+  console.log(
+    "🚀 ~ file: departments.js:16 ~ departmentRouter.post ~ req:",
+    req.body
+  );
   try {
-    const newDept = await departmentModal.create(req.body);
-    res.json(newDept);
+    const { newDept } = req.body;
+    const updatedDept = await departmentModal.create(newDept);
+    res.json(updatedDept);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
