@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Input from "../components/Input";
 import { BiPencil, BiTrash } from "react-icons/bi";
 import axios from "axios";
+import { toast } from "react-hot-toast";
 
 function AddDept() {
   const [newDept, setNewDept] = useState({ name: "", isActive: true });
@@ -13,7 +14,6 @@ function AddDept() {
 
   const getDepartments = async () => {
     const data = await axios("http://localhost:3458/api/departments");
-    console.log("🚀 ~ file: AddDept.jsx:11 ~ getDepartments ~ data:", data);
     setDepartments(data?.data);
   };
 
@@ -24,14 +24,19 @@ function AddDept() {
   };
 
   const handleAddDepartment = async () => {
-    const data = await axios("http://localhost:3458/api/departments", {
+  try {
+    const response = await axios("http://localhost:3458/api/departments", {
       method: "POST",
       data: { newDept },
     });
     console.log(
       "🚀 ~ file: AddDept.jsx:31 ~ handleAddDepartment ~ data:",
-      data
+      response
     );
+    setDepartments((prev) => [...prev, response?.data]);
+  } catch (error) {
+    toast.error(error.response.data.message);
+  }
   };
 
   return (

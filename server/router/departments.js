@@ -13,12 +13,12 @@ departmentRouter.get("/", async (req, res) => {
 });
 
 departmentRouter.post("/", async (req, res) => {
-  console.log(
-    "🚀 ~ file: departments.js:16 ~ departmentRouter.post ~ req:",
-    req.body
-  );
   try {
     const { newDept } = req.body;
+    const isExist = await departmentModal.findOne({ name: newDept.name });
+    if (!!isExist == true) {
+      return res.status(409).json({isExist:true,message:`${isExist.name} department already exists!`});
+    }
     const updatedDept = await departmentModal.create(newDept);
     res.json(updatedDept);
   } catch (error) {
