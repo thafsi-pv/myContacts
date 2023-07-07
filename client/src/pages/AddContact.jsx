@@ -6,17 +6,18 @@ import { AiOutlinePlus } from "react-icons/ai";
 import Select from "react-select";
 import { changeKeyInArray } from "../utils/utils";
 import axios from "axios";
+import { v4 as uuidv4 } from "uuid";
 
 const keyChanges = {
   _id: "value",
   name: "label",
 };
 function AddContact() {
-  const [phone, setPhone] = useState();
+  const [newContact, setNewContact] = useState();
   const [phoneInput, setPhoneInput] = useState([
-    { id: Date.now(), phone: "Mobile" },
-    { id: Date.now(), phone: "WhatsApp" },
-    { id: Date.now(), phone: "Office" },
+    { id: uuidv4(), phone: "Mobile", name: "mobile" },
+    { id: uuidv4(), phone: "WhatsApp", name: "whatsApp" },
+    { id: uuidv4(), phone: "Office", name: "office" },
   ]);
   const [departments, setDepartments] = useState([]);
 
@@ -31,8 +32,33 @@ function AddContact() {
   };
 
   const addMorePhoneInput = () => {
-    const newInput = { id: Date.now(), phone: "" };
+    const newInput = {
+      id: uuidv4(),
+      phone: "",
+      name: `phone${phoneInput.length}`,
+    };
     setPhoneInput((prev) => [...prev, newInput]);
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setNewContact((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handlePhoneInputChange = (value, countryData, event) => {
+    const { name } = event.target;
+    setNewContact((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleAddNewContact = async () => {
+    const response = await axios("http://localhost:3458/api/contacts", {
+      method: "POST",
+      data: { newContact },
+    });
+    console.log(
+      "🚀 ~ file: AddContact.jsx:58 ~ handleAddNewContact ~ response:",
+      response
+    );
   };
 
   return (
@@ -40,11 +66,19 @@ function AddContact() {
       <div className="flex space-x-2">
         <div>
           <label htmlFor="name">First Name</label>
-          <Input />
+          <Input
+            id="firstName"
+            name="firstName"
+            handleChange={(e) => handleInputChange(e)}
+          />
         </div>
         <div>
           <label htmlFor="name">Last Name</label>
-          <Input />
+          <Input
+            id="lastName"
+            name="lastName"
+            handleChange={(e) => handleInputChange(e)}
+          />
         </div>
       </div>
       <div className="w-full ">
@@ -54,17 +88,21 @@ function AddContact() {
       {phoneInput.map((input, index) => (
         <div key={input.id}>
           <label htmlFor="office">
-            {input.phone != "" ? input.phone : "Phone " + parseInt(index+1)}
+            {input.phone != "" ? input.phone : "Phone " + parseInt(index + 1)}
           </label>
           <div className="w-full ">
             <PhoneInput
               containerClass="w-100 "
               dropdownClass="w-100 !bg-gray-800 border-0"
               buttonClass="w-100 !bg-gray-800 !border-gray-500"
-              inputClass="p-5 !w-full !bg-gray-800  !border-gray-500"
+              inputClass="p-5 !w-full !bg-gray-800  !border-gray-500 text-white"
               country={"in"}
-              value={phone}
-              onChange={(phone) => setPhone(phone)}
+              onChange={handlePhoneInputChange}
+              inputProps={{
+                name: input.name,
+                required: true,
+                autoFocus: true,
+              }}
             />
           </div>
         </div>
@@ -80,16 +118,19 @@ function AddContact() {
       </div>
       <div>
         <label htmlFor="Note">Note</label>
-        <textarea className="w-full rounded-md bg-gray-800" id="" cols="30" rows="3"></textarea>
+        <textarea
+          onChange={handleInputChange}
+          className="w-full rounded-md bg-gray-800"
+          id=""
+          cols="30"
+          rows="3"></textarea>
       </div>
       <div className="w-full flex flex-nowrap space-x-2 !mt-10">
-          <button
-            className="btn btn-primary w-1/2"
-            onClick>
-            Save
-          </button>
-          <button className="btn btn-neutral w-1/2">Clear</button>
-        </div>
+        <button className="btn btn-primary w-1/2" onClick={handleAddNewContact}>
+          Save
+        </button>
+        <button className="btn btn-neutral w-1/2">Clear</button>
+      </div>
     </div>
   );
 }
