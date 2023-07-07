@@ -13,7 +13,11 @@ const keyChanges = {
 };
 function AddContact() {
   const [phone, setPhone] = useState();
-  const [phoneInput, setPhoneInput] = useState([]);
+  const [phoneInput, setPhoneInput] = useState([
+    { id: Date.now(), phone: "Mobile" },
+    { id: Date.now(), phone: "WhatsApp" },
+    { id: Date.now(), phone: "Office" },
+  ]);
   const [departments, setDepartments] = useState([]);
 
   useEffect(() => {
@@ -33,54 +37,31 @@ function AddContact() {
 
   return (
     <div className="p-5 space-y-3 mb-[500px] mt-16">
-      <div>
-        <label htmlFor="name">Name</label>
-        <Input />
+      <div className="flex space-x-2">
+        <div>
+          <label htmlFor="name">First Name</label>
+          <Input />
+        </div>
+        <div>
+          <label htmlFor="name">Last Name</label>
+          <Input />
+        </div>
       </div>
-      <div className="w-full">
+      <div className="w-full ">
         <label htmlFor="office">Department</label>
         <Select options={departments} />
       </div>
-      <div>
-        <label htmlFor="phone">Mobile</label>
-        <PhoneInput
-          containerClass="w-100 "
-          inputClass="p-5 !w-full"
-          country={"in"}
-          value={phone}
-          onChange={(phone) => setPhone(phone)}
-        />
-      </div>
-      <div>
-        <label htmlFor="whatsapp">WhatsApp</label>
-        <PhoneInput
-          containerClass="w-100 "
-          inputClass="p-5 !w-full"
-          country={"in"}
-          value={phone}
-          onChange={(phone) => setPhone(phone)}
-        />
-      </div>
-      <div>
-        <label htmlFor="office">Office</label>
-        <div className="w-full ">
-          <PhoneInput
-            containerClass="w-100 "
-            inputClass="p-5 !w-full"
-            country={"in"}
-            value={phone}
-            onChange={(phone) => setPhone(phone)}
-          />
-        </div>
-      </div>
-
       {phoneInput.map((input, index) => (
         <div key={input.id}>
-          <label htmlFor="office">Phone {index + 1}</label>
+          <label htmlFor="office">
+            {input.phone != "" ? input.phone : "Phone " + parseInt(index+1)}
+          </label>
           <div className="w-full ">
             <PhoneInput
               containerClass="w-100 "
-              inputClass="p-5 !w-full"
+              dropdownClass="w-100 !bg-gray-800 border-0"
+              buttonClass="w-100 !bg-gray-800 !border-gray-500"
+              inputClass="p-5 !w-full !bg-gray-800  !border-gray-500"
               country={"in"}
               value={phone}
               onChange={(phone) => setPhone(phone)}
@@ -99,12 +80,16 @@ function AddContact() {
       </div>
       <div>
         <label htmlFor="Note">Note</label>
-        <textarea className="w-full" id="" cols="30" rows="3"></textarea>
+        <textarea className="w-full rounded-md bg-gray-800" id="" cols="30" rows="3"></textarea>
       </div>
-      <div className="w-full space-y-3">
-        <button className="btn btn-primary w-full">Save</button>
-        <button className="btn btn-neutral w-full">Clear</button>
-      </div>
+      <div className="w-full flex flex-nowrap space-x-2 !mt-10">
+          <button
+            className="btn btn-primary w-1/2"
+            onClick>
+            Save
+          </button>
+          <button className="btn btn-neutral w-1/2">Clear</button>
+        </div>
     </div>
   );
 }
