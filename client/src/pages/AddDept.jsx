@@ -6,7 +6,6 @@ import { toast } from "react-hot-toast";
 
 function AddDept() {
   const [newDept, setNewDept] = useState({ name: "", isActive: true });
-  console.log("🚀 ~ file: AddDept.jsx:8 ~ AddDept ~ newDept:", newDept);
   const [departments, setDepartments] = useState([]);
   useEffect(() => {
     getDepartments();
@@ -29,11 +28,10 @@ function AddDept() {
       method: "POST",
       data: { newDept },
     });
-    console.log(
-      "🚀 ~ file: AddDept.jsx:31 ~ handleAddDepartment ~ data:",
-      response
-    );
-    setDepartments((prev) => [...prev, response?.data]);
+    if(response.status==200){
+      setDepartments((prev) => [...prev, response?.data]);
+      toast.success('Department added successfully');
+    }
   } catch (error) {
     toast.error(error.response.data.message);
   }

@@ -1,12 +1,30 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import Input from "../components/Input";
 import { AiOutlinePlus } from "react-icons/ai";
+import Select from "react-select";
+import { changeKeyInArray } from "../utils/utils";
+import axios from "axios";
 
+const keyChanges = {
+  _id: "value",
+  name: "label",
+};
 function AddContact() {
   const [phone, setPhone] = useState();
   const [phoneInput, setPhoneInput] = useState([]);
+  const [departments, setDepartments] = useState([]);
+
+  useEffect(() => {
+    getDepartments();
+  }, []);
+
+  const getDepartments = async () => {
+    const data = await axios("http://localhost:3458/api/departments");
+    const updatedArray = changeKeyInArray(data.data, keyChanges);
+    setDepartments(updatedArray);
+  };
 
   const addMorePhoneInput = () => {
     const newInput = { id: Date.now(), phone: "" };
@@ -21,16 +39,7 @@ function AddContact() {
       </div>
       <div className="w-full">
         <label htmlFor="office">Department</label>
-        <select className="select w-full max-w-xs">
-          <option disabled selected>
-            Pick your favorite Simpson
-          </option>
-          <option>Homer</option>
-          <option>Marge</option>
-          <option>Bart</option>
-          <option>Lisa</option>
-          <option>Maggie</option>
-        </select>
+        <Select options={departments} />
       </div>
       <div>
         <label htmlFor="phone">Mobile</label>
