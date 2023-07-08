@@ -30,7 +30,6 @@ export const changeKeyInArray = (array, keyChanges) => {
 };
 
 export const formatNo = (no) => {
-  const phoneNumber = "919898122334";
   const formattedPhoneNumber = no
     .toString()
     .replace(/^(\d{2})(\d{4})(\d{3})(\d{3})$/, "+$1 $2 $3 $4");
@@ -60,5 +59,11 @@ export const getInitialLetters = (str) => {
   for (let index = 0; index < words.length; index++) {
     result += words[index].charAt(0);
   }
+  return result;
+};
+
+export const convertFirstLetterToCapital = (word) => {
+  let upper = word.charAt(0).toUpperCase();
+  let result = upper + word.slice(1);
   return result;
 };
