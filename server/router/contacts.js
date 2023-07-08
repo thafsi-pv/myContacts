@@ -6,7 +6,10 @@ const contactRouter = express.Router();
 
 contactRouter.get("/", async (req, res) => {
   try {
-    const contactList = await contactModel.find({}).populate("department");
+    const contactList = await contactModel
+      .find({})
+      .populate("department")
+      .populate("contactNos", "-_id -__v");
     res.json(contactList);
   } catch (error) {
     res.status(400).json({ message: error.message });
