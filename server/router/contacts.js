@@ -6,7 +6,7 @@ const contactRouter = express.Router();
 
 contactRouter.get("/", async (req, res) => {
   try {
-    const contactList = await contactModel.find({});
+    const contactList = await contactModel.find({}).populate("department");
     res.json(contactList);
   } catch (error) {
     res.status(400).json({ message: error.message });
@@ -19,10 +19,8 @@ contactRouter.post("/id", async (req, res) => {
     const { id } = req.body;
     const contactList = await contactModel
       .find({ _id: id })
-      .populate('department')
-      .populate('contactNos','-_id -__v')
-      
-    console.log("🚀 ~ file: contacts.js:23 ~ contactRouter.post ~ contactList:", contactList)
+      .populate("department")
+      .populate("contactNos", "-_id -__v");
     res.json(contactList);
   } catch (error) {
     res.status(400).json({ message: error.message });

@@ -6,6 +6,7 @@ import BottomNavigation from "../components/BottomNavigation";
 import PDFFile from "../components/PDFFile";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import axios from "axios";
+import { getInitialLetters, getRandomColorCode } from "../utils/utils";
 
 function ListContacts() {
   const [allContacts, setAllContacts] = useState([]);
@@ -45,6 +46,7 @@ function ListContacts() {
           <thead>
             <tr>
               <th></th>
+              <td>Image</td>
               <td>Name</td>
               <td>View</td>
             </tr>
@@ -54,12 +56,21 @@ function ListContacts() {
               return (
                 <tr key={item._id} className="h-10">
                   <th>{index + 1}</th>
+                  <td>
+                    <span
+                      className={`flex items-center justify-center text-white w-10 h-10 mb-3 rounded-full shadow-lg my-auto text-center text-xl font-bold border-2 border-gray-800`}
+                      style={{ backgroundColor: getRandomColorCode() }}>
+                      {getInitialLetters(
+                        (item.firstName + " " + item.lastName).toString()
+                      )}
+                    </span>
+                  </td>
                   <td className="w-[80%]">
                     <div className="flex flex-col justify-start">
                       <span className="text-lg">
                         {item.firstName} {item.lastName}
                       </span>
-                      <span>Dept Name</span>
+                      <span>{item?.department[0]?.name}</span>
                     </div>
                   </td>
                   <td>
