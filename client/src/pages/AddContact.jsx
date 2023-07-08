@@ -8,12 +8,14 @@ import { changeKeyInArray } from "../utils/utils";
 import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 import { toast } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 const keyChanges = {
   _id: "value",
   name: "label",
 };
 function AddContact() {
+  const navigate=useNavigate()
   const [newContact, setNewContact] = useState();
   const [contactNos, setContactNos] = useState();
   const [phoneInput, setPhoneInput] = useState([
@@ -61,8 +63,13 @@ function AddContact() {
       method: "POST",
       data: { newContact, contactNos },
     });
+    console.log(
+      "🚀 ~ file: AddContact.jsx:64 ~ handleAddNewContact ~ response:",
+      response
+    );
     if (response.status == 200) {
       toast.success("New contact added successfully");
+      navigate("/contactDetails/" + response.data._id);
     }
   };
 

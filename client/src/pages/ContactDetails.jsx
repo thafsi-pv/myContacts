@@ -7,6 +7,7 @@ import { toast } from "react-hot-toast";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import {
+  copyToClipboard,
   formatNo,
   getInitialLetters,
   getRandomColorCode,
@@ -30,20 +31,6 @@ function ContactDetails() {
     });
 
     setDetails(response?.data);
-  };
-
-  const copyToClipboard = (text) => {
-    if (!textareaRef.current) return;
-    try {
-      textareaRef.current.value = text;
-      textareaRef.current.select();
-      document.execCommand("copy");
-      console.log("Text copied to clipboard:", text);
-      textareaRef.current.blur();
-      toast.success("No coppied");
-    } catch (error) {
-      console.error("Failed to copy text:", error);
-    }
   };
 
   return (
@@ -71,9 +58,13 @@ function ContactDetails() {
           {details[0]?.contactNos[0] &&
             Object.keys(details[0]?.contactNos[0]).map((item, index) => (
               <div key={index} className="flex flex-col mt-4 md:mt-6">
-                <label htmlFor="">{item}:</label>
-                <div className="flex flex-nowrap">
-                  <label className="font-semibold mr-3" htmlFor="">
+                <label htmlFor="" className="text-sm">
+                  {item}
+                </label>
+                <div className="flex flex-nowrap items-center">
+                  <label
+                    className="font-semibold mr-3 text-gray-200"
+                    htmlFor="">
                     {formatNo(details[0]?.contactNos[0][item])}
                   </label>
                   <a
@@ -89,6 +80,7 @@ function ContactDetails() {
                   <p
                     onClick={() =>
                       copyToClipboard(
+                        textareaRef,
                         `${formatNo(details[0]?.contactNos[0][item])}`
                       )
                     }

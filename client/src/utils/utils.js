@@ -1,3 +1,19 @@
+import { toast } from "react-hot-toast";
+
+export const copyToClipboard = (textareaRef, text) => {
+  if (!textareaRef.current) return;
+  try {
+    textareaRef.current.value = text;
+    textareaRef.current.select();
+    document.execCommand("copy");
+    console.log("Text copied to clipboard:", text);
+    textareaRef.current.blur();
+    toast.success("No coppied");
+  } catch (error) {
+    console.error("Failed to copy text:", error);
+  }
+};
+
 export const changeKeyInArray = (array, keyChanges) => {
   return array.map((item) => {
     const newItem = { ...item };
