@@ -10,7 +10,7 @@ import {
 import { Font } from "@react-pdf/renderer";
 import MyCustomFont from "../fonts/Anton-Regular.ttf";
 import axios from "axios";
-import { convertFirstLetterToCapital } from "../utils/utils";
+import { convertFirstLetterToCapital, formatNo} from "../utils/utils";
 
 Font.register({
   family: "AntonFamily",
@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     display: "table",
     width: "auto",
     borderStyle: "solid",
-    borderWidth: 1,
+    borderWidth: 0,
     borderRightWidth: 0,
     borderBottomWidth: 0,
     margin: 5,
@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
   innerTableCol: {
     width: "100%",
     borderStyle: "solid",
-    borderWidth: 1,
+    borderWidth: 0,
     borderLeftWidth: 0,
     borderTopWidth: 0,
   },
@@ -160,21 +160,21 @@ const PDFFile = () => {
             return (
               <View style={styles.tableRow}>
                 <View style={styles.tableCol}>
-                  <Text style={styles.tableCell}>{item.firstName}</Text>
+                  <Text style={styles.tableCell}>{item.firstName} {item.lastName}</Text>
                 </View>
                 <View style={styles.tableCol}>
                   <View style={styles.innerTable}>
                     {Object.keys(item?.contactNos[0]).map((contact) => {
                       return (
                         <View style={styles.innerTableRow}>
-                          <View style={styles.tableCol}>
-                            <Text style={styles.tableCell}>
+                          <View style={styles.innerTableCol}>
+                            <Text style={styles.innerTableCell}>
                               {convertFirstLetterToCapital(contact)}
                             </Text>
                           </View>
                           <View style={styles.innerTableCol}>
                             <Text style={styles.innerTableCell}>
-                              {item?.contactNos[0][contact]}
+                              {formatNo(item?.contactNos[0][contact])}
                             </Text>
                           </View>
                         </View>
