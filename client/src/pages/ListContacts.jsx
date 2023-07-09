@@ -25,15 +25,15 @@ function ListContacts() {
   };
 
   return (
-    <div className="flex flex-col justify-center mt-16">
+    <div className="flex flex-col justify-center mt-16 max-h-[700px]">
      
-      <div className=" top-0 w-[100%]">
+      <div className=" top-0 w-[100%] px-5">
         <Input />
       </div>
-      <div className="overflow-x-auto h-[800px] w-screen mt-20 p-3">
-        <table className="table table-xs lg:table-lg table-pin-rows table-pin-cols">
+      <div className="overflow-x-auto  w-screen mt-5 p-3">
+        <table className="table table-xs lg:table-lg table-pin-rows table-pin-cols max-h-[68%] overflow-scroll">
           <thead>
-            <tr>
+            <tr className="!top-[-13px]">
               <th></th>
               <td>Image</td>
               <td>Name</td>
@@ -43,7 +43,7 @@ function ListContacts() {
           <tbody>
             {allContacts.map((item, index) => {
               return (
-                <tr key={item._id} className="h-10">
+                <tr key={item._id} className="h-10 border-1 border-gray-700">
                   <th>{index + 1}</th>
                   <td>
                     <span

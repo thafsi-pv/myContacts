@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { FiPhoneCall } from "react-icons/fi";
 import { FaWhatsapp } from "react-icons/fa";
-import { BsClipboard2Check } from "react-icons/bs";
+import { BsClipboard2Check,BsPencil,BsTrash3 } from "react-icons/bs";
 import { useRef } from "react";
 import { toast } from "react-hot-toast";
 import { useParams } from "react-router-dom";
@@ -36,6 +36,21 @@ function ContactDetails() {
   return (
     <div className="flex justify-center align-middle w-full items-center h-full mt-16">
       <div className=" h-[50%] p-5 m-3 w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+        <div className="dropdown dropdown-bottom w-full flex justify-end">
+          <label tabIndex={0} className="text-lg font-bold m-1">
+            ...
+          </label>
+          <ul
+            tabIndex={0}
+            className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
+            <li>
+              <a><BsPencil/> Edit</a>
+            </li>
+            <li>
+              <a><BsTrash3/> Delete</a>
+            </li>
+          </ul>
+        </div>
         <div className="flex flex-col items-center pb-10">
           {/* <img
             className="w-24 h-24 mb-3 rounded-full shadow-lg"

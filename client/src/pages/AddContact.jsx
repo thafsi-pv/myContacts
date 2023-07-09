@@ -74,9 +74,9 @@ function AddContact() {
   };
 
   return (
-    <div className="p-5 space-y-3 mb-[500px] mt-16">
-      <div className="flex space-x-2">
-        <div>
+    <div className="p-5 space-y-3 mt-16">
+      <div className="flex space-x-2 w-full">
+        <div className="w-1/2">
           <label htmlFor="name">First Name</label>
           <Input
             id="firstName"
@@ -84,7 +84,7 @@ function AddContact() {
             handleChange={(e) => handleInputChange(e)}
           />
         </div>
-        <div>
+        <div  className="w-1/2">
           <label htmlFor="name">Last Name</label>
           <Input
             id="lastName"
@@ -141,7 +141,7 @@ function AddContact() {
           cols="30"
           rows="3"></textarea>
       </div>
-      <div className="w-full flex flex-nowrap space-x-2 !mt-10">
+      <div className="w-full flex flex-nowrap space-x-2 !mt-10 !mb-20">
         <button className="btn btn-primary w-1/2" onClick={handleAddNewContact}>
           Save
         </button>

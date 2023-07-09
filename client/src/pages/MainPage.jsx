@@ -6,7 +6,7 @@ import  { Toaster } from 'react-hot-toast';
 
 function MainPage() {
   return (
-    <div>
+    <div className="max-h-screen">
       <Header />
       <Outlet/>
       <BottomNavigation/>
