@@ -38,7 +38,7 @@ function AddDept() {
   };
 
   return (
-    <div className="mt-16 max-h-56 p-4 space-y-4">
+    <div className="mt-16 max-h-56 p-4 space-y-4 lg:w-2/4 m-auto">
       <div className="space-y-4">
         <label htmlFor="name" className="font-semibold">
           Name

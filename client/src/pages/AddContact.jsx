@@ -74,7 +74,7 @@ function AddContact() {
   };
 
   return (
-    <div className="p-5 space-y-3 mt-16">
+    <div className="p-5 space-y-3 mt-16 lg:w-2/4 m-auto">
       <div className="flex space-x-2 w-full">
         <div className="w-1/2">
           <label htmlFor="name">First Name</label>
