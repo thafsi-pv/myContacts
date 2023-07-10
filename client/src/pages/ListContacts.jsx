@@ -45,7 +45,7 @@ function ListContacts() {
               return (
                 <tr
                   key={item._id}
-                  className="h-10 border-1 border-gray-700 hover:bg-gray-200"
+                  className="h-10 border-1 border-gray-700 hover:bg-gray-600 mb-44"
                   onClick={() => handleContact(item._id)}>
                   <th>{index + 1}</th>
                   <td>
