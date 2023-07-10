@@ -31,7 +31,7 @@ function ListContacts() {
         <Input />
       </div>
       <div className="overflow-x-auto mt-5 p-3">
-        <table className="table table-xs lg:table-lg table-pin-rows table-pin-cols max-h-[68%] overflow-scroll">
+        <table className="table table-xs lg:table-lg table-pin-rows table-pin-cols max-h-[68%] overflow-scroll cursor-pointer">
           <thead>
             <tr className="!top-[-13px]">
               <th></th>
