@@ -3,6 +3,7 @@ import Input from "../components/Input";
 import { BiPencil, BiTrash } from "react-icons/bi";
 import axios from "axios";
 import { toast } from "react-hot-toast";
+import { DEPARTMENT_API } from "../const/const";
 
 function AddDept() {
   const [newDept, setNewDept] = useState({ name: "", isActive: true });
@@ -12,7 +13,7 @@ function AddDept() {
   }, []);
 
   const getDepartments = async () => {
-    const data = await axios("http://localhost:3458/api/departments");
+    const data = await axios(DEPARTMENT_API);
     setDepartments(data?.data);
   };
 
@@ -24,7 +25,7 @@ function AddDept() {
 
   const handleAddDepartment = async () => {
   try {
-    const response = await axios("http://localhost:3458/api/departments", {
+    const response = await axios(DEPARTMENT_API, {
       method: "POST",
       data: { newDept },
     });

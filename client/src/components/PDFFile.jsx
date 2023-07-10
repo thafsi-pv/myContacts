@@ -11,71 +11,14 @@ import { Font } from "@react-pdf/renderer";
 import MyCustomFont from "../fonts/Anton-Regular.ttf";
 import axios from "axios";
 import { convertFirstLetterToCapital, formatNo} from "../utils/utils";
+import { CONTACTS_API } from "../const/const";
+import { styles } from "../style/pdfStyle";
 
 Font.register({
   family: "AntonFamily",
   src: MyCustomFont,
 });
 
-const styles = StyleSheet.create({
-  table: {
-    display: "table",
-    width: "auto",
-    borderStyle: "solid",
-    borderWidth: 1,
-    borderRightWidth: 0,
-    borderBottomWidth: 0,
-    margin: 20,
-  },
-  innerTable: {
-    display: "table",
-    width: "auto",
-    borderStyle: "solid",
-    borderWidth: 0,
-    borderRightWidth: 0,
-    borderBottomWidth: 0,
-    margin: 5,
-  },
-  tableRow: {
-    margin: "auto",
-    flexDirection: "row",
-  },
-  innerTableRow: {
-    flexDirection: "row",
-  },
-  tableCol: {
-    width: "50%",
-    borderStyle: "solid",
-    borderWidth: 1,
-    borderLeftWidth: 0,
-    borderTopWidth: 0,
-  },
-  innerTableCol: {
-    width: "100%",
-    borderStyle: "solid",
-    borderWidth: 0,
-    borderLeftWidth: 0,
-    borderTopWidth: 0,
-  },
-  tableCell: {
-    margin: "auto",
-    marginTop: 5,
-    fontSize: 10,
-  },
-  innerTableCell: {
-    marginTop: 5,
-    fontSize: 10,
-  },
-  imageView: {
-    width: "100%",
-    display: "flex",
-    justifyContent: "center",
-  },
-  image: {
-    width: 130,
-    height: 40,
-  },
-});
 
 const PDFFile = () => {
   const [allContacts, setAllContacts] = useState([]);
@@ -89,7 +32,7 @@ const PDFFile = () => {
   }, []);
 
   const getAllContacts = async () => {
-    const response = await axios("http://localhost:3458/api/contacts");
+    const response = await axios(CONTACTS_API);
     setAllContacts(response?.data);
   };
 

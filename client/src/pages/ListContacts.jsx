@@ -6,6 +6,7 @@ import BottomNavigation from "../components/BottomNavigation";
 
 import axios from "axios";
 import { getInitialLetters, getRandomColorCode } from "../utils/utils";
+import { CONTACTS_API } from "../const/const";
 
 function ListContacts() {
   const [allContacts, setAllContacts] = useState([]);
@@ -20,7 +21,7 @@ function ListContacts() {
   }, []);
 
   const getAllContacts = async () => {
-    const response = await axios("http://localhost:3458/api/contacts");
+    const response = await axios(CONTACTS_API);
     setAllContacts(response?.data);
   };
 

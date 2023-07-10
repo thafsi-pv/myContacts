@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { FiPhoneCall } from "react-icons/fi";
 import { FaWhatsapp } from "react-icons/fa";
-import { BsClipboard2Check,BsPencil,BsTrash3 } from "react-icons/bs";
+import { BsClipboard2Check, BsPencil, BsTrash3 } from "react-icons/bs";
 import { useRef } from "react";
 import { toast } from "react-hot-toast";
 import { useParams } from "react-router-dom";
@@ -12,6 +12,7 @@ import {
   getInitialLetters,
   getRandomColorCode,
 } from "../utils/utils";
+import { CONTACTS_API } from "../const/const";
 
 function ContactDetails() {
   const textareaRef = useRef(null);
@@ -25,7 +26,7 @@ function ContactDetails() {
   }, []);
 
   const getContactDetails = async () => {
-    const response = await axios("http://localhost:3458/api/contacts/id", {
+    const response = await axios(`${CONTACTS_API}/id`, {
       method: "POST",
       data: { id: param.id },
     });
@@ -44,10 +45,14 @@ function ContactDetails() {
             tabIndex={0}
             className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
             <li>
-              <a><BsPencil/> Edit</a>
+              <a>
+                <BsPencil /> Edit
+              </a>
             </li>
             <li>
-              <a><BsTrash3/> Delete</a>
+              <a>
+                <BsTrash3 /> Delete
+              </a>
             </li>
           </ul>
         </div>

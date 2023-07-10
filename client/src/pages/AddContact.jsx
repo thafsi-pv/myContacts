@@ -9,6 +9,7 @@ import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { CONTACTS_API, DEPARTMENT_API } from "../const/const";
 
 const keyChanges = {
   _id: "value",
@@ -30,7 +31,7 @@ function AddContact() {
   }, []);
 
   const getDepartments = async () => {
-    const data = await axios("http://localhost:3458/api/departments");
+    const data = await axios(DEPARTMENT_API);
     const updatedArray = changeKeyInArray(data.data, keyChanges);
     setDepartments(updatedArray);
   };
@@ -59,14 +60,10 @@ function AddContact() {
   };
 
   const handleAddNewContact = async () => {
-    const response = await axios("http://localhost:3458/api/contacts", {
+    const response = await axios(CONTACTS_API, {
       method: "POST",
       data: { newContact, contactNos },
     });
-    console.log(
-      "🚀 ~ file: AddContact.jsx:64 ~ handleAddNewContact ~ response:",
-      response
-    );
     if (response.status == 200) {
       toast.success("New contact added successfully");
       navigate("/contactDetails/" + response.data._id);
