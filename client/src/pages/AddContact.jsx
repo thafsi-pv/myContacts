@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import Input from "../components/Input";
@@ -16,7 +16,8 @@ const keyChanges = {
   name: "label",
 };
 function AddContact() {
-  const navigate=useNavigate()
+  const navigate = useNavigate();
+  const firsNameRef = useRef(null);
   const [newContact, setNewContact] = useState();
   const [contactNos, setContactNos] = useState();
   const [phoneInput, setPhoneInput] = useState([
@@ -28,6 +29,7 @@ function AddContact() {
 
   useEffect(() => {
     getDepartments();
+    firsNameRef.current.focus();
   }, []);
 
   const getDepartments = async () => {
@@ -76,12 +78,13 @@ function AddContact() {
         <div className="w-1/2">
           <label htmlFor="name">First Name</label>
           <Input
+            refer={firsNameRef}
             id="firstName"
             name="firstName"
             handleChange={(e) => handleInputChange(e)}
           />
         </div>
-        <div  className="w-1/2">
+        <div className="w-1/2">
           <label htmlFor="name">Last Name</label>
           <Input
             id="lastName"
