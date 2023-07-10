@@ -13,7 +13,7 @@ function ListContacts() {
   const navigate = useNavigate();
 
   const handleContact = (id) => {
-    navigate("/contactDetails");
+    navigate("/contactDetails/" + id);
   };
 
   useEffect(() => {
@@ -27,7 +27,6 @@ function ListContacts() {
 
   return (
     <div className="flex flex-col justify-center mt-16 max-h-[700px] lg:w-2/4 m-auto">
-     
       <div className=" top-0 w-[100%] px-5">
         <Input />
       </div>
@@ -44,7 +43,10 @@ function ListContacts() {
           <tbody>
             {allContacts.map((item, index) => {
               return (
-                <tr key={item._id} className="h-10 border-1 border-gray-700">
+                <tr
+                  key={item._id}
+                  className="h-10 border-1 border-gray-700 hover:bg-gray-200"
+                  onClick={() => handleContact(item._id)}>
                   <th>{index + 1}</th>
                   <td>
                     <span
@@ -64,9 +66,9 @@ function ListContacts() {
                     </div>
                   </td>
                   <td>
-                    <Link to={`/contactDetails/${item._id}`}>
-                      <BsArrowRight className="h-6 w-6" />
-                    </Link>
+                    {/* <Link to={`/contactDetails/${item._id}`}> */}
+                    <BsArrowRight className="h-6 w-6" />
+                    {/* </Link> */}
                   </td>
                 </tr>
               );
