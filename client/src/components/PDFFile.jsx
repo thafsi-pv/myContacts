@@ -22,10 +22,6 @@ Font.register({
 
 const PDFFile = () => {
   const [allContacts, setAllContacts] = useState([]);
-  console.log(
-    "🚀 ~ file: PDFFile.jsx:53 ~ PDFFile ~ allContacts:",
-    allContacts
-  );
 
   useEffect(() => {
     getAllContacts();
