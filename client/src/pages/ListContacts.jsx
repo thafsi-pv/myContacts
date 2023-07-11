@@ -28,7 +28,7 @@ function ListContacts() {
     const response = await axios(CONTACTS_API);
     setAllContacts(response?.data);
   };
-  if (allContacts.length != 0) {
+  if (allContacts.length == 0) {
     return <ShimmerContacts />;
   } else {
     return (
