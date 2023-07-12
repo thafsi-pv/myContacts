@@ -18,6 +18,10 @@ function ContactDetails() {
   const textareaRef = useRef(null);
   const param = useParams();
   const [details, setDetails] = useState([]);
+  console.log(
+    "🚀 ~ file: ContactDetails.jsx:21 ~ ContactDetails ~ details:",
+    details
+  );
 
   useEffect(() => {
     if (param.id) {
@@ -75,6 +79,7 @@ function ContactDetails() {
           <span className="text-sm text-gray-500 dark:text-gray-400">
             {details[0]?.department[0]?.name}
           </span>
+
           {details[0]?.contactNos[0] &&
             Object.keys(details[0]?.contactNos[0]).map((item, index) => (
               <div key={index} className="flex flex-col mt-4 md:mt-6">
@@ -118,59 +123,18 @@ function ContactDetails() {
                 </div>
               </div>
             ))}
-          <div className="flex flex-col mt-4 justify-start">
-            <label htmlFor="">Notes:</label>
-            <textarea name="notes" id="" cols="30" rows="3" disabled></textarea>
-          </div>
-          {/* <div className="flex flex-col mt-4 md:mt-6">
-            <label htmlFor="">Mobile:</label>
-            <div className="">
-              <label className="font-semibold mr-3" htmlFor="">
-                +91 9888 474 777
-              </label>
-              <a
-                href="tel:+919888474777"
-                className="inline-flex items-center mr-3 px-4 py-2 text-sm font-medium text-center text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-700 dark:focus:ring-gray-700">
-                <FiPhoneCall />
-              </a>
-              <a
-                href="https://api.whatsapp.com/send?phone=919888474777"
-                className="inline-flex items-center mr-3 px-4 py-2 text-sm font-medium text-center text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-700 dark:focus:ring-gray-700">
-                <FaWhatsapp />
-              </a>
-            </div>
-            <div></div>
-          </div>
-          <div className="flex flex-col mt-4 md:mt-6">
-            <label htmlFor="">Mobile:</label>
-            <div className="flex flex-nowrap">
-              <label className="font-semibold mr-3" htmlFor="">
-                +91 9888 474 777
-              </label>
-              <a
-                href="tel:+919888474777"
-                className="inline-flex items-center mr-3 p-2 py-2 text-sm font-medium text-center text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-700 dark:focus:ring-gray-700">
-                <FiPhoneCall />
-              </a>
-              <a
-                href="https://api.whatsapp.com/send?phone=919888474777"
-                className="inline-flex items-center mr-3 p-2 py-2 text-sm font-medium text-center text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-700 dark:focus:ring-gray-700">
-                <FaWhatsapp />
-              </a>
-              <p
-                onClick={() => copyToClipboard("+919888474777")}
-                className="inline-flex items-center mr-3 p-2 py-2 text-sm font-medium text-center text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-700 dark:focus:ring-gray-700">
-                <BsClipboard2Check />
-              </p>
-            </div>
-            <div>
+          {details[0]?.notes && (
+            <div className="flex flex-col mt-4 justify-start">
+              <label htmlFor="">Notes:</label>
               <textarea
-                ref={textareaRef}
-                style={{ position: "absolute", left: "-9999px" }}
-                readOnly
-              />
+                name="notes"
+                id=""
+                cols="30"
+                rows="3"
+                value={details[0]?.notes}
+                disabled></textarea>
             </div>
-          </div> */}
+          )}
         </div>
       </div>
     </div>
