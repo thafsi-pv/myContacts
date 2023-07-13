@@ -8,7 +8,7 @@ import { changeKeyInArray } from "../utils/utils";
 import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 import { toast } from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { CONTACTS_API, DEPARTMENT_API } from "../const/const";
 
 const keyChanges = {
@@ -18,7 +18,7 @@ const keyChanges = {
 function AddContact() {
   const navigate = useNavigate();
   const firsNameRef = useRef(null);
-  const [newContact, setNewContact] = useState();
+  const [newContact, setNewContact] = useState([]);
   const [contactNos, setContactNos] = useState();
   const [phoneInput, setPhoneInput] = useState([
     { id: uuidv4(), phone: "Mobile", name: "mobile" },
@@ -26,11 +26,37 @@ function AddContact() {
     { id: uuidv4(), phone: "Office", name: "office" },
   ]);
   const [departments, setDepartments] = useState([]);
+  const params = useParams();
+
+  const [selectedDept, setSelectedDept] = useState({});
 
   useEffect(() => {
     getDepartments();
     firsNameRef.current.focus();
+    if (params.id) {
+      getContactDetailsById();
+    }
   }, []);
+
+  const getContactDetailsById = async () => {
+    const response = await axios(`${CONTACTS_API}/id`, {
+      method: "POST",
+      data: { id: params.id },
+    });
+
+    const { data } = response;
+    setNewContact(response?.data[0]);
+    setContactNos(response.data[0].contactNos[0]);
+    setSelectedDept({
+      value: data[0].department[0]._id,
+      label: data[0].department[0].name,
+    });
+
+    const pi = Object.keys(response.data[0].contactNos[0]).map((item) => {
+      return { id: uuidv4(), phone: item, name: item };
+    });
+    setPhoneInput(pi);
+  };
 
   const getDepartments = async () => {
     const data = await axios(DEPARTMENT_API);
@@ -42,7 +68,7 @@ function AddContact() {
     const newInput = {
       id: uuidv4(),
       phone: "",
-      name: `phone${phoneInput.length}`,
+      name: `phone ${phoneInput.length}`,
     };
     setPhoneInput((prev) => [...prev, newInput]);
   };
@@ -59,6 +85,7 @@ function AddContact() {
 
   const handleDepartmentChange = (selectedOptions) => {
     setNewContact((prev) => ({ ...prev, department: selectedOptions.value }));
+    setSelectedDept(selectedOptions);
   };
 
   const handleAddNewContact = async () => {
@@ -81,6 +108,7 @@ function AddContact() {
             refer={firsNameRef}
             id="firstName"
             name="firstName"
+            val={newContact.firstName}
             handleChange={(e) => handleInputChange(e)}
           />
         </div>
@@ -89,6 +117,7 @@ function AddContact() {
           <Input
             id="lastName"
             name="lastName"
+            val={newContact.lastName}
             handleChange={(e) => handleInputChange(e)}
           />
         </div>
@@ -97,6 +126,7 @@ function AddContact() {
         <label htmlFor="office">Department</label>
         <Select
           options={departments}
+          value={selectedDept}
           onChange={(e) => handleDepartmentChange(e)}
         />
       </div>
@@ -113,6 +143,7 @@ function AddContact() {
               inputClass="p-5 !w-full !bg-gray-800  !border-gray-500 text-white"
               country={"in"}
               onChange={handlePhoneInputChange}
+              value={contactNos ? contactNos[input.name].toString() : ""}
               inputProps={{
                 name: input.name,
                 required: true,

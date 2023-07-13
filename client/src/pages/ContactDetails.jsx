@@ -4,7 +4,7 @@ import { FaWhatsapp } from "react-icons/fa";
 import { BsClipboard2Check, BsPencil, BsTrash3 } from "react-icons/bs";
 import { useRef } from "react";
 import { toast } from "react-hot-toast";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import {
   copyToClipboard,
@@ -48,10 +48,12 @@ function ContactDetails() {
           <ul
             tabIndex={0}
             className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
-            <li>
-              <a>
-                <BsPencil /> Edit
-              </a>
+            <li >
+              <Link to={"/updateContact/" + param.id}>
+                <a className="flex gap-2">
+                  <BsPencil /> Edit
+                </a>
+              </Link>
             </li>
             <li>
               <a>

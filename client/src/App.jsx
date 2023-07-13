@@ -27,6 +27,10 @@ function App() {
           element: <AddContact />,
         },
         {
+          path: "/updateContact/:id",
+          element: <AddContact />,
+        },
+        {
           path: "/dept",
           element: <AddDept />,
         },

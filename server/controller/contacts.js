@@ -16,6 +16,7 @@ const getAllContacts = async (req, res) => {
 const contactGetById = async (req, res) => {
   try {
     const { id } = req.body;
+    console.log("🚀 ~ file: contacts.js:19 ~ contactGetById ~ id:", id)
     const contactList = await contactModel
       .find({ _id: id })
       .populate("department")
