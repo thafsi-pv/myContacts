@@ -39,7 +39,7 @@ const Drawer = ({ isOpen, onClose, setDrawerOpen }) => {
                     loading ? (
                       <button>Loading Document...</button>
                     ) : (
-                      <button className="text-md font-semibold flex items-center"> <BsFiletypePdf className="mr-2 h-6 w-6" /> Download All Contacts</button>
+                      <button className="text-md font-semibold flex items-center"> <BsFiletypePdf className="mr-2 h-6 w-6" /> Save as pdf</button>
                     )
                   }
                 </PDFDownloadLink>

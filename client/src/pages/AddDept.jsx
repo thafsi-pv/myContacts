@@ -6,9 +6,9 @@ import { toast } from "react-hot-toast";
 import { DEPARTMENT_API } from "../const/const";
 
 function AddDept() {
-  const [newDept, setNewDept] = useState({ name: "", isActive: true });
+  const [newDept, setNewDept] = useState({ id: 0, name: "", isActive: true });
   const [departments, setDepartments] = useState([]);
-  
+
   useEffect(() => {
     getDepartments();
   }, []);
@@ -31,18 +31,32 @@ function AddDept() {
         data: { newDept },
       });
       if (response.status == 200) {
-        setDepartments((prev) => [...prev, response?.data]);
-        toast.success("Department added successfully");
-        setNewDept({ name: "", isActive: true });
+        if (newDept.id != 0) {
+          const itemIndex = departments.findIndex(
+            (item) => item._id == newDept.id
+          );
+          const depts = [...departments];
+          depts[itemIndex].name = response.data.name;
+          depts[itemIndex].isActive = response.data.isActive;
+          setDepartments(depts);
+          toast.success("Department updated successfully");
+        } else {
+          setDepartments((prev) => [...prev, response?.data]);
+          toast.success("Department added successfully");
+        }
+        setNewDept({ id: 0, name: "", isActive: true });
       }
     } catch (error) {
       toast.error(error.response.data.message);
     }
   };
 
-  const handleEditDepartment=()=>{
-    
-  }
+  const handleEditDepartment = (dept) => {
+    const { _id, name, isActive } = dept;
+    setNewDept({ id: _id, name, isActive });
+  };
+
+  const handleDeleteDetartment = () => {};
 
   return (
     <div className="mt-12  p-4 space-y-4 lg:w-2/4 m-auto ">
@@ -82,7 +96,7 @@ function AddDept() {
       <div className="!mt-60 max-h-50 overflow-y-scroll !mb-28">
         {departments.map((dept) => (
           <div
-            key={dept.id}
+            key={dept._id}
             className="flex justify-between p-3 border-b border-b-gray-700">
             <p className="font-semibold flex-1">{dept.name} </p>
             <span className="flex-none">
@@ -95,7 +109,10 @@ function AddDept() {
             </span>
             <div className="flex justify-between space-x-3">
               <div>
-                <BiPencil className="w-5 h-5" />
+                <BiPencil
+                  className="w-5 h-5"
+                  onClick={() => handleEditDepartment(dept)}
+                />
               </div>
               <div>
                 <BiTrash className="w-5 h-5" />
