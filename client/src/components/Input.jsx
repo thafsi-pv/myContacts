@@ -1,12 +1,13 @@
 import React from "react";
 
-function Input({ id, name, type, autoComplete, handleChange, refer, val }) {
+function Input({ id, name, type, autoComplete, handleChange, refer, val,placeholder }) {
   return (
     <div className="mt-2">
       <input
         id={id}
         ref={refer}
         name={name}
+        placeholder={placeholder}
         type={type}
         value={val}
         onChange={(e) => handleChange(e)}

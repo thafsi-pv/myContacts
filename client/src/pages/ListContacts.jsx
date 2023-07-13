@@ -34,7 +34,7 @@ function ListContacts() {
   return (
     <div className="flex flex-col justify-center mt-16 max-h-[700px] lg:w-2/4 m-auto">
       <div className=" top-0 w-[100%] px-5">
-        <Input />
+        <Input placeholder="Search Contacts" />
       </div>
       <div className="overflow-x-auto mt-5 p-3">
         <table className="table table-xs lg:table-lg table-pin-rows table-pin-cols max-h-[68%] overflow-scroll cursor-pointer">
