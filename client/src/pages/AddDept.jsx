@@ -56,7 +56,26 @@ function AddDept() {
     setNewDept({ id: _id, name, isActive });
   };
 
-  const handleDeleteDetartment = () => {};
+  const handleDeleteDetartment = async (id) => {
+    const result = window.confirm("Are you sure you want to delete?");
+
+    if (result) {
+      // Perform the delete operation
+      const response = await axios(DEPARTMENT_API, {
+        method: "DELETE",
+        data: { id },
+      });
+      if (response.status == 200) {
+        const dept = [...departments];
+        const filterList = dept.filter((item) => item._id != id);
+        setDepartments(filterList);
+        toast.success("Department deleted successfully");
+      }
+    } else {
+      // User canceled the delete operation
+      console.log("Delete operation canceled");
+    }
+  };
 
   return (
     <div className="mt-12  p-4 space-y-4 lg:w-2/4 m-auto ">
@@ -115,7 +134,10 @@ function AddDept() {
                 />
               </div>
               <div>
-                <BiTrash className="w-5 h-5" />
+                <BiTrash
+                  className="w-5 h-5"
+                  onClick={() => handleDeleteDetartment(dept._id)}
+                />
               </div>
             </div>
           </div>

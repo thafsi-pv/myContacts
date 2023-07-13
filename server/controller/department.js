@@ -36,4 +36,18 @@ const addOrUpdateDepartment = async (req, res) => {
   }
 };
 
-module.exports = { getAllDepartment, addOrUpdateDepartment };
+const deleteDepartmentById = async (req, res) => {
+  try {
+    const { id } = req.body;
+    const response = await departmentModal.findByIdAndDelete(id);
+    res.json(response);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+module.exports = {
+  getAllDepartment,
+  addOrUpdateDepartment,
+  deleteDepartmentById,
+};
