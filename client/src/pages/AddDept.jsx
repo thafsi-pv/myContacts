@@ -8,6 +8,7 @@ import { DEPARTMENT_API } from "../const/const";
 function AddDept() {
   const [newDept, setNewDept] = useState({ name: "", isActive: true });
   const [departments, setDepartments] = useState([]);
+  
   useEffect(() => {
     getDepartments();
   }, []);
@@ -24,23 +25,28 @@ function AddDept() {
   };
 
   const handleAddDepartment = async () => {
-  try {
-    const response = await axios(DEPARTMENT_API, {
-      method: "POST",
-      data: { newDept },
-    });
-    if(response.status==200){
-      setDepartments((prev) => [...prev, response?.data]);
-      toast.success('Department added successfully');
+    try {
+      const response = await axios(DEPARTMENT_API, {
+        method: "POST",
+        data: { newDept },
+      });
+      if (response.status == 200) {
+        setDepartments((prev) => [...prev, response?.data]);
+        toast.success("Department added successfully");
+        setNewDept({ name: "", isActive: true });
+      }
+    } catch (error) {
+      toast.error(error.response.data.message);
     }
-  } catch (error) {
-    toast.error(error.response.data.message);
-  }
   };
 
+  const handleEditDepartment=()=>{
+    
+  }
+
   return (
-    <div className="mt-16 max-h-56 p-4 space-y-4 lg:w-2/4 m-auto">
-      <div className="space-y-4">
+    <div className="mt-12  p-4 space-y-4 lg:w-2/4 m-auto ">
+      <div className="space-y-4 fixed w-[90%] bg-gray-900">
         <label htmlFor="name" className="font-semibold">
           Name
         </label>
@@ -48,6 +54,7 @@ function AddDept() {
           id="deptname"
           name="name"
           type="text"
+          val={newDept.name}
           handleChange={handleInputChange}
         />
         <div className="flex items-center space-x-3">
@@ -72,16 +79,26 @@ function AddDept() {
           <button className="btn btn-neutral w-1/2">Clear</button>
         </div>
       </div>
-      <div className="!mt-10">
+      <div className="!mt-60 max-h-50 overflow-y-scroll !mb-28">
         {departments.map((dept) => (
-          <div key={dept.id} className="flex justify-between">
-            <p>{dept.name} </p>
-            <div className="flex justify-between space-x-2">
+          <div
+            key={dept.id}
+            className="flex justify-between p-3 border-b border-b-gray-700">
+            <p className="font-semibold flex-1">{dept.name} </p>
+            <span className="flex-none">
+              <div
+                className={`badge ${
+                  dept.isActive ? "badge-success" : "badge-error"
+                } gap-1 text-xs !p-2 mr-8`}>
+                {dept.isActive ? "Active" : "Inactive"}
+              </div>
+            </span>
+            <div className="flex justify-between space-x-3">
               <div>
-                <BiPencil />
+                <BiPencil className="w-5 h-5" />
               </div>
               <div>
-                <BiTrash />
+                <BiTrash className="w-5 h-5" />
               </div>
             </div>
           </div>
