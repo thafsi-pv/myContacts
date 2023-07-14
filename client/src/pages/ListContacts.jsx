@@ -73,7 +73,10 @@ function ListContacts() {
                         {item.firstName} {item.lastName}
                       </span>
                       <div>
-                        <span className="">{item?.designation[0]?.name}</span> |{" "}
+                        <span className="">{item?.designation[0]?.name}</span>
+                        {item?.designation[0]?.name && item?.department[0]?.name
+                          ? ` | `
+                          : ""}
                         <span>{item?.department[0]?.name}</span>
                       </div>
                       <div>
