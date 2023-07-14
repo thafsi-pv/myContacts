@@ -46,7 +46,7 @@ const Drawer = ({ isOpen, onClose, setDrawerOpen }) => {
               </Link>
             </li>
             <li>
-              <Link to="/designation" onClick={() => setDrawerOpen(false)}>
+              <Link to="/users" onClick={() => setDrawerOpen(false)}>
                 <a className="text-md font-semibold flex items-center">
                   <span>
                     <AiOutlineUserAdd className="mr-2 h-6 w-6" />

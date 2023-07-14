@@ -8,6 +8,7 @@ import BottomNavigation from "./components/BottomNavigation";
 import MainPage from "./pages/MainPage";
 import Settings from "./pages/Settings";
 import Designation from "./pages/Designation";
+import User from "./pages/User";
 
 function App() {
   const appRouter = createBrowserRouter([
@@ -42,6 +43,10 @@ function App() {
         {
           path: "/designation",
           element: <Designation />,
+        },
+        {
+          path: "/users",
+          element: <User />,
         },
       ],
     },
