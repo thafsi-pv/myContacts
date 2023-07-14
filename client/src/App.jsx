@@ -9,6 +9,7 @@ import MainPage from "./pages/MainPage";
 import Settings from "./pages/Settings";
 import Designation from "./pages/Designation";
 import User from "./pages/User";
+import Login from "./pages/Login";
 
 function App() {
   const appRouter = createBrowserRouter([
@@ -48,7 +49,12 @@ function App() {
           path: "/users",
           element: <User />,
         },
+        
       ],
+    },
+    {
+      path: "/login",
+      element: <Login />,
     },
   ]);
 

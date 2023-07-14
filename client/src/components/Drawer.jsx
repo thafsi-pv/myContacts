@@ -3,6 +3,7 @@ import { GrFormClose } from "react-icons/gr";
 import { FaUserDoctor, FaRegBuilding } from "react-icons/fa6";
 import { CiSettings } from "react-icons/ci";
 import { AiOutlineUserAdd } from "react-icons/ai";
+import { IoLogOutOutline } from "react-icons/io5";
 import { BsFiletypePdf } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import PDFFile from "../components/PDFFile";
@@ -82,6 +83,16 @@ const Drawer = ({ isOpen, onClose, setDrawerOpen }) => {
               </Link>
             </li>
           </ul>
+          <div className="flex justify-end w-2/3 bottom-0 m-5 p-5 absolute">
+            <Link to='/login'>
+              <p className="text-white font-semibold flex items-center gap-1">
+                <span>
+                  <IoLogOutOutline className="w-5 h-5" />
+                </span>
+                logout
+              </p>
+            </Link>
+          </div>
         </div>
       </div>
     </div>
