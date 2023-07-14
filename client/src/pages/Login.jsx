@@ -2,7 +2,7 @@ import React from "react";
 
 function Login() {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen m-4 bg-gray-900">
+    <div className="flex flex-col items-center justify-center h-screen max-h-screen m-4 bg-gray-900">
       <div className="max-w-md w-full p-6 bg-gray-800  rounded-md shadow-md">
         <div className="flex flex-col items-center justify-center">
           <h2 className="text-sm text-gray-200 font-bold">Login</h2>
