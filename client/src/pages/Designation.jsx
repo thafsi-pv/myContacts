@@ -32,10 +32,10 @@ function Designation() {
       });
       if (response.status == 200) {
         if (newDesignation.id != 0) {
-          const itemIndex = Designation.findIndex(
+          const itemIndex = designation.findIndex(
             (item) => item._id == newDesignation.id
           );
-          const Designations = [...Designation];
+          const Designations = [...designation];
           Designations[itemIndex].name = response.data.name;
           Designations[itemIndex].isActive = response.data.isActive;
           setDesignation(Designations);
@@ -47,6 +47,7 @@ function Designation() {
         setNewDesignation({ id: 0, name: "", isActive: true });
       }
     } catch (error) {
+      console.log("🚀 ~ file: Designation.jsx:52 ~ handleAddDesignattion ~ error:", error)
       toast.error(error.response.data.message);
     }
   };
