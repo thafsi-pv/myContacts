@@ -59,7 +59,7 @@ function App() {
   ]);
 
   return (
-    <div className="max-h-screen">
+    <div className="h-screen max-h-screen">
       <RouterProvider router={appRouter} />
     </div>
   );
