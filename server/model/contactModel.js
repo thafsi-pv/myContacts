@@ -11,6 +11,18 @@ const contactSchema = mongoose.Schema(
         ref: "department",
       },
     ],
+    designation: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "designation",
+      },
+    ],
+    department: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "department",
+      },
+    ],
     contactNos: [
       {
         type: mongoose.Schema.Types.ObjectId,

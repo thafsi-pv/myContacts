@@ -167,7 +167,11 @@ function AddContact() {
               inputClass="p-5 !w-full !bg-gray-800  !border-gray-500 text-white"
               country={"in"}
               onChange={handlePhoneInputChange}
-              value={contactNos ? contactNos[input.name].toString() : ""}
+              value={
+                contactNos && contactNos[input.name]
+                  ? contactNos[input.name].toString()
+                  : ""
+              }
               inputProps={{
                 name: input.name,
                 required: true,
