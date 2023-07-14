@@ -11,7 +11,7 @@ import { PDFDownloadLink } from "@react-pdf/renderer";
 const Drawer = ({ isOpen, onClose, setDrawerOpen }) => {
   return (
     <div
-      className={`fixed inset-0 z-50 transition-opacity ${
+      className={`fixed inset-0 !z-50 transition-opacity ${
         isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
       }`}>
       <div
