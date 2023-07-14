@@ -6,6 +6,7 @@ const getAllContacts = async (req, res) => {
     const contactList = await contactModel
       .find({})
       .populate("department")
+      .populate("designation")
       .populate("contactNos", "-_id -__v");
     res.json(contactList);
   } catch (error) {
