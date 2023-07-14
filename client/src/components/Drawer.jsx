@@ -83,7 +83,7 @@ const Drawer = ({ isOpen, onClose, setDrawerOpen }) => {
               </Link>
             </li>
           </ul>
-          <div className="flex justify-end w-2/3 bottom-0 m-5 p-5 absolute">
+          <div className="flex justify-end w-2/3 bottom-10 m-5 p-5 absolute">
             <Link to='/login'>
               <p className="text-white font-semibold flex items-center gap-1">
                 <span>
