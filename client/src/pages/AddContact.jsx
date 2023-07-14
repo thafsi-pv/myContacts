@@ -54,6 +54,10 @@ function AddContact() {
       value: data[0].department[0]._id,
       label: data[0].department[0].name,
     });
+    setSelectedDesig({
+      value: data[0].designation[0]._id,
+      label: data[0].designation[0].name,
+    });
 
     const pi = Object.keys(response.data[0].contactNos[0]).map((item) => {
       return { id: uuidv4(), phone: item, name: item };

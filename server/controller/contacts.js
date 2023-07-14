@@ -17,7 +17,7 @@ const getAllContacts = async (req, res) => {
 const contactGetById = async (req, res) => {
   try {
     const { id } = req.body;
-    console.log("🚀 ~ file: contacts.js:19 ~ contactGetById ~ id:", id)
+    console.log("🚀 ~ file: contacts.js:19 ~ contactGetById ~ id:", id);
     const contactList = await contactModel
       .find({ _id: id })
       .populate("department")
@@ -29,8 +29,14 @@ const contactGetById = async (req, res) => {
 };
 
 const addOrUpdateContact = async (req, res) => {
+  console.log("🚀 ~ file: contacts.js:32 ~ addOrUpdateContact ~ req:", req)
   try {
     const { newContact, contactNos } = req.body;
+    console.log("🚀 ~ file: contacts.js:34 ~ addOrUpdateContact ~ newContact:", newContact)
+    if (newContact?._id != 0) {
+      console.log("🚀 ~ file: contacts.js:35 ~ addOrUpdateContact ~ newContact?.id:", newContact?.id)
+      
+    }
     const numbers = await contactNumberModel.create(contactNos);
     newContact.contactNos = numbers._id;
     const data = await contactModel.create(newContact);
@@ -40,4 +46,4 @@ const addOrUpdateContact = async (req, res) => {
   }
 };
 
-module.exports = { getAllContacts, contactGetById,addOrUpdateContact };
+module.exports = { getAllContacts, contactGetById, addOrUpdateContact };

@@ -4,7 +4,11 @@ import { BsArrowRight } from "react-icons/bs";
 import { Link, useNavigate } from "react-router-dom";
 import BottomNavigation from "../components/BottomNavigation";
 import axios from "axios";
-import { getInitialLetters, getRandomColorCode } from "../utils/utils";
+import {
+  formatNo,
+  getInitialLetters,
+  getRandomColorCode,
+} from "../utils/utils";
 import { CONTACTS_API } from "../const/const";
 import ShimmerContacts from "../components/ShimmerContacts";
 
@@ -66,15 +70,19 @@ function ListContacts() {
                   <td className="w-[80%]">
                     <div className="flex flex-col justify-start">
                       <span className="text-lg font-semibold">
-                        {item.firstName} {item.lastName} 
+                        {item.firstName} {item.lastName}
                       </span>
-                     <div> <span className="">{item?.designation[0]?.name}</span> | <span>{item?.department[0]?.name}</span></div>
+                      <div>
+                        <span className="">{item?.designation[0]?.name}</span> |{" "}
+                        <span>{item?.department[0]?.name}</span>
+                      </div>
+                      <div>
+                        <span>{formatNo(item.contactNos[0].mobile)}</span>
+                      </div>
                     </div>
                   </td>
                   <td>
-                    {/* <Link to={`/contactDetails/${item._id}`}> */}
                     <BsArrowRight className="h-6 w-6" />
-                    {/* </Link> */}
                   </td>
                 </tr>
               );

@@ -17,7 +17,6 @@ export const copyToClipboard = (textareaRef, text) => {
 export const changeKeyInArray = (array, keyChanges) => {
   return array.map((item) => {
     const newItem = { ...item };
-
     Object.keys(keyChanges).forEach((oldKey) => {
       const newKey = keyChanges[oldKey];
       if (newKey != oldKey) {
@@ -56,8 +55,12 @@ export function getRandomColorCode() {
 export const getInitialLetters = (str) => {
   const words = str.split(" ");
   let result = "";
-  for (let index = 0; index < words.length; index++) {
-    result += words[index].charAt(0);
+  for (
+    let index = 0;
+    index < words.length && words[index] != "undefined";
+    index++
+  ) {
+    result += words[index].charAt(0).toUpperCase();
   }
   return result;
 };
