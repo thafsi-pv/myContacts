@@ -82,8 +82,18 @@ const Drawer = ({ isOpen, onClose, setDrawerOpen }) => {
                 </a>
               </Link>
             </li>
+            <li>
+              <Link to="/login" onClick={() => setDrawerOpen(false)}>
+                <a className="text-md font-semibold flex items-center">
+                  <span>
+                    <IoLogOutOutline className="mr-2 h-6 w-6" />
+                  </span>
+                  Logout
+                </a>
+              </Link>
+            </li>
           </ul>
-          <div className="flex justify-end w-2/3 bottom-10 m-5 p-5 absolute">
+          {/* <div className="flex justify-end w-2/3 bottom-10 m-5 p-5 absolute">
             <Link to='/login'>
               <p className="text-white font-semibold flex items-center gap-1">
                 <span>
@@ -92,7 +102,7 @@ const Drawer = ({ isOpen, onClose, setDrawerOpen }) => {
                 logout
               </p>
             </Link>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>
