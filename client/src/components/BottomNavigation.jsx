@@ -18,9 +18,9 @@ function BottomNavigation() {
           <IoPersonAdd className="h-5 w-5" />
         </Link>
       </button>
-      <button className={`${activeTab==3?"active":''}`} onClick={()=>setActiveTab(3)}>
+      {/* <button className={`${activeTab==3?"active":''}`} onClick={()=>setActiveTab(3)}>
        <Link to='/dept'> <FaRegBuilding  className="h-5 w-5"/></Link>
-      </button>
+      </button> */}
     </div>
   );
 }

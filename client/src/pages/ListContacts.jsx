@@ -32,7 +32,7 @@ function ListContacts() {
     return <ShimmerContacts />;
   }
   return (
-    <div className="flex flex-col justify-center mt-16 max-h-[700px] lg:w-2/4 m-auto">
+    <div className="flex flex-col justify-center mt-16 max-h-[700px] lg:max-w-2/4 m-auto">
       <div className=" top-0 w-[100%] px-5">
         <Input placeholder="Search Contacts" />
       </div>

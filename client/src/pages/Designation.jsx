@@ -3,73 +3,74 @@ import Input from "../components/Input";
 import { BiPencil, BiTrash } from "react-icons/bi";
 import axios from "axios";
 import { toast } from "react-hot-toast";
-import { DEPARTMENT_API } from "../const/const";
+import { DESIGNATION_API } from "../const/const";
 
-function AddDept() {
-  const [newDept, setNewDept] = useState({ id: 0, name: "", isActive: true });
-  const [departments, setDepartments] = useState([]);
+function Designation() {
+  const [newDesignation, setNewDesignation] = useState({ id: 0, name: "", isActive: true });
+  const [designation, setDesignation] = useState([]);
 
   useEffect(() => {
-    getDepartments();
+    getDesignation();
   }, []);
 
-  const getDepartments = async () => {
-    const data = await axios(DEPARTMENT_API);
-    setDepartments(data?.data);
+  const getDesignation = async () => {
+    const data = await axios(DESIGNATION_API);
+    setDesignation(data?.data);
   };
 
   const handleInputChange = (e) => {
     const val =
       e.target.type === "checkbox" ? e.target.checked : e.target.value;
-    setNewDept((prev) => ({ ...prev, [e.target.name]: val }));
+    setNewDesignation((prev) => ({ ...prev, [e.target.name]: val }));
   };
 
-  const handleAddDepartment = async () => {
+  const handleAddDesignattion = async () => {
     try {
-      const response = await axios(DEPARTMENT_API, {
+      const response = await axios(DESIGNATION_API, {
         method: "POST",
-        data: { newDept },
+        data: { newDesignation },
       });
       if (response.status == 200) {
-        if (newDept.id != 0) {
-          const itemIndex = departments.findIndex(
-            (item) => item._id == newDept.id
+        if (newDesignation.id != 0) {
+          const itemIndex = Designation.findIndex(
+            (item) => item._id == newDesignation.id
           );
-          const depts = [...departments];
-          depts[itemIndex].name = response.data.name;
-          depts[itemIndex].isActive = response.data.isActive;
-          setDepartments(depts);
-          toast.success("Department updated successfully");
+          const Designations = [...Designation];
+          Designations[itemIndex].name = response.data.name;
+          Designations[itemIndex].isActive = response.data.isActive;
+          setDesignation(Designations);
+          toast.success("Designation updated successfully");
         } else {
-          setDepartments((prev) => [...prev, response?.data]);
-          toast.success("Department added successfully");
+          setDesignation((prev) => [...prev, response?.data]);
+          toast.success("Designation added successfully");
         }
-        setNewDept({ id: 0, name: "", isActive: true });
+        setNewDesignation({ id: 0, name: "", isActive: true });
       }
     } catch (error) {
       toast.error(error.response.data.message);
     }
   };
 
-  const handleEditDepartment = (dept) => {
-    const { _id, name, isActive } = dept;
-    setNewDept({ id: _id, name, isActive });
+  const handleEditDesignattion = (Designation) => {
+    const { _id, name, isActive } = Designation;
+    setNewDesignation({ id: _id, name, isActive });
   };
 
-  const handleDeleteDetartment = async (id) => {
+  const handleDeleteDesignation = async (id) => {
     const result = window.confirm("Are you sure you want to delete?");
 
     if (result) {
       // Perform the delete operation
-      const response = await axios(DEPARTMENT_API, {
+      const response = await axios(DESIGNATION_API, {
         method: "DELETE",
         data: { id },
       });
+      console.log("🚀 ~ file: Designation.jsx:68 ~ handleDeleteDesignation ~ response:", response)
       if (response.status == 200) {
-        const dept = [...departments];
-        const filterList = dept.filter((item) => item._id != id);
-        setDepartments(filterList);
-        toast.success("Department deleted successfully");
+        const desig = [...designation];
+        const filterList = desig.filter((item) => item._id != id);
+        setDesignation(filterList);
+        toast.success("Designattion deleted successfully");
       }
     } else {
       // User canceled the delete operation
@@ -81,15 +82,15 @@ function AddDept() {
     <div className="mt-12  p-4 space-y-4 lg:w-2/4 m-auto ">
       <div className="space-y-4 fixed w-[90%] bg-gray-900">
         <label htmlFor="name" className="font-semibold">
-          Department
+          Designation
         </label>
         <Input
-          id="deptname"
+          id="Designationname"
           name="name"
           type="text"
-          val={newDept.name}
+          val={newDesignation.name}
           handleChange={handleInputChange}
-          placeholder="Enter Department"
+          placeholder="Enter Designation"
         />
         <div className="flex items-center space-x-3">
           <label htmlFor="name" className="font-semibold">
@@ -101,43 +102,43 @@ function AddDept() {
             name="isActive"
             onChange={handleInputChange}
             className="toggle toggle-success"
-            checked={newDept.isActive}
+            checked={newDesignation.isActive}
           />
         </div>
         <div className="w-full flex flex-nowrap space-x-2 !mt-10">
           <button
             className="btn btn-primary w-1/2"
-            onClick={handleAddDepartment}>
+            onClick={handleAddDesignattion}>
             Save
           </button>
           <button className="btn btn-neutral w-1/2">Clear</button>
         </div>
       </div>
       <div className="!mt-60 max-h-50 overflow-y-scroll !mb-28">
-        {departments.map((dept) => (
+        {designation.map((Designation) => (
           <div
-            key={dept._id}
+            key={Designation._id}
             className="flex justify-between p-3 border-b border-b-gray-700">
-            <p className="font-semibold flex-1">{dept.name} </p>
+            <p className="font-semibold flex-1">{Designation.name} </p>
             <span className="flex-none">
               <div
                 className={`badge ${
-                  dept.isActive ? "badge-success" : "badge-error"
+                  Designation.isActive ? "badge-success" : "badge-error"
                 } gap-1 text-xs !p-2 mr-8`}>
-                {dept.isActive ? "Active" : "Inactive"}
+                {Designation.isActive ? "Active" : "Inactive"}
               </div>
             </span>
             <div className="flex justify-between space-x-3">
               <div>
                 <BiPencil
                   className="w-5 h-5 hover:bg-gray-700 "
-                  onClick={() => handleEditDepartment(dept)}
+                  onClick={() => handleEditDesignattion(Designation)}
                 />
               </div>
               <div>
                 <BiTrash
                   className="w-5 h-5"
-                  onClick={() => handleDeleteDetartment(dept._id)}
+                  onClick={() => handleDeleteDesignation(Designation._id)}
                 />
               </div>
             </div>
@@ -148,4 +149,4 @@ function AddDept() {
   );
 }
 
-export default AddDept;
+export default Designation;

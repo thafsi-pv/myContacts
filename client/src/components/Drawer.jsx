@@ -1,6 +1,8 @@
 import React from "react";
 import { GrFormClose } from "react-icons/gr";
+import { FaUserDoctor, FaRegBuilding } from "react-icons/fa6";
 import { CiSettings } from "react-icons/ci";
+import { AiOutlineUserAdd } from "react-icons/ai";
 import { BsFiletypePdf } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import PDFFile from "../components/PDFFile";
@@ -22,13 +24,34 @@ const Drawer = ({ isOpen, onClose, setDrawerOpen }) => {
           </button>
           <ul className="menu p-4 w-80 h-full bg-base-200 text-base-content mt-10">
             {/* Sidebar content here */}
+
             <li>
-              <Link to="/settings" onClick={() => setDrawerOpen(false)}>
+              <Link to="/dept" onClick={() => setDrawerOpen(false)}>
                 <a className="text-md font-semibold flex items-center">
                   <span>
-                    <CiSettings className="mr-2 h-6 w-6" />
+                    <FaRegBuilding className="mr-2 h-6 w-6" />
                   </span>
-                  Settings
+                  Department
+                </a>
+              </Link>
+            </li>
+            <li>
+              <Link to="/designation" onClick={() => setDrawerOpen(false)}>
+                <a className="text-md font-semibold flex items-center">
+                  <span>
+                    <FaUserDoctor className="mr-2 h-6 w-6" />
+                  </span>
+                  Designation
+                </a>
+              </Link>
+            </li>
+            <li>
+              <Link to="/designation" onClick={() => setDrawerOpen(false)}>
+                <a className="text-md font-semibold flex items-center">
+                  <span>
+                    <AiOutlineUserAdd className="mr-2 h-6 w-6" />
+                  </span>
+                  Users
                 </a>
               </Link>
             </li>
@@ -39,11 +62,24 @@ const Drawer = ({ isOpen, onClose, setDrawerOpen }) => {
                     loading ? (
                       <button>Loading Document...</button>
                     ) : (
-                      <button className="text-md font-semibold flex items-center"> <BsFiletypePdf className="mr-2 h-6 w-6" /> Save as pdf</button>
+                      <button className="text-md font-semibold flex items-center">
+                        {" "}
+                        <BsFiletypePdf className="mr-2 h-6 w-6" /> Save as pdf
+                      </button>
                     )
                   }
                 </PDFDownloadLink>
               </div>
+            </li>
+            <li>
+              <Link to="/settings" onClick={() => setDrawerOpen(false)}>
+                <a className="text-md font-semibold flex items-center">
+                  <span>
+                    <CiSettings className="mr-2 h-6 w-6" />
+                  </span>
+                  Settings
+                </a>
+              </Link>
             </li>
           </ul>
         </div>

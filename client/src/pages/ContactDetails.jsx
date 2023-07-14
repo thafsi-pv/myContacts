@@ -18,10 +18,6 @@ function ContactDetails() {
   const textareaRef = useRef(null);
   const param = useParams();
   const [details, setDetails] = useState([]);
-  console.log(
-    "🚀 ~ file: ContactDetails.jsx:21 ~ ContactDetails ~ details:",
-    details
-  );
 
   useEffect(() => {
     if (param.id) {

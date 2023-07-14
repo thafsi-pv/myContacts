@@ -7,6 +7,7 @@ import AddDept from "./pages/AddDept";
 import BottomNavigation from "./components/BottomNavigation";
 import MainPage from "./pages/MainPage";
 import Settings from "./pages/Settings";
+import Designation from "./pages/Designation";
 
 function App() {
   const appRouter = createBrowserRouter([
@@ -37,6 +38,10 @@ function App() {
         {
           path: "/settings",
           element: <Settings />,
+        },
+        {
+          path: "/designation",
+          element: <Designation />,
         },
       ],
     },

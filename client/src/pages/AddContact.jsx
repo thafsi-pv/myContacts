@@ -9,7 +9,7 @@ import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 import { toast } from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
-import { CONTACTS_API, DEPARTMENT_API } from "../const/const";
+import { CONTACTS_API, DEPARTMENT_API, DESIGNATION_API } from "../const/const";
 
 const keyChanges = {
   _id: "value",
@@ -26,12 +26,15 @@ function AddContact() {
     { id: uuidv4(), phone: "Office", name: "office" },
   ]);
   const [departments, setDepartments] = useState([]);
+  const [designation, setDesignation] = useState([]);
   const params = useParams();
 
   const [selectedDept, setSelectedDept] = useState({});
+  const [selectedDesig, setSelectedDesig] = useState({});
 
   useEffect(() => {
     getDepartments();
+    getDesignation();
     firsNameRef.current.focus();
     if (params.id) {
       getContactDetailsById();
@@ -64,6 +67,13 @@ function AddContact() {
     setDepartments(updatedArray);
   };
 
+  const getDesignation = async () => {
+    const data = await axios(DESIGNATION_API);
+    console.log("🚀 ~ file: AddContact.jsx:70 ~ getDesignation ~ data:", data);
+    const updatedArray = changeKeyInArray(data.data, keyChanges);
+    setDesignation(updatedArray);
+  };
+
   const addMorePhoneInput = () => {
     const newInput = {
       id: uuidv4(),
@@ -86,6 +96,10 @@ function AddContact() {
   const handleDepartmentChange = (selectedOptions) => {
     setNewContact((prev) => ({ ...prev, department: selectedOptions.value }));
     setSelectedDept(selectedOptions);
+  };
+  const handleDesignationChange = (selectedOptions) => {
+    setNewContact((prev) => ({ ...prev, designation: selectedOptions.value }));
+    setSelectedDesig(selectedOptions);
   };
 
   const handleAddNewContact = async () => {
@@ -122,13 +136,23 @@ function AddContact() {
           />
         </div>
       </div>
-      <div className="w-full ">
-        <label htmlFor="office">Department</label>
-        <Select
-          options={departments}
-          value={selectedDept}
-          onChange={(e) => handleDepartmentChange(e)}
-        />
+      <div className="flex gap-2">
+        <div className="w-full ">
+          <label htmlFor="office">Designation</label>
+          <Select
+            options={designation}
+            value={selectedDesig}
+            onChange={(e) => handleDesignationChange(e)}
+          />
+        </div>
+        <div className="w-full ">
+          <label htmlFor="office">Department</label>
+          <Select
+            options={departments}
+            value={selectedDept}
+            onChange={(e) => handleDepartmentChange(e)}
+          />
+        </div>
       </div>
       {phoneInput.map((input, index) => (
         <div key={input.id}>
