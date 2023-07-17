@@ -10,8 +10,12 @@ import Settings from "./pages/Settings";
 import Designation from "./pages/Designation";
 import User from "./pages/User";
 import Login from "./pages/Login";
+import  { ThemeContext } from "./context/ThemeContext";
+import { useContext } from "react";
 
 function App() {
+  const { theme } = useContext(ThemeContext);
+
   const appRouter = createBrowserRouter([
     {
       path: "/",
@@ -49,7 +53,6 @@ function App() {
           path: "/users",
           element: <User />,
         },
-        
       ],
     },
     {
@@ -59,9 +62,9 @@ function App() {
   ]);
 
   return (
-    <div className="h-screen max-h-screen">
-      <RouterProvider router={appRouter} />
-    </div>
+      <div className="h-screen max-h-screen" data-theme={theme}>
+        <RouterProvider router={appRouter} />
+      </div>
   );
 }
 

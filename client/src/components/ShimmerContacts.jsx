@@ -2,7 +2,7 @@ import React from "react";
 
 const ShimmerContacts = () => {
   return (
-    <div className="flex flex-col p-8 justify-center mt-16 max-h-[700px] lg:w-2/4 m-auto bg-gray-900">
+    <div className="flex flex-col p-8 justify-center mt-16 max-h-[700px] lg:w-2/4 m-auto">
       <input
         className="borde bg-gray-700 border-gray-400 rounded-lg p-2 mb-4"
         type="text"

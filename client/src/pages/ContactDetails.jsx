@@ -36,15 +36,15 @@ function ContactDetails() {
 
   return (
     <div className="flex justify-center align-middle w-full items-center h-full mt-16">
-      <div className=" h-[50%] p-5 m-3 w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+      <div className=" h-[50%] p-5 m-3 w-full max-w-sm   rounded-lg bg-red-500 dark:bg-base-100 shadow-xl">
         <div className="dropdown dropdown-bottom w-full flex justify-end">
           <label tabIndex={0} className="text-lg font-bold m-1">
             ...
           </label>
           <ul
             tabIndex={0}
-            className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
-            <li >
+            className="dropdown-content z-[1] menu p-2 shadow bg-base-200 rounded-box w-52">
+            <li>
               <Link to={"/updateContact/" + param.id}>
                 <a className="flex gap-2">
                   <BsPencil /> Edit
@@ -65,14 +65,14 @@ function ContactDetails() {
             alt="image"
           /> */}
           <span
-            className={`flex items-center justify-center text-white w-24 h-24 mb-3 rounded-full shadow-lg my-auto text-center text-5xl font-bold border-2 border-gray-800`}
+            className={`flex items-center justify-center text-white w-24 h-24 mb-3 rounded-full shadow-lg my-auto text-center text-5xl font-bold`}
             style={{ backgroundColor: getRandomColorCode() }}>
             {getInitialLetters(
               (details[0]?.firstName + " " + details[0]?.lastName).toString()
             )}
           </span>
-          <h5 className="mb-1 text-xl font-medium text-gray-900 dark:text-white">
-            {details[0]?.firstName} {details[0]?.lastName}
+          <h5 className="mb-1 text-xl font-medium text-white dark:text-gray-700">
+            {details[0]?.firstName} {details[0]?.lastName} abbbc
           </h5>
           <span className="text-sm text-gray-500 dark:text-gray-400">
             {details[0]?.department[0]?.name}
@@ -86,7 +86,7 @@ function ContactDetails() {
                 </label>
                 <div className="flex flex-nowrap items-center">
                   <label
-                    className="font-semibold mr-3 text-gray-200"
+                    className="font-semibold mr-3 dark:text-gray-800"
                     htmlFor="">
                     {formatNo(details[0]?.contactNos[0][item])}
                   </label>

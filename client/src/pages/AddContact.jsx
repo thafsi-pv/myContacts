@@ -166,9 +166,9 @@ function AddContact() {
           <div className="w-full ">
             <PhoneInput
               containerClass="w-100 "
-              dropdownClass="w-100 !bg-gray-800 border-0"
-              buttonClass="w-100 !bg-gray-800 !border-gray-500"
-              inputClass="p-5 !w-full !bg-gray-800  !border-gray-500 text-white"
+              dropdownClass="w-100 !bg-base-200 border-0"
+              buttonClass="w-100 !bg-base-200 !border-gray-500"
+              inputClass="p-5 !w-full !bg-base-200  !border-gray-500 "
               country={"in"}
               onChange={handlePhoneInputChange}
               value={
@@ -198,7 +198,7 @@ function AddContact() {
         <label htmlFor="Note">Note</label>
         <textarea
           onChange={handleInputChange}
-          className="w-full rounded-md bg-gray-800"
+          className="w-full rounded-md bg-base-200"
           name="notes"
           id=""
           cols="30"
