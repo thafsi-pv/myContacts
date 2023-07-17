@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Input from "../components/Input";
 import { BsArrowRight } from "react-icons/bs";
+import { AiOutlineSearch } from "react-icons/ai";
 import { Link, useNavigate } from "react-router-dom";
 import BottomNavigation from "../components/BottomNavigation";
 import axios from "axios";
@@ -37,8 +38,33 @@ function ListContacts() {
   }
   return (
     <div className="flex flex-col justify-center mt-16  lg:max-w-2/4 m-auto">
-      <div className=" top-16 w-[100%] px-5 fixed bg-gray-900 z-[5]">
-        <Input placeholder="Search Contacts" />
+      <div className=" top-16 w-[100%] px-5 fixed bg-gray-900 p-3 z-[5]">
+        <div className="join w-full !border-gray-600">
+          <div className="w-20">
+            <select className="select !border-gray-600 join-item">
+              <option disabled selected>
+                Type
+              </option>
+              <option>Name</option>
+              <option>Designation</option>
+              <option>Department</option>
+            </select>
+          </div>
+          <div className="w-2/3">
+            <div>
+              <input
+                className="input !border-gray-600 join-item w-full"
+                placeholder="Search..."
+              />
+            </div>
+          </div>
+
+          <div className="indicator">
+            <button className="btn join-item !border-gray-600 !bg-gray-600">
+              <AiOutlineSearch className="w-5 h-5" />
+            </button>
+          </div>
+        </div>
       </div>
       <div className="overflow-x-auto mt-14 p-3 max-h-[700px]">
         <table className="table table-xs lg:table-lg table-pin-rows table-pin-cols max-h-[68%] overflow-scroll cursor-pointer">
