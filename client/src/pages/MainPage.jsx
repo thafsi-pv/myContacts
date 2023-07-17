@@ -9,7 +9,7 @@ function MainPage() {
     <div className="max-h-screen">
       <Header />
       <Outlet/>
-      <BottomNavigation/>
+      {/* <BottomNavigation/> */}
       <Toaster />
     </div>
   );

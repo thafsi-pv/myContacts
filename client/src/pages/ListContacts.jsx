@@ -81,7 +81,7 @@ function ListContacts() {
               return (
                 <tr
                   key={item._id}
-                  className="h-10 border-1 border-gray-700 hover:bg-gray-700 mb-44"
+                  className="h-10 border-1 border-gray-700 hover:bg-gray-700 mb-4"
                   onClick={() => handleContact(item._id)}>
                   <td className="p-3">{index + 1}</td>
                   <td className="p-3">
@@ -120,7 +120,6 @@ function ListContacts() {
         </table>
       </div>
 
-      <BottomNavigation />
     </div>
   );
 }
