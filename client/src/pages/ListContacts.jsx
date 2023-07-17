@@ -95,7 +95,7 @@ function ListContacts() {
                   </td>
                   <td className="w-[80%]">
                     <div className="flex flex-col justify-start">
-                      <span className="text-lg font-semibold">
+                      <span className="text-lg font-medium">
                         {item.firstName} {item.lastName}
                       </span>
                       <div>
