@@ -72,7 +72,7 @@ function ContactDetails() {
             )}
           </span>
           <h5 className="mb-1 text-xl font-medium text-white dark:text-gray-700">
-            {details[0]?.firstName} {details[0]?.lastName} abbbc
+            {details[0]?.firstName} {details[0]?.lastName}
           </h5>
           <span className="text-sm text-gray-500 dark:text-gray-400">
             {details[0]?.department[0]?.name}
