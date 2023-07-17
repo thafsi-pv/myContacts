@@ -66,7 +66,7 @@ function ListContacts() {
           </div>
         </div>
       </div>
-      <div className="overflow-x-auto mt-14 p-3 max-h-[700px]">
+      <div className="overflow-x-auto mt-14 p-3 pt-5 max-h-[700px]">
         <table className="table table-xs lg:table-lg table-pin-rows table-pin-cols max-h-[68%] overflow-scroll cursor-pointer">
           <thead>
             <tr className="!top-[-13px]">
