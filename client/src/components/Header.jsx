@@ -16,7 +16,7 @@ function Header() {
   };
 
   return (
-    <div className="navbar bg-base-100 fixed top-0 z-10 !items-center">
+    <div className="navbar bg-base-100 fixed top-0 z-10 !items-center shadow-lg">
       <div className="flex-none">
         {/* <button className="btn btn-square btn-ghost" onClick={openDrawer}>
           <BiMenu className="inline-block w-6 h-6 stroke-current" />
