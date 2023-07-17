@@ -83,8 +83,8 @@ function ListContacts() {
                   key={item._id}
                   className="h-10 border-1 border-gray-700 hover:bg-gray-700 mb-4"
                   onClick={() => handleContact(item._id)}>
-                  <td className="p-3">{index + 1}</td>
-                  <td className="p-3">
+                  <td className="p-2">{index + 1}</td>
+                  <td className="p-2">
                     <span
                       className={`flex items-center justify-center text-white w-10 h-10 rounded-full shadow-lg my-auto text-center text-xl font-bold`}
                       style={{ backgroundColor: getRandomColorCode() }}>
