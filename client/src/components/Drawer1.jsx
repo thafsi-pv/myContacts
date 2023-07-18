@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { BiMenu, BiHome } from "react-icons/bi";
 import { GrFormClose } from "react-icons/gr";
 import { FaUserDoctor, FaRegBuilding } from "react-icons/fa6";
@@ -10,17 +10,25 @@ import { Link } from "react-router-dom";
 import PDFFile from "../components/PDFFile";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import { IoPersonAdd } from "react-icons/io5";
+import { DrawerContext } from "../context/DrawerContext";
 
 const Drawer = () => {
   const [isOpen, setIsOpen] = useState(true);
+  const { showDrawer, toggleDrawer } = useContext(DrawerContext);
 
-  const toggleDrawer = () => {
-    setIsOpen(!isOpen);
-  };
+  // const toggleDrawer = () => {
+  //   setIsOpen(!isOpen);
+  // };
 
   return (
-    <div className="drawer">
-      <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
+    <div className={`drawer ${showDrawer ? "open" : ""}`}>
+      <input
+        id="my-drawer-2"
+        type="checkbox"
+        className="drawer-toggle"
+        checked={showDrawer}
+        onChange={toggleDrawer}
+      />
       <div className="drawer-content flex flex-col items-center justify-center">
         <label htmlFor="my-drawer-2" className="drawer-button">
           <BiMenu className="inline-block w-6 h-6 ml-5 stroke-current " />
@@ -33,7 +41,9 @@ const Drawer = () => {
           <div className="group">
             <li>
               <Link to="/">
-                <a className="text-md font-semibold flex items-center">
+                <a
+                  className="text-md font-semibold flex items-center"
+                  onClick={toggleDrawer}>
                   <span>
                     <BiHome className="mr-2 h-6 w-6" />
                   </span>
@@ -100,7 +110,7 @@ const Drawer = () => {
               Report
             </h2>
             <li>
-              <div>
+              <div onClick={toggleDrawer}>
                 <PDFDownloadLink document={<PDFFile />} filename="FORM">
                   {({ loading }) =>
                     loading ? (
@@ -123,7 +133,7 @@ const Drawer = () => {
             </h2>
             <li>
               <Link to="/settings">
-                <a className="text-md font-semibold flex items-center">
+                <a className="text-md font-semibold flex items-center" onClick={toggleDrawer}>
                   <span>
                     <CiSettings className="mr-2 h-6 w-6" />
                   </span>

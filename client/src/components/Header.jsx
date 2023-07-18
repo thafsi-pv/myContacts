@@ -1,12 +1,12 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { BiMenu } from "react-icons/bi";
 import Drawer1 from "./Drawer1";
 import { Link } from "react-router-dom";
 import { IoLogOutOutline } from "react-icons/io5";
+import { DrawerContext } from "../context/DrawerContext";
 
 function Header() {
-
-  
+  const { showDrawer, toggleDrawer } = useContext(DrawerContext);
   const [isDrawerOpen, setDrawerOpen] = useState(false);
 
   const openDrawer = () => {
@@ -24,9 +24,9 @@ function Header() {
           <BiMenu className="inline-block w-6 h-6 stroke-current" />
         </button> */}
         <Drawer1
-          isOpen={isDrawerOpen}
-          onClose={closeDrawer}
-          setDrawerOpen={setDrawerOpen}
+          isOpen={showDrawer}
+          onClose={toggleDrawer}
+          setDrawerOpen={toggleDrawer}
         />
       </div>
       <div className="flex-1">

@@ -1,19 +1,19 @@
 import { createContext, useState } from "react";
 
-const DrawerContext = createContext();
+export const DrawerContext = createContext();
 
-const DrawerHandle = () => {
+const DrawerHandleContext = (props) => {
   const [showDrawer, setShowDrawer] = useState(false);
 
-  const toggleDrwer = () => {
+  const toggleDrawer = () => {
     setShowDrawer(!showDrawer);
   };
 
   return (
-    <DrawerContext.Provider value={{ showDrawer, toggleDrwer }}>
+    <DrawerContext.Provider value={{ showDrawer, toggleDrawer }}>
       {props.children}
     </DrawerContext.Provider>
   );
 };
 
-export default DrawerHandle;
+export default DrawerHandleContext;
