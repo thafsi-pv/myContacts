@@ -10,8 +10,9 @@ import Settings from "./pages/Settings";
 import Designation from "./pages/Designation";
 import User from "./pages/User";
 import Login from "./pages/Login";
-import  { ThemeContext } from "./context/ThemeContext";
+import { ThemeContext } from "./context/ThemeContext";
 import { useContext } from "react";
+import SignUp from "./pages/SignUp";
 
 function App() {
   const { theme } = useContext(ThemeContext);
@@ -59,12 +60,16 @@ function App() {
       path: "/login",
       element: <Login />,
     },
+    {
+      path: "/signup",
+      element: <SignUp />,
+    },
   ]);
 
   return (
-      <div className="h-screen max-h-screen" data-theme={theme}>
-        <RouterProvider router={appRouter} />
-      </div>
+    <div className="h-screen max-h-screen" data-theme={theme}>
+      <RouterProvider router={appRouter} />
+    </div>
   );
 }
 
