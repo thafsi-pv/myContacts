@@ -79,7 +79,7 @@ function AddDept() {
 
   return (
     <div className="mt-12  p-4 space-y-4 lg:w-2/4 m-auto ">
-      <div className="space-y-4 fixed w-[90%]  p-2">
+      <div className="space-y-2 fixed w-[100%] bg-base-200 px-6 py-3 left-0 right-0">
         <label htmlFor="name" className="font-semibold">
           Department
         </label>

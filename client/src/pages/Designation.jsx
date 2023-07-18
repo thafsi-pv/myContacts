@@ -66,7 +66,6 @@ function Designation() {
         method: "DELETE",
         data: { id },
       });
-      console.log("🚀 ~ file: Designation.jsx:68 ~ handleDeleteDesignation ~ response:", response)
       if (response.status == 200) {
         const desig = [...designation];
         const filterList = desig.filter((item) => item._id != id);
@@ -81,7 +80,7 @@ function Designation() {
 
   return (
     <div className="mt-12  p-4 space-y-4 lg:w-2/4 m-auto ">
-      <div className="space-y-4 fixed w-[90%] p-2">
+      <div className="space-y-2 fixed w-[100%] p-4 bg-base-200 left-0 right-0">
         <label htmlFor="name" className="font-semibold">
           Designation
         </label>

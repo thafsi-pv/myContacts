@@ -34,7 +34,7 @@ function ListContacts() {
   }
   return (
     <div className="flex flex-col justify-center mt-16  lg:max-w-2/4 m-auto">
-      <div className=" top-16 w-[100%] px-5 fixed bg-base-100 p-3 z-[5]">
+      <div className=" top-16 w-[100%] px-5 fixed bg-base-100 p-3 z-[5] left-0 right-0">
         <div className="join w-full !border-gray-600">
           <div className="w-20">
             <select className="select !border-gray-600 join-item">
