@@ -39,11 +39,9 @@ const Drawer = () => {
         <ul className="menu pl-8 pt-10 w-80 h-full bg-base-200 text-base-content space-y-5">
           {/* Logout Group */}
           <div className="group">
-            <li>
+            <li onClick={toggleDrawer}>
               <Link to="/">
-                <a
-                  className="text-md font-semibold flex items-center"
-                  onClick={toggleDrawer}>
+                <a className="text-md font-semibold flex items-center">
                   <span>
                     <BiHome className="mr-2 h-6 w-6" />
                   </span>
@@ -58,11 +56,9 @@ const Drawer = () => {
             <h2 className="group-heading border-b p-1 border-gray-700 font-semibold">
               Add/Update
             </h2>
-            <li className="pt-2">
+            <li className="pt-2" onClick={toggleDrawer}>
               <Link to="/addNew">
-                <a
-                  className="text-md font-semibold flex items-center"
-                  onClick={toggleDrawer}>
+                <a className="text-md font-semibold flex items-center">
                   <span>
                     <IoPersonAdd className="mr-2 h-6 w-6" />
                   </span>
@@ -70,11 +66,9 @@ const Drawer = () => {
                 </a>
               </Link>
             </li>
-            <li className="">
+            <li className="" onClick={toggleDrawer}>
               <Link to="/dept">
-                <a
-                  className="text-md font-semibold flex items-center"
-                  onClick={toggleDrawer}>
+                <a className="text-md font-semibold flex items-center">
                   <span>
                     <FaRegBuilding className="mr-2 h-6 w-6" />
                   </span>
@@ -82,7 +76,7 @@ const Drawer = () => {
                 </a>
               </Link>
             </li>
-            <li>
+            <li onClick={toggleDrawer}>
               <Link to="/designation">
                 <a className="text-md font-semibold flex items-center">
                   <span>
@@ -92,7 +86,7 @@ const Drawer = () => {
                 </a>
               </Link>
             </li>
-            <li>
+            <li onClick={toggleDrawer}>
               <Link to="/users">
                 <a className="text-md font-semibold flex items-center">
                   <span>
@@ -109,8 +103,8 @@ const Drawer = () => {
             <h2 className="group-heading border-b p-1 border-gray-700 font-semibold">
               Report
             </h2>
-            <li>
-              <div onClick={toggleDrawer}>
+            <li onClick={toggleDrawer}>
+              <div>
                 <PDFDownloadLink document={<PDFFile />} filename="FORM">
                   {({ loading }) =>
                     loading ? (
@@ -131,9 +125,9 @@ const Drawer = () => {
             <h2 className="group-heading border-b p-1 border-gray-700 font-semibold">
               Settings
             </h2>
-            <li>
+            <li onClick={toggleDrawer}>
               <Link to="/settings">
-                <a className="text-md font-semibold flex items-center" onClick={toggleDrawer}>
+                <a className="text-md font-semibold flex items-center">
                   <span>
                     <CiSettings className="mr-2 h-6 w-6" />
                   </span>
