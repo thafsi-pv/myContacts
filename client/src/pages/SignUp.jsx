@@ -56,11 +56,11 @@ function SignUp() {
             </button>
             <div className="flex justify-center !mt-10 font-semibold text-xs">
               <p className="text-gray-500">
-                Already registered,
+                Already registered?,
                 <span className="text-green-700 hover:cursor-pointer">
                   <Link to="/login">
                     {" "}
-                    <a href="">LogIn</a>
+                    <a href=""> LogIn</a>
                   </Link>
                 </span>
               </p>

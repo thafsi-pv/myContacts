@@ -13,9 +13,11 @@ import Login from "./pages/Login";
 import { ThemeContext } from "./context/ThemeContext";
 import { useContext } from "react";
 import SignUp from "./pages/SignUp";
+import InternetConnection from "./pages/OfflineMessage";
 
 function App() {
   const { theme } = useContext(ThemeContext);
+  const isOnline = navigator.onLine;
 
   const appRouter = createBrowserRouter([
     {
@@ -67,8 +69,12 @@ function App() {
   ]);
 
   return (
-    <div className="h-screen max-h-screen" data-theme={theme}>
-      <RouterProvider router={appRouter} />
+    <div>
+      <InternetConnection>
+        <div className="h-screen max-h-screen" data-theme={theme}>
+          <RouterProvider router={appRouter} />
+        </div>
+      </InternetConnection>
     </div>
   );
 }

@@ -36,10 +36,10 @@ function Login() {
             </button>
             <div className="flex justify-center !mt-10 font-semibold text-xs">
               <p className="text-gray-500">
-                New User
+                New User?
                 <span className="text-green-700 hover:cursor-pointer">
                   <Link to="/signup">
-                    <a href="">Sign Up</a>
+                    <a href=""> Sign Up</a>
                   </Link>
                 </span>
               </p>
