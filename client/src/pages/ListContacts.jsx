@@ -33,8 +33,8 @@ function ListContacts() {
     return <ShimmerContacts />;
   }
   return (
-    <div className="flex flex-col justify-center mt-16  lg:max-w-2/4 m-auto">
-      <div className=" top-16 w-[100%] px-5 fixed bg-base-100 p-3 z-[5] left-0 right-0">
+    <div className="flex flex-col justify-center mt-16 w-full  lg:w-2/4 m-auto">
+      <div className=" top-16 w-full px-5 fixed bg-base-100 p-3 z-[5] ">
         <div className="join w-full !border-gray-600">
           <div className="w-20">
             <select className="select !border-gray-600 join-item">
@@ -46,7 +46,7 @@ function ListContacts() {
               <option>Department</option>
             </select>
           </div>
-          <div className="w-2/3">
+          <div className="w-[70%] lg:w-[40%]">
             <div>
               <input
                 className="input !border-gray-600 join-item w-full"
