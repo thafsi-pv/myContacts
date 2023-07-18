@@ -15,10 +15,10 @@ const FullscreenComponent = ({ children }) => {
       }
     };
 
-    const isMobile = window.matchMedia('(max-width: 768px)').matches;
-    if (isMobile) {
+    // const isMobile = window.matchMedia('(max-width: 768px)').matches;
+    // if (isMobile) {
       openFullscreen();
-    }
+    // }
   }, []);
 
   return <>{children}</>;
