@@ -36,7 +36,7 @@ function ContactDetails() {
 
   return (
     <div className="flex justify-center align-middle w-full items-center h-full mt-16">
-      <div className=" h-[50%] p-5 m-3 w-full max-w-sm   rounded-lg bg-red-500 dark:bg-base-100 shadow-xl">
+      <div className=" h-[50%] p-5 m-3 w-full max-w-sm   rounded-lg bg-red-500 dark:bg-base-100 shadow-2xl">
         <div className="dropdown dropdown-bottom w-full flex justify-end">
           <label tabIndex={0} className="text-lg font-bold m-1">
             ...
