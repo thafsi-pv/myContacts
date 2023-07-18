@@ -81,7 +81,7 @@ function Designation() {
 
   return (
     <div className="mt-12  p-4 space-y-4 lg:w-2/4 m-auto ">
-      <div className="space-y-4 fixed w-[90%] bg-gray-900">
+      <div className="space-y-4 fixed w-[90%] p-2">
         <label htmlFor="name" className="font-semibold">
           Designation
         </label>
@@ -115,11 +115,11 @@ function Designation() {
           <button className="btn btn-neutral w-1/2">Clear</button>
         </div>
       </div>
-      <div className="!mt-60 max-h-50 overflow-y-scroll !mb-28">
+      <div className="!mt-60 max-h-50 overflow-y-scroll !mb-8">
         {designation.map((Designation) => (
           <div
             key={Designation._id}
-            className="flex justify-between p-3 border-b border-b-gray-700">
+            className="flex justify-between p-3 border-b border-b-base-300">
             <p className="font-semibold flex-1">{Designation.name} </p>
             <span className="flex-none">
               <div
