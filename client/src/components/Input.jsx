@@ -1,6 +1,15 @@
 import React from "react";
 
-function Input({ id, name, type, autoComplete, handleChange, refer, val,placeholder }) {
+function Input({
+  id,
+  name,
+  type,
+  autoComplete,
+  handleChange,
+  refer,
+  val,
+  placeholder,
+}) {
   return (
     <div className="mt-2">
       <input

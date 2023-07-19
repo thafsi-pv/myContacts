@@ -1,47 +1,49 @@
-import React from 'react'
-import Input from '../components/Input'
+import React from "react";
+import Input from "../components/Input";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
+import useInputChange from "../hooks/useInputChange";
 
 function User() {
+
+
   return (
     <div className="p-5 space-y-3 mt-16 lg:w-2/4 m-auto">
-    <div className="flex space-x-2 w-full">
-      <div className="w-full">
-        <label htmlFor="name">User Name</label>
-        <Input
-          //refer={firsNameRef}
-          id="firstName"
-          name="firstName"
-          //val={newContact.firstName}
-          //handleChange={(e) => handleInputChange(e)}
-        />
+      <div className="flex space-x-2 w-full">
+        <div className="w-full">
+          <label htmlFor="name">User Name</label>
+          <Input
+            //refer={firsNameRef}
+            type="text"
+            id="firstName"
+            name="firstName"
+            val={inputValues.firstName}
+            handleChange={handleInputChange}
+          />
+        </div>
       </div>
-    </div>
-    <div className="w-full">
+      <div className="w-full">
         <label htmlFor="name">Email</label>
         <Input
           id="email"
           name="email"
-          type='email'
-          //val={newContact.lastName}
-          //handleChange={(e) => handleInputChange(e)}
+          type="email"
+          val={inputValues.email}
+          handleChange={handleInputChange}
         />
       </div>
-    <div className="w-full">
+      <div className="w-full">
         <label htmlFor="name">Password</label>
         <Input
           id="password"
           name="password"
-          type='text'
+          type="text"
           //val={newContact.lastName}
           //handleChange={(e) => handleInputChange(e)}
         />
       </div>
       <div>
-        <label htmlFor="office">
-          Mobile
-        </label>
+        <label htmlFor="office">Mobile</label>
         <div className="w-full ">
           <PhoneInput
             containerClass="w-100 "
@@ -52,7 +54,7 @@ function User() {
             //onChange={handlePhoneInputChange}
             //value={contactNos ? contactNos[input.name].toString() : ""}
             inputProps={{
-              name: 'mobile',
+              name: "mobile",
               required: true,
               autoFocus: true,
             }}
@@ -60,14 +62,14 @@ function User() {
         </div>
       </div>
 
-    <div className="w-full flex flex-nowrap space-x-2 !mt-10 !mb-20">
-      <button className="btn btn-primary w-1/2" onClick={''}>
-        Save
-      </button>
-      <button className="btn btn-neutral w-1/2">Clear</button>
+      <div className="w-full flex flex-nowrap space-x-2 !mt-10 !mb-20">
+        <button className="btn btn-primary w-1/2" onClick={""}>
+          Save
+        </button>
+        <button className="btn btn-neutral w-1/2">Clear</button>
+      </div>
     </div>
-  </div>
-  )
+  );
 }
 
-export default User
+export default User;

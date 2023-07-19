@@ -3,8 +3,24 @@ import Input from "../components/Input";
 import { Link } from "react-router-dom";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
+import useInputChange from "../hooks/useInputChange";
+import axios from "axios";
+import { USER_API } from "../const/const";
 
 function SignUp() {
+  const [values, handleInputChange, handlePhoneInputChange] = useInputChange({
+    firstName: "",
+    lastName: "",
+    email: "",
+    mobile: "",
+    password: "",
+  });
+
+  const handleSignUp = async () => {
+    const response = await axios.post(USER_API, { data: values });
+    console.log("🚀 ~ file: SignUp.jsx:21 ~ handleSignUp ~ response:", response)
+  };
+
   return (
     <div className="h-[100%]">
       <div className="flex flex-col items-center justify-center h-full m-4 ">
@@ -24,20 +40,38 @@ function SignUp() {
                 <label htmlFor="email" className="text-base-500">
                   First Name
                 </label>
-                <Input type="text" placeholder="First name" />
+                <Input
+                  type="text"
+                  placeholder="First name"
+                  name="firstName"
+                  val={values.firstName}
+                  handleChange={handleInputChange}
+                />
               </div>
               <div className="flex-1 space-y-0">
                 <label htmlFor="email" className="text-base-500 ">
                   Last Name
                 </label>
-                <Input type="text" placeholder="Last name"/>
+                <Input
+                  type="text"
+                  placeholder="Last name"
+                  name="lastName"
+                  val={values.lastName}
+                  handleChange={handleInputChange}
+                />
               </div>
             </div>
             <div className="space-y-0">
               <label htmlFor="email" className="text-base-500">
                 Email
               </label>
-              <Input type="text" placeholder="Enter your email" />
+              <Input
+                type="text"
+                placeholder="Enter your email"
+                name="email"
+                val={values.email}
+                handleChange={handleInputChange}
+              />
             </div>
             <div className="space-y-0">
               <label htmlFor="email" className="text-base-500">
@@ -50,14 +84,10 @@ function SignUp() {
                   buttonClass="w-100 !bg-base-200 !border-blue-400"
                   inputClass="p-5 !w-full !bg-base-200  !border-blue-400 "
                   country={"in"}
-                  onChange={''}
-                  // value={
-                  //   contactNos && contactNos[input.name]
-                  //     ? contactNos[input.name].toString()
-                  //     : ""
-                  // }
+                  onChange={handlePhoneInputChange}
+                  value={values.mobile}
                   inputProps={{
-                    //name: input.name,
+                    name: "mobile",
                     required: true,
                     autoFocus: true,
                   }}
@@ -68,10 +98,17 @@ function SignUp() {
               <label htmlFor="password" className="text-base-500">
                 Password
               </label>
-              <Input type="text" placeholder="Enter your password" />
+              <Input
+                type="text"
+                placeholder="Enter your password"
+                name="password"
+                val={values.password}
+                handleChange={handleInputChange}
+              />
             </div>
             <button
-              type="submit"
+              onClick={handleSignUp}
+              type="button"
               className="w-full py-2 px-4 bg-green-500 text-white rounded-md hover:bg-green-600 focus:outline-none">
               Sign Up
             </button>
