@@ -1,4 +1,8 @@
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import {
+  RouterProvider,
+  createBrowserRouter,
+  useNavigate,
+} from "react-router-dom";
 import "./App.css";
 import ListContacts from "./pages/ListContacts";
 import ContactDetails from "./pages/ContactDetails";
@@ -11,14 +15,21 @@ import Designation from "./pages/Designation";
 import User from "./pages/User";
 import Login from "./pages/Login";
 import { ThemeContext } from "./context/ThemeContext";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import SignUp from "./pages/SignUp";
 import InternetConnection from "./pages/OfflineMessage";
-import  { Toaster } from 'react-hot-toast';
+import { Toaster } from "react-hot-toast";
 
 function App() {
   const { theme } = useContext(ThemeContext);
   const isOnline = navigator.onLine;
+
+  useEffect(() => {
+    const token = localStorage.getItem("myc_token");
+    if (!token && window.location.pathname !== "/login") {
+      window.location = "/login";
+    }
+  });
 
   const appRouter = createBrowserRouter([
     {

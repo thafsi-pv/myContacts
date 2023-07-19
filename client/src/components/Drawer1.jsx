@@ -92,7 +92,7 @@ const Drawer = () => {
                   <span>
                     <AiOutlineUserAdd className="mr-2 h-6 w-6" />
                   </span>
-                  Users
+                  Manage Users
                 </a>
               </Link>
             </li>

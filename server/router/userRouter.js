@@ -4,6 +4,7 @@ const {
   signUp,
   getAllUser,
   deleteUserById,
+  signIn,
 } = require("../controller/userController");
 
 const userRouter = express.Router();
@@ -14,6 +15,6 @@ userRouter.post("/", signUp);
 
 userRouter.delete("/", deleteUserById);
 
-userRouter.get('/signIn',signIn)
+userRouter.post('/signIn',signIn)
 
 module.exports = userRouter;

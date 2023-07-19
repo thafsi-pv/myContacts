@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+require("dotenv").config();
 
 const connectDB = require("./config/db");
 const departmentRouter = require("./router/departments");
@@ -13,7 +14,6 @@ app.use(express.json());
 connectDB();
 
 app.use("/api/user", userRouter);
-app.use("/api/login");
 app.use("/api/departments", departmentRouter);
 app.use("/api/designation", designationRouter);
 app.use("/api/contacts", contactRouter);

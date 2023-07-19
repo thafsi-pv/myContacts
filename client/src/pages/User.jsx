@@ -5,69 +5,59 @@ import "react-phone-input-2/lib/style.css";
 import useInputChange from "../hooks/useInputChange";
 
 function User() {
-
-
   return (
-    <div className="p-5 space-y-3 mt-16 lg:w-2/4 m-auto">
-      <div className="flex space-x-2 w-full">
-        <div className="w-full">
-          <label htmlFor="name">User Name</label>
-          <Input
-            //refer={firsNameRef}
-            type="text"
-            id="firstName"
-            name="firstName"
-            val={inputValues.firstName}
-            handleChange={handleInputChange}
-          />
-        </div>
-      </div>
-      <div className="w-full">
-        <label htmlFor="name">Email</label>
-        <Input
-          id="email"
-          name="email"
-          type="email"
-          val={inputValues.email}
-          handleChange={handleInputChange}
-        />
-      </div>
-      <div className="w-full">
-        <label htmlFor="name">Password</label>
-        <Input
-          id="password"
-          name="password"
-          type="text"
-          //val={newContact.lastName}
-          //handleChange={(e) => handleInputChange(e)}
-        />
-      </div>
-      <div>
-        <label htmlFor="office">Mobile</label>
-        <div className="w-full ">
-          <PhoneInput
-            containerClass="w-100 "
-            dropdownClass="w-100 !bg-gray-800 border-0"
-            buttonClass="w-100 !bg-gray-800 !border-gray-500"
-            inputClass="p-5 !w-full !bg-gray-800  !border-gray-500 text-white"
-            country={"in"}
-            //onChange={handlePhoneInputChange}
-            //value={contactNos ? contactNos[input.name].toString() : ""}
-            inputProps={{
-              name: "mobile",
-              required: true,
-              autoFocus: true,
-            }}
-          />
-        </div>
-      </div>
+    <div className="overflow-x-auto mt-16">
+      <table className="table">
+        {/* head */}
+        <thead>
+          <tr>
+            <th></th>
+            <th>Name</th>
+            <th colSpan={2} className="text-center">Allow Permission</th>
+          </tr>
+          <tr>
+            <th colSpan={2}></th>
+            <th>Add Contact</th>
+            <th>Add Dept</th>
+            <th>Add Desig</th>
+            <th>Approve</th>
+            <th>Reject</th>
 
-      <div className="w-full flex flex-nowrap space-x-2 !mt-10 !mb-20">
-        <button className="btn btn-primary w-1/2" onClick={""}>
-          Save
-        </button>
-        <button className="btn btn-neutral w-1/2">Clear</button>
-      </div>
+          </tr>
+        </thead>
+        <tbody>
+          {/* row 1 */}
+          <tr>
+            <th>1</th>
+            <td>Cy Ganderton</td>
+            <td><input type="checkbox" className="toggle toggle-success" checked /></td>
+            <td><input type="checkbox" className="toggle toggle-success" checked /></td>
+            <td><input type="checkbox" className="toggle toggle-success" checked /></td>
+            <td><button className="btn btn-primary btn-outline btn-sm">SAVE</button></td>
+            <td><button className="btn btn-secondary btn-outline btn-sm">REJECT</button></td>
+          </tr>
+          {/* row 2 */}
+          <tr>
+            <th>2</th>
+            <td>Hart Hagerty</td>
+            <td><input type="checkbox" className="toggle toggle-success" checked /></td>
+            <td><input type="checkbox" className="toggle toggle-success" checked /></td>
+            <td><input type="checkbox" className="toggle toggle-success" checked /></td>
+            <td><button className="btn btn-primary btn-outline btn-sm">SAVE</button></td>
+            <td><button className="btn btn-secondary btn-outline btn-sm">REJECT</button></td>
+          </tr>
+          {/* row 3 */}
+          <tr>
+            <th>3</th>
+            <td>Brice Swyre</td>
+            <td><input type="checkbox" className="toggle toggle-success" checked /></td>
+            <td><input type="checkbox" className="toggle toggle-success" checked /></td>
+            <td><input type="checkbox" className="toggle toggle-success" checked /></td>
+            <td><button className="btn btn-primary btn-outline btn-sm">SAVE</button></td>
+            <td><button className="btn btn-secondary btn-outline btn-sm">REJECT</button></td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   );
 }
