@@ -14,6 +14,7 @@ import { ThemeContext } from "./context/ThemeContext";
 import { useContext } from "react";
 import SignUp from "./pages/SignUp";
 import InternetConnection from "./pages/OfflineMessage";
+import  { Toaster } from 'react-hot-toast';
 
 function App() {
   const { theme } = useContext(ThemeContext);
@@ -73,6 +74,7 @@ function App() {
       <InternetConnection>
         <div className="h-screen max-h-screen" data-theme={theme}>
           <RouterProvider router={appRouter} />
+          <Toaster />
         </div>
       </InternetConnection>
     </div>

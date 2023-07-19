@@ -1,11 +1,13 @@
 import React from "react";
 import Input from "../components/Input";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import useInputChange from "../hooks/useInputChange";
 import axios from "axios";
 import { USER_API } from "../const/const";
+import { genricError } from "../utils/genricError";
+import { toast } from "react-hot-toast";
 
 function SignUp() {
   const [values, handleInputChange, handlePhoneInputChange] = useInputChange({
@@ -16,9 +18,22 @@ function SignUp() {
     password: "",
   });
 
+  const navigate = useNavigate(null);
+
   const handleSignUp = async () => {
-    const response = await axios.post(USER_API, { data: values });
-    console.log("🚀 ~ file: SignUp.jsx:21 ~ handleSignUp ~ response:", response)
+    try {
+      const response = await axios.post(USER_API, { data: values });
+      console.log(
+        "🚀 ~ file: SignUp.jsx:21 ~ handleSignUp ~ response:",
+        response
+      );
+      if (response.status == 200) {
+        toast.success("successfully registered!");
+        navigate("/login");
+      }
+    } catch (error) {
+      genricError(error);
+    }
   };
 
   return (

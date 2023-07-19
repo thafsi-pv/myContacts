@@ -2,10 +2,6 @@ import { useState } from "react";
 
 const useInputChange = (initialvalues = {}) => {
   const [inputValues, setInputValues] = useState(initialvalues);
-  console.log(
-    "🚀 ~ file: useInputChange.jsx:5 ~ useInputChange ~ inputValues:",
-    inputValues
-  );
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;

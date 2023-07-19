@@ -13,6 +13,7 @@ app.use(express.json());
 connectDB();
 
 app.use("/api/user", userRouter);
+app.use("/api/login");
 app.use("/api/departments", departmentRouter);
 app.use("/api/designation", designationRouter);
 app.use("/api/contacts", contactRouter);

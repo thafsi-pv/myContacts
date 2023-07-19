@@ -7,6 +7,8 @@ const userSchema = mongoose.Schema(
     mobile: { type: Number, required: true },
     email: { type: String, required: true, trim: true },
     password: { type: String, required: true },
+    isApproved: { type: Boolean, required: true },
+    role: { type: String, required: true },
   },
   {
     timestamps: true,
