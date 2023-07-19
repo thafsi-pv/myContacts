@@ -4,6 +4,7 @@ import { BiPencil, BiTrash } from "react-icons/bi";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import { DEPARTMENT_API } from "../const/const";
+import { genricError } from "../utils/genricError";
 
 function AddDept() {
   const [newDept, setNewDept] = useState({ id: 0, name: "", isActive: true });
@@ -47,7 +48,7 @@ function AddDept() {
         setNewDept({ id: 0, name: "", isActive: true });
       }
     } catch (error) {
-      toast.error(error.response.data.message);
+      genricError(error);
     }
   };
 

@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Input from "../components/Input";
 import { BsArrowRight } from "react-icons/bs";
 import { AiOutlineSearch } from "react-icons/ai";
 import { Link, useNavigate } from "react-router-dom";
-import BottomNavigation from "../components/BottomNavigation";
 import axios from "axios";
 import {
   formatNo,
@@ -16,19 +15,27 @@ import ShimmerContacts from "../components/ShimmerContacts";
 function ListContacts() {
   const [allContacts, setAllContacts] = useState([]);
   const navigate = useNavigate();
+  const abortController = useRef(null);
 
   const handleContact = (id) => {
     navigate("/contactDetails/" + id);
   };
 
   useEffect(() => {
+    abortController.current = new AbortController();
     getAllContacts();
+    return () => {
+      abortController.current.abort();
+    };
   }, []);
 
   const getAllContacts = async () => {
-    const response = await axios(CONTACTS_API);
+    const response = await axios.get(CONTACTS_API, {
+      signal: abortController.current.signal,
+    });
     setAllContacts(response?.data);
   };
+
   if (allContacts.length == 0) {
     return <ShimmerContacts />;
   }

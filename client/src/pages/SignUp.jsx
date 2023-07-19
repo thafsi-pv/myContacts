@@ -1,6 +1,8 @@
 import React from "react";
 import Input from "../components/Input";
 import { Link } from "react-router-dom";
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
 
 function SignUp() {
   return (
@@ -16,34 +18,53 @@ function SignUp() {
               </p>
             </div>
           </div>
-          <form className="space-y-4">
+          <form className="space-y-3">
             <div className="flex gap-2 w-full items-stretch">
-              <div className="flex-1">
+              <div className="flex-1 space-y-0">
                 <label htmlFor="email" className="text-base-500">
                   First Name
                 </label>
                 <Input type="text" placeholder="First name" />
               </div>
-              <div className="flex-1">
-                <label htmlFor="email" className="text-base-500">
+              <div className="flex-1 space-y-0">
+                <label htmlFor="email" className="text-base-500 ">
                   Last Name
                 </label>
-                <Input type="text" placeholder="Last name" />
+                <Input type="text" placeholder="Last name"/>
               </div>
             </div>
-            <div>
+            <div className="space-y-0">
               <label htmlFor="email" className="text-base-500">
                 Email
               </label>
               <Input type="text" placeholder="Enter your email" />
             </div>
-            <div>
+            <div className="space-y-0">
               <label htmlFor="email" className="text-base-500">
                 Mobile No
               </label>
-              <Input type="number" placeholder="Enter your mobile" />
+              <div className="w-full ">
+                <PhoneInput
+                  containerClass="w-100 "
+                  dropdownClass="w-100 !bg-base-200 border-0"
+                  buttonClass="w-100 !bg-base-200 !border-blue-400"
+                  inputClass="p-5 !w-full !bg-base-200  !border-blue-400 "
+                  country={"in"}
+                  onChange={''}
+                  // value={
+                  //   contactNos && contactNos[input.name]
+                  //     ? contactNos[input.name].toString()
+                  //     : ""
+                  // }
+                  inputProps={{
+                    //name: input.name,
+                    required: true,
+                    autoFocus: true,
+                  }}
+                />
+              </div>
             </div>
-            <div>
+            <div className="space-y-0">
               <label htmlFor="password" className="text-base-500">
                 Password
               </label>
