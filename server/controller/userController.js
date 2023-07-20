@@ -2,7 +2,9 @@ const userModel = require("../model/userModel");
 const { hashPassword, comparePassword } = require("../utils/bcrypt");
 const generateAccessToken = require("../utils/jwt");
 
-const getAllUser = async (req, res) => {};
+const getAllUser = async (req, res) => {
+  res.json("all user");
+};
 
 const signUp = async (req, res) => {
   try {
@@ -30,9 +32,9 @@ const deleteUserById = async (req, res) => {};
 
 const signIn = async (req, res) => {
   const { email, password } = req.body;
-  console.log("🚀 ~ file: userController.js:33 ~ signIn ~ password:", password)
-  console.log("🚀 ~ file: userController.js:33 ~ signIn ~ email:", email)
-  console.log("🚀 ~ file: userController.js:33 ~ signIn ~ req.body:", req.body)
+  console.log("🚀 ~ file: userController.js:33 ~ signIn ~ password:", password);
+  console.log("🚀 ~ file: userController.js:33 ~ signIn ~ email:", email);
+  console.log("🚀 ~ file: userController.js:33 ~ signIn ~ req.body:", req.body);
 
   const isExist = await userModel.findOne({ email });
   if (!isExist) {
@@ -53,4 +55,4 @@ const signIn = async (req, res) => {
   });
 };
 
-module.exports = { getAllUser, signUp, deleteUserById,signIn };
+module.exports = { getAllUser, signUp, deleteUserById, signIn };

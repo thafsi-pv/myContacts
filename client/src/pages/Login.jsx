@@ -16,6 +16,7 @@ function Login() {
   const handleLogIn = async () => {
     try {
       const response = await axios.post(USER_API + "/signIn", values);
+      console.log("🚀 ~ file: Login.jsx:19 ~ handleLogIn ~ response:", response)
       if ((response.status = 200)) {
         localStorage.setItem("myc_token", response.data.accesstoken);
         navigate("/");
