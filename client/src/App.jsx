@@ -23,7 +23,6 @@ import { Toaster } from "react-hot-toast";
 function App() {
   const { theme } = useContext(ThemeContext);
   const isOnline = navigator.onLine;
-  const navigate = useNavigate();
 
   useEffect(() => {
     const token = localStorage.getItem("myc_token");
