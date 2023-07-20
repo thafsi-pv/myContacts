@@ -11,10 +11,14 @@ import PDFFile from "../components/PDFFile";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import { IoPersonAdd } from "react-icons/io5";
 import { DrawerContext } from "../context/DrawerContext";
+import { useSelector } from "react-redux";
+import store from "../redux/store";
 
 const Drawer = () => {
   const [isOpen, setIsOpen] = useState(true);
   const { showDrawer, toggleDrawer } = useContext(DrawerContext);
+  const permission = useSelector((store) => store.permission.permissionList);
+  console.log("🚀 ~ file: Drawer.jsx:16 ~ Drawer ~ permission:", permission);
 
   // const toggleDrawer = () => {
   //   setIsOpen(!isOpen);
@@ -56,26 +60,30 @@ const Drawer = () => {
             <h2 className="group-heading border-b p-1 border-gray-700 font-semibold">
               Add/Update
             </h2>
-            <li className="pt-2" onClick={toggleDrawer}>
-              <Link to="/addNew">
-                <a className="text-md font-semibold flex items-center">
-                  <span>
-                    <IoPersonAdd className="mr-2 h-6 w-6" />
-                  </span>
-                  New Contact
-                </a>
-              </Link>
-            </li>
-            <li className="" onClick={toggleDrawer}>
-              <Link to="/dept">
-                <a className="text-md font-semibold flex items-center">
-                  <span>
-                    <FaRegBuilding className="mr-2 h-6 w-6" />
-                  </span>
-                  Department
-                </a>
-              </Link>
-            </li>
+            {permission.includes("AC") && (
+              <li className="pt-2" onClick={toggleDrawer}>
+                <Link to="/addNew">
+                  <a className="text-md font-semibold flex items-center">
+                    <span>
+                      <IoPersonAdd className="mr-2 h-6 w-6" />
+                    </span>
+                    New Contact
+                  </a>
+                </Link>
+              </li>
+            )}
+            {permission.includes("DPT") && (
+              <li className="" onClick={toggleDrawer}>
+                <Link to="/dept">
+                  <a className="text-md font-semibold flex items-center">
+                    <span>
+                      <FaRegBuilding className="mr-2 h-6 w-6" />
+                    </span>
+                    Department
+                  </a>
+                </Link>
+              </li>
+            )}
             <li onClick={toggleDrawer}>
               <Link to="/designation">
                 <a className="text-md font-semibold flex items-center">

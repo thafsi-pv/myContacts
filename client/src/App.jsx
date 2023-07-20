@@ -19,7 +19,8 @@ import { useContext, useEffect } from "react";
 import SignUp from "./pages/SignUp";
 import InternetConnection from "./pages/OfflineMessage";
 import { Toaster } from "react-hot-toast";
-
+import { Provider } from "react-redux";
+import store from "./redux/store";
 function App() {
   const { theme } = useContext(ThemeContext);
   const isOnline = navigator.onLine;
@@ -28,7 +29,7 @@ function App() {
     const token = localStorage.getItem("myc_token");
     if (!token && window.location.pathname !== "/login") {
       //window.location = "/login";
-     // navigate("/login");
+      // navigate("/login");
     }
   });
 
@@ -83,12 +84,14 @@ function App() {
 
   return (
     <div>
-      <InternetConnection>
-        <div className="h-screen max-h-screen" data-theme={theme}>
-          <RouterProvider router={appRouter} />
-          <Toaster />
-        </div>
-      </InternetConnection>
+      <Provider store={store}>
+        <InternetConnection>
+          <div className="h-screen max-h-screen" data-theme={theme}>
+            <RouterProvider router={appRouter} />
+            <Toaster />
+          </div>
+        </InternetConnection>
+      </Provider>
     </div>
   );
 }
