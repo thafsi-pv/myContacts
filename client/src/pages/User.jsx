@@ -5,10 +5,10 @@ import "react-phone-input-2/lib/style.css";
 import useInputChange from "../hooks/useInputChange";
 import axios from "axios";
 import { USER_API } from "../const/const";
+import { toast } from "react-hot-toast";
 
 function User() {
   const [allUsers, setAllUsers] = useState([]);
-  console.log("🚀 ~ file: User.jsx:11 ~ User ~ allUsers:", allUsers);
   useEffect(() => {
     getAllUsers();
   }, []);
@@ -24,9 +24,6 @@ function User() {
 
   const handleChkChange = (item) => {
     const { name, checked } = event.target;
-    console.log("🚀 ~ file: User.jsx:27 ~ handleChkChange ~ name:", name);
-    console.log("🚀 ~ file: User.jsx:26 ~ handleChkChange ~ item:", item);
-
     const currentList = [...allUsers];
     const index = currentList.findIndex((user) => user._id == item._id);
     // currentList[index].permission.permmision.push(name);
@@ -44,8 +41,14 @@ function User() {
   };
 
   const handleApproveUser = async (item) => {
-    const response = await axios.post(USER_API + "/permission", item);
-    console.log("🚀 ~ file: User.jsx:48 ~ handleApproveUser ~ response:", response)
+    try {
+      const response = await axios.post(USER_API + "/permission", item);
+      if (response.status == 200) {
+        toast.success("Approved Successfully. 👍🏻");
+      }
+    } catch (error) {
+      toast.error(error);
+    }
   };
 
   return (
@@ -75,9 +78,11 @@ function User() {
           </tr>
         </thead>
         <tbody>
-          {allUsers.map((item) => (
-            <tr>
-              <th className="text-center border !border-gray-300">1</th>
+          {allUsers.map((item, index) => (
+            <tr key={item._id}>
+              <th className="text-center border !border-gray-300">
+                {index + 1}
+              </th>
               <td className="text-center border !border-gray-300">
                 {item.firstName}
                 <br />

@@ -6,7 +6,7 @@ import axios from "axios";
 import { USER_API } from "../const/const";
 import { genricError } from "../utils/genricError";
 import { useDispatch } from "react-redux";
-import { addPermission, addRole } from "../redux/userPermissionSlice";
+import { addPermission, addUserDetails } from "../redux/userPermissionSlice";
 
 function Login() {
   const dispatch = useDispatch();
@@ -18,9 +18,21 @@ function Login() {
 
   const getUserPermission = async (id) => {
     const permission = await axios(USER_API + "/permission?id=" + id);
+    console.log(
+      "🚀 ~ file: Login.jsx:21 ~ getUserPermission ~ permission:",
+      permission
+    );
     localStorage.setItem("myc_uid", id);
+
+    const userDetails = {
+      firstName: permission.data.firstName,
+      lastName: permission.data.lastName,
+      email: permission.data.email,
+      role: permission.data.permission.role,
+    };
+
     dispatch(addPermission(permission.data.permission.permmision));
-    dispatch(addRole(permission.data.permission.role));
+    dispatch(addUserDetails(userDetails));
   };
 
   const handleLogIn = async () => {

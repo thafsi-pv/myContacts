@@ -13,11 +13,17 @@ import {
   getRandomColorCode,
 } from "../utils/utils";
 import { CONTACTS_API } from "../const/const";
+import { useSelector } from "react-redux";
 
 function ContactDetails() {
   const textareaRef = useRef(null);
   const param = useParams();
   const [details, setDetails] = useState([]);
+  const { permissionList } = useSelector((store) => store.permission);
+  console.log(
+    "🚀 ~ file: ContactDetails.jsx:23 ~ ContactDetails ~ permissionList:",
+    permissionList
+  );
 
   useEffect(() => {
     if (param.id) {
@@ -37,27 +43,29 @@ function ContactDetails() {
   return (
     <div className="flex justify-center align-middle w-full items-center h-full mt-16">
       <div className=" h-[50%] p-5 m-3 w-full max-w-sm   rounded-lg bg-red-500 dark:bg-base-100 shadow-2xl">
-        <div className="dropdown dropdown-bottom w-full flex justify-end">
-          <label tabIndex={0} className="text-lg font-bold m-1">
-            ...
-          </label>
-          <ul
-            tabIndex={0}
-            className="dropdown-content z-[1] menu p-2 shadow bg-base-200 rounded-box w-52">
-            <li>
-              <Link to={"/updateContact/" + param.id}>
-                <a className="flex gap-2">
-                  <BsPencil /> Edit
+        {permissionList.includes("AC") && (
+          <div className="dropdown dropdown-bottom w-full flex justify-end">
+            <label tabIndex={0} className="text-lg font-bold m-1">
+              ...
+            </label>
+            <ul
+              tabIndex={0}
+              className="dropdown-content z-[1] menu p-2 shadow bg-base-200 rounded-box w-52">
+              <li>
+                <Link to={"/updateContact/" + param.id}>
+                  <a className="flex gap-2">
+                    <BsPencil /> Edit
+                  </a>
+                </Link>
+              </li>
+              <li>
+                <a>
+                  <BsTrash3 /> Delete
                 </a>
-              </Link>
-            </li>
-            <li>
-              <a>
-                <BsTrash3 /> Delete
-              </a>
-            </li>
-          </ul>
-        </div>
+              </li>
+            </ul>
+          </div>
+        )}
         <div className="flex flex-col items-center pb-10">
           {/* <img
             className="w-24 h-24 mb-3 rounded-full shadow-lg"

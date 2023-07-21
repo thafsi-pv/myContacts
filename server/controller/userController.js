@@ -85,13 +85,12 @@ const addPermissions = async (req, res) => {
 
 const getPermissionByUserId = async (req, res) => {
   try {
-   
     const { id } = req.query;
-    
     const data = await userModel
       .findById(id)
-      .select('permission')
+      .select(["permission", "firstName", "lastName", "email"])
       .populate("permission");
+    console.log("🚀 ~ file: userController.js:93 ~ getPermissionByUserId ~ data:", data)
     res.json(data);
   } catch (error) {
     res.status(400).json(error);

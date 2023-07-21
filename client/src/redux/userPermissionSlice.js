@@ -3,12 +3,12 @@ import { createSlice } from "@reduxjs/toolkit";
 const permissionSlice = createSlice({
   name: "userPermission",
   initialState: {
-    role: "",
+    userDetails: {},
     permissionList: [],
   },
   reducers: {
-    addRole: (state, action) => {
-      state.role = action.payload;
+    addUserDetails: (state, action) => {
+      state.userDetails = action.payload;
     },
     addPermission: (state, action) => {
       state.permissionList = action.payload;
@@ -16,5 +16,5 @@ const permissionSlice = createSlice({
   },
 });
 
-export const { addRole, addPermission } = permissionSlice.actions;
+export const { addUserDetails, addPermission } = permissionSlice.actions;
 export default permissionSlice.reducer;
