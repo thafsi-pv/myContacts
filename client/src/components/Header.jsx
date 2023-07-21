@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { BiMenu } from "react-icons/bi";
 import Drawer1 from "./Drawer1";
 import { Link, useNavigate } from "react-router-dom";
-import { IoLogOutOutline } from "react-icons/io5";
+import { IoLogOutOutline, IoLogInOutline } from "react-icons/io5";
 import { DrawerContext } from "../context/DrawerContext";
 import { USER_API } from "../const/const";
 import { addPermission, addUserDetails } from "../redux/userPermissionSlice";
@@ -13,6 +13,7 @@ import { getInitialLetters } from "../utils/utils";
 function Header() {
   const dispatch = useDispatch();
   const { userDetails } = useSelector((store) => store.permission);
+  console.log("🚀 ~ file: Header.jsx:16 ~ Header ~ userDetails:", userDetails);
   const navigate = useNavigate();
   const { showDrawer, toggleDrawer } = useContext(DrawerContext);
   const [isDrawerOpen, setDrawerOpen] = useState(false);
@@ -89,14 +90,25 @@ function Header() {
               </p>
               <p>{userDetails?.email}</p>
             </div>
-            <a
-              className="text-md font-semibold flex items-center"
-              onClick={handleLogOut}>
-              <span>
-                <IoLogOutOutline className="mr-2 h-6 w-6" />
-              </span>
-              Logout
-            </a>
+            {Object.keys(userDetails).length !== 0 ? (
+              <a
+                className="text-md font-semibold flex items-center"
+                onClick={handleLogOut}>
+                <span>
+                  <IoLogOutOutline className="mr-2 h-6 w-6" />
+                </span>
+                Logout
+              </a>
+            ) : (
+              <Link to="/login">
+                <a className="text-md font-semibold flex items-center">
+                  <span>
+                    <IoLogInOutline className="mr-2 h-6 w-6" />
+                  </span>
+                  LogIn
+                </a>
+              </Link>
+            )}
           </li>
         </ul>
       </div>
