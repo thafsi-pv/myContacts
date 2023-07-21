@@ -8,7 +8,8 @@ const userSchema = mongoose.Schema(
     email: { type: String, required: true, trim: true },
     password: { type: String, required: true },
     isApproved: { type: Boolean, required: true },
-    role: { type: String, required: true },
+    //role: { type: String, required: true },
+    permission: { type: mongoose.Schema.Types.ObjectId,ref:'userPermission' },
   },
   {
     timestamps: true,

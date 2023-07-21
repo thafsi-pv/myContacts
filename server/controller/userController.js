@@ -1,9 +1,12 @@
 const userModel = require("../model/userModel");
+const userPermissionModel = require("../model/userPermissionModel");
+const { use } = require("../router/departments");
 const { hashPassword, comparePassword } = require("../utils/bcrypt");
 const generateAccessToken = require("../utils/jwt");
 
 const getAllUser = async (req, res) => {
-  res.json("all user");
+  const user = await userModel.find({}).populate("permission");
+  res.json(user);
 };
 
 const signUp = async (req, res) => {
@@ -16,11 +19,16 @@ const signUp = async (req, res) => {
       });
     }
 
+    let permiss = await userPermissionModel.create({
+      permission: [],
+      role: "user",
+    });
+
     let user;
     data.isApproved = false;
     const hash = await hashPassword(data.password);
     data.password = hash;
-    data.role = "user";
+    data.permission = permiss._id;
     user = await userModel.create(data);
     res.json(user);
   } catch (error) {
@@ -32,13 +40,10 @@ const deleteUserById = async (req, res) => {};
 
 const signIn = async (req, res) => {
   const { email, password } = req.body;
-  console.log("🚀 ~ file: userController.js:33 ~ signIn ~ password:", password);
-  console.log("🚀 ~ file: userController.js:33 ~ signIn ~ email:", email);
-  console.log("🚀 ~ file: userController.js:33 ~ signIn ~ req.body:", req.body);
 
   const isExist = await userModel.findOne({ email });
   if (!isExist) {
-    return res.status(400).json({ message: "Incorrect email/passwordd!.😣" });
+    return res.status(400).json({ message: "Incorrect email/password!.😣" });
   }
   const validatePassword = await comparePassword(password, isExist.password);
   if (!validatePassword) {
@@ -55,4 +60,18 @@ const signIn = async (req, res) => {
   });
 };
 
-module.exports = { getAllUser, signUp, deleteUserById, signIn };
+const addPermissions = async (req, res) => {
+  const { userId, permission } = req.body;
+  if (userId != 0) {
+    const data = await userPermissionModel.findByIdAndUpdate(
+      userId,
+      permission,
+      { new: true }
+    );
+    return;
+  }
+  const dt = await userPermissionModel.create(req.body);
+  res.json(dt);
+};
+
+module.exports = { getAllUser, signUp, deleteUserById, signIn, addPermissions };

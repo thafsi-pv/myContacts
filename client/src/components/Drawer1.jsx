@@ -17,8 +17,12 @@ import store from "../redux/store";
 const Drawer = () => {
   const [isOpen, setIsOpen] = useState(true);
   const { showDrawer, toggleDrawer } = useContext(DrawerContext);
-  const permission = useSelector((store) => store.permission.permissionList);
-  console.log("🚀 ~ file: Drawer.jsx:16 ~ Drawer ~ permission:", permission);
+  const { permissionList, role } = useSelector((store) => store.permission);
+  console.log("🚀 ~ file: Drawer1.jsx:21 ~ Drawer ~ role:", role);
+  console.log(
+    "🚀 ~ file: Drawer.jsx:16 ~ Drawer ~ permission:",
+    permissionList
+  );
 
   // const toggleDrawer = () => {
   //   setIsOpen(!isOpen);
@@ -60,7 +64,7 @@ const Drawer = () => {
             <h2 className="group-heading border-b p-1 border-gray-700 font-semibold">
               Add/Update
             </h2>
-            {permission.includes("AC") && (
+            {(role == "admin"||permissionList.includes("AC")) && (
               <li className="pt-2" onClick={toggleDrawer}>
                 <Link to="/addNew">
                   <a className="text-md font-semibold flex items-center">
@@ -72,7 +76,7 @@ const Drawer = () => {
                 </Link>
               </li>
             )}
-            {permission.includes("DPT") && (
+            {(role == "admin"||permissionList.includes("DPT")) && (
               <li className="" onClick={toggleDrawer}>
                 <Link to="/dept">
                   <a className="text-md font-semibold flex items-center">
@@ -84,7 +88,7 @@ const Drawer = () => {
                 </Link>
               </li>
             )}
-            <li onClick={toggleDrawer}>
+            {(role == "admin"||permissionList.includes("DSG")) &&<li onClick={toggleDrawer}>
               <Link to="/designation">
                 <a className="text-md font-semibold flex items-center">
                   <span>
@@ -93,17 +97,19 @@ const Drawer = () => {
                   Designation
                 </a>
               </Link>
-            </li>
-            <li onClick={toggleDrawer}>
-              <Link to="/users">
-                <a className="text-md font-semibold flex items-center">
-                  <span>
-                    <AiOutlineUserAdd className="mr-2 h-6 w-6" />
-                  </span>
-                  Manage Users
-                </a>
-              </Link>
-            </li>
+            </li>}
+            {role == "admin" && (
+              <li onClick={toggleDrawer}>
+                <Link to="/users">
+                  <a className="text-md font-semibold flex items-center">
+                    <span>
+                      <AiOutlineUserAdd className="mr-2 h-6 w-6" />
+                    </span>
+                    Manage Users
+                  </a>
+                </Link>
+              </li>
+            )}
           </div>
 
           {/* Report Group */}

@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const permissionSlice = createSlice({
   name: "userPermission",
   initialState: {
-    role: "admin",
+    role: "user",
     permissionList: ["AC"],
   },
   reducers: {
