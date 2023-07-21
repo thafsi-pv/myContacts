@@ -5,7 +5,9 @@ const { hashPassword, comparePassword } = require("../utils/bcrypt");
 const generateAccessToken = require("../utils/jwt");
 
 const getAllUser = async (req, res) => {
-  const user = await userModel.find({}).populate("permission");
+  const user = await userModel
+    .find({ email: { $ne: "admin@mail.com" } })
+    .populate("permission");
   res.json(user);
 };
 
@@ -56,22 +58,51 @@ const signIn = async (req, res) => {
     message: "Login success",
     accesstoken,
     email: isExist.email,
+    id: isExist._id,
     role: isExist.role,
   });
 };
 
 const addPermissions = async (req, res) => {
-  const { userId, permission } = req.body;
-  if (userId != 0) {
-    const data = await userPermissionModel.findByIdAndUpdate(
-      userId,
-      permission,
-      { new: true }
-    );
-    return;
+  try {
+    const { _id, permission } = req.body;
+    if (_id != 0) {
+      const data = await userModel.findByIdAndUpdate(_id, req.body, {
+        new: true,
+      });
+      const data2 = await userPermissionModel.findByIdAndUpdate(
+        permission._id,
+        permission
+      );
+      return res.status(200).json({ message: "Successfully updated" });
+    }
+    const dt = await userPermissionModel.create(req.body);
+    res.json(dt);
+  } catch (error) {
+    res.status(400).json(error);
   }
-  const dt = await userPermissionModel.create(req.body);
-  res.json(dt);
 };
 
-module.exports = { getAllUser, signUp, deleteUserById, signIn, addPermissions };
+const getPermissionByUserId = async (req, res) => {
+  try {
+   
+    const { id } = req.query;
+    
+    const data = await userModel
+      .findById(id)
+      .select('permission')
+      .populate("permission");
+    res.json(data);
+  } catch (error) {
+    res.status(400).json(error);
+  }
+};
+
+module.exports = {
+  getAllUser,
+  signUp,
+  deleteUserById,
+  signIn,
+  addPermissions,
+  getPermissionByUserId,
+};

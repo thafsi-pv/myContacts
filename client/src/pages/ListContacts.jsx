@@ -9,7 +9,7 @@ import {
   getInitialLetters,
   getRandomColorCode,
 } from "../utils/utils";
-import { CONTACTS_API } from "../const/const";
+import { CONTACTS_API, USER_API } from "../const/const";
 import ShimmerContacts from "../components/ShimmerContacts";
 
 function ListContacts() {
@@ -20,6 +20,8 @@ function ListContacts() {
   const handleContact = (id) => {
     navigate("/contactDetails/" + id);
   };
+
+  
 
   useEffect(() => {
     abortController.current = new AbortController();

@@ -1,11 +1,12 @@
 import React, { useContext, useState } from "react";
 import { BiMenu } from "react-icons/bi";
 import Drawer1 from "./Drawer1";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { IoLogOutOutline } from "react-icons/io5";
 import { DrawerContext } from "../context/DrawerContext";
 
 function Header() {
+  const navigate = useNavigate();
   const { showDrawer, toggleDrawer } = useContext(DrawerContext);
   const [isDrawerOpen, setDrawerOpen] = useState(false);
 
@@ -15,6 +16,12 @@ function Header() {
 
   const closeDrawer = () => {
     setDrawerOpen(false);
+  };
+
+  const handleLogOut = () => {
+    localStorage.removeItem("myc_token");
+    localStorage.removeItem("myc_uid");
+    navigate("/login");
   };
 
   return (
@@ -50,14 +57,14 @@ function Header() {
           tabIndex={0}
           className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52">
           <li>
-            <Link to="/login">
-              <a className="text-md font-semibold flex items-center">
-                <span>
-                  <IoLogOutOutline className="mr-2 h-6 w-6" />
-                </span>
-                Logout
-              </a>
-            </Link>
+            <a
+              className="text-md font-semibold flex items-center"
+              onClick={handleLogOut}>
+              <span>
+                <IoLogOutOutline className="mr-2 h-6 w-6" />
+              </span>
+              Logout
+            </a>
           </li>
         </ul>
       </div>

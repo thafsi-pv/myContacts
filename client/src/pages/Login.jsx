@@ -5,20 +5,31 @@ import useInputChange from "../hooks/useInputChange";
 import axios from "axios";
 import { USER_API } from "../const/const";
 import { genricError } from "../utils/genricError";
+import { useDispatch } from "react-redux";
+import { addPermission, addRole } from "../redux/userPermissionSlice";
 
 function Login() {
+  const dispatch = useDispatch();
   const navigate = useNavigate(null);
   const [values, handleInputChange] = useInputChange({
     email: "",
     password: "",
   });
 
+  const getUserPermission = async (id) => {
+    const permission = await axios(USER_API + "/permission?id=" + id);
+    localStorage.setItem("myc_uid", id);
+    dispatch(addPermission(permission.data.permission.permmision));
+    dispatch(addRole(permission.data.permission.role));
+  };
+
   const handleLogIn = async () => {
     try {
       const response = await axios.post(USER_API + "/signIn", values);
-      console.log("🚀 ~ file: Login.jsx:19 ~ handleLogIn ~ response:", response)
+
       if ((response.status = 200)) {
         localStorage.setItem("myc_token", response.data.accesstoken);
+        getUserPermission(response.data.id);
         navigate("/");
       }
     } catch (error) {
@@ -42,7 +53,7 @@ function Login() {
           <form className="space-y-4">
             <div>
               <label htmlFor="email" className="text-base-500">
-                User Name
+                Email
               </label>
               <Input
                 placeholder="Enter user name"

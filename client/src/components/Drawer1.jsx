@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { BiMenu, BiHome } from "react-icons/bi";
 import { GrFormClose } from "react-icons/gr";
 import { FaUserDoctor, FaRegBuilding } from "react-icons/fa6";
@@ -13,16 +13,28 @@ import { IoPersonAdd } from "react-icons/io5";
 import { DrawerContext } from "../context/DrawerContext";
 import { useSelector } from "react-redux";
 import store from "../redux/store";
+import axios from "axios";
+import { USER_API } from "../const/const";
+import { addPermission, addRole } from "../redux/userPermissionSlice";
+import { useDispatch } from "react-redux";
 
 const Drawer = () => {
+  const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(true);
   const { showDrawer, toggleDrawer } = useContext(DrawerContext);
   const { permissionList, role } = useSelector((store) => store.permission);
-  console.log("🚀 ~ file: Drawer1.jsx:21 ~ Drawer ~ role:", role);
-  console.log(
-    "🚀 ~ file: Drawer.jsx:16 ~ Drawer ~ permission:",
-    permissionList
-  );
+
+  useEffect(() => {
+    getUserPermission();
+  }, []);
+
+  const getUserPermission = async () => {
+    const id = localStorage.getItem("myc_uid");
+    console.log("🚀 ~ file: ListContacts.jsx:33 ~ getUserPermission ~ id:", id);
+    const permission = await axios(USER_API + "/permission?id=" + id);
+    dispatch(addPermission(permission.data.permission.permmision));
+    dispatch(addRole(permission.data.permission.role));
+  };
 
   // const toggleDrawer = () => {
   //   setIsOpen(!isOpen);
@@ -64,7 +76,7 @@ const Drawer = () => {
             <h2 className="group-heading border-b p-1 border-gray-700 font-semibold">
               Add/Update
             </h2>
-            {(role == "admin"||permissionList.includes("AC")) && (
+            {(role == "admin" || permissionList.includes("AC")) && (
               <li className="pt-2" onClick={toggleDrawer}>
                 <Link to="/addNew">
                   <a className="text-md font-semibold flex items-center">
@@ -76,7 +88,7 @@ const Drawer = () => {
                 </Link>
               </li>
             )}
-            {(role == "admin"||permissionList.includes("DPT")) && (
+            {(role == "admin" || permissionList.includes("DPT")) && (
               <li className="" onClick={toggleDrawer}>
                 <Link to="/dept">
                   <a className="text-md font-semibold flex items-center">
@@ -88,16 +100,18 @@ const Drawer = () => {
                 </Link>
               </li>
             )}
-            {(role == "admin"||permissionList.includes("DSG")) &&<li onClick={toggleDrawer}>
-              <Link to="/designation">
-                <a className="text-md font-semibold flex items-center">
-                  <span>
-                    <FaUserDoctor className="mr-2 h-6 w-6" />
-                  </span>
-                  Designation
-                </a>
-              </Link>
-            </li>}
+            {(role == "admin" || permissionList.includes("DSG")) && (
+              <li onClick={toggleDrawer}>
+                <Link to="/designation">
+                  <a className="text-md font-semibold flex items-center">
+                    <span>
+                      <FaUserDoctor className="mr-2 h-6 w-6" />
+                    </span>
+                    Designation
+                  </a>
+                </Link>
+              </li>
+            )}
             {role == "admin" && (
               <li onClick={toggleDrawer}>
                 <Link to="/users">
