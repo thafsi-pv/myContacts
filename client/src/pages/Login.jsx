@@ -18,10 +18,6 @@ function Login() {
 
   const getUserPermission = async (id) => {
     const permission = await axios(USER_API + "/permission?id=" + id);
-    console.log(
-      "🚀 ~ file: Login.jsx:21 ~ getUserPermission ~ permission:",
-      permission
-    );
     localStorage.setItem("myc_uid", id);
 
     const userDetails = {

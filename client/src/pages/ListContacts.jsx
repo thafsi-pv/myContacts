@@ -14,10 +14,6 @@ import ShimmerContacts from "../components/ShimmerContacts";
 
 function ListContacts() {
   const [allContacts, setAllContacts] = useState([]);
-  console.log(
-    "🚀 ~ file: ListContacts.jsx:17 ~ ListContacts ~ allContacts:",
-    allContacts
-  );
   const navigate = useNavigate();
   const abortController = useRef(null);
 

@@ -23,10 +23,6 @@ function SignUp() {
   const handleSignUp = async () => {
     try {
       const response = await axios.post(USER_API, { data: values });
-      console.log(
-        "🚀 ~ file: SignUp.jsx:21 ~ handleSignUp ~ response:",
-        response
-      );
       if (response.status == 200) {
         toast.success("successfully registered!");
         navigate("/login");

@@ -28,7 +28,7 @@ function App() {
   useEffect(() => {
     const token = localStorage.getItem("myc_token");
     if (!token && window.location.pathname !== "/login") {
-      //window.location = "/login";
+      window.location = "/login";
       // navigate("/login");
     }
   });

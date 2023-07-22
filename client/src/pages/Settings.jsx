@@ -6,7 +6,6 @@ function Settings() {
   const { toggleTheme } = useContext(ThemeContext);
 
   const handleToggle = () => {
-    //alert("toggled");
     toggleTheme();
   };
 
