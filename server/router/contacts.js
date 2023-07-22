@@ -2,6 +2,7 @@ const express = require("express");
 
 const {
   getAllContacts,
+  getAllContactsGroup,
   contactGetById,
   addOrUpdateContact,
 } = require("../controller/contacts");
@@ -9,6 +10,7 @@ const {
 const contactRouter = express.Router();
 
 contactRouter.get("/", getAllContacts);
+contactRouter.get("/contactGrouped", getAllContactsGroup);
 
 contactRouter.post("/id", contactGetById);
 

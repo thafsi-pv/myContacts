@@ -14,14 +14,16 @@ import ShimmerContacts from "../components/ShimmerContacts";
 
 function ListContacts() {
   const [allContacts, setAllContacts] = useState([]);
+  console.log(
+    "🚀 ~ file: ListContacts.jsx:17 ~ ListContacts ~ allContacts:",
+    allContacts
+  );
   const navigate = useNavigate();
   const abortController = useRef(null);
 
   const handleContact = (id) => {
     navigate("/contactDetails/" + id);
   };
-
-  
 
   useEffect(() => {
     abortController.current = new AbortController();
@@ -32,7 +34,7 @@ function ListContacts() {
   }, []);
 
   const getAllContacts = async () => {
-    const response = await axios.get(CONTACTS_API, {
+    const response = await axios.get(CONTACTS_API+'/contactGrouped', {
       signal: abortController.current.signal,
     });
     setAllContacts(response?.data);
@@ -71,7 +73,69 @@ function ListContacts() {
           </div>
         </div>
       </div>
+
       <div className="overflow-x-auto mt-14 p-3 pt-5 max-h-[700px]">
+        <table className="table table-pin-rows">
+          {allContacts.map((item) => (
+            <React.Fragment key={item._id}>
+              <thead>
+                <tr>
+                  <th className="text-lg font-semibold">{item._id}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {item.contacts.map((contact,index) => (
+                  // <tr key={contact._id}>
+                  //   {" "}
+                  //   {/* Assuming each contact object has a unique _id */}
+                  //   <td>{contact.firstName}</td>{" "}
+                  //   {/* Replace this with the appropriate property */}
+                  // </tr>
+
+                  <tr
+                    key={contact._id}
+                    className="h-10 border-1 border-base-200 hover:bg-base-200 mb-4"
+                    onClick={() => handleContact(contact._id)}>
+                    {/* <td className="p-2">{index + 1}</td> */}
+                    <td className="p-2">
+                      <span
+                        className={`flex items-center justify-center text-white w-10 h-10 rounded-full shadow-lg my-auto text-center text-xl font-bold`}
+                        style={{ backgroundColor: getRandomColorCode() }}>
+                        {getInitialLetters(
+                          (contact.firstName + " " + contact.lastName).toString()
+                        )}
+                      </span>
+                    </td>
+                    <td className="w-[80%]">
+                      <div className="flex flex-col justify-start">
+                        <span className="text-lg font-medium">
+                          {contact.firstName} {contact.lastName}
+                        </span>
+                        <div>
+                          <span className="">{contact?.designation[0]?.name}</span>
+                          {contact?.designation[0]?.name &&
+                          contact?.department[0]?.name
+                            ? ` | `
+                            : ""}
+                          <span>{contact?.department[0]?.name}</span>
+                        </div>
+                        <div>
+                          <span>{formatNo(contact.contactNos[0].mobile)}</span>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <BsArrowRight className="h-6 w-6" />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </React.Fragment>
+          ))}
+        </table>
+      </div>
+
+      {/* <div className="overflow-x-auto mt-14 p-3 pt-5 max-h-[700px]">
         <table className="table table-xs lg:table-lg table-pin-rows table-pin-cols max-h-[68%] overflow-scroll cursor-pointer">
           <thead>
             <tr className="!top-[-13px]">
@@ -123,7 +187,7 @@ function ListContacts() {
             })}
           </tbody>
         </table>
-      </div>
+      </div> */}
     </div>
   );
 }

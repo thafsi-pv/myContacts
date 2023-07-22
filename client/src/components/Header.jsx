@@ -13,7 +13,6 @@ import { getInitialLetters } from "../utils/utils";
 function Header() {
   const dispatch = useDispatch();
   const { userDetails } = useSelector((store) => store.permission);
-  console.log("🚀 ~ file: Header.jsx:16 ~ Header ~ userDetails:", userDetails);
   const navigate = useNavigate();
   const { showDrawer, toggleDrawer } = useContext(DrawerContext);
   const [isDrawerOpen, setDrawerOpen] = useState(false);

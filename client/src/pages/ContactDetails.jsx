@@ -20,10 +20,6 @@ function ContactDetails() {
   const param = useParams();
   const [details, setDetails] = useState([]);
   const { permissionList } = useSelector((store) => store.permission);
-  console.log(
-    "🚀 ~ file: ContactDetails.jsx:23 ~ ContactDetails ~ permissionList:",
-    permissionList
-  );
 
   useEffect(() => {
     if (param.id) {
