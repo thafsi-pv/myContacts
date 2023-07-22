@@ -70,13 +70,13 @@ function ListContacts() {
         </div>
       </div>
 
-      <div className="overflow-x-auto mt-14 p-3 pt-5 max-h-[700px]">
+      <div className="overflow-x-auto mt-28 p-3 pt-5 max-h-[700px]">
         <table className="table table-pin-rows">
           {allContacts.map((item) => (
             <React.Fragment key={item._id}>
               <thead>
                 <tr>
-                  <th className="text-lg font-semibold">{item._id}</th>
+                  <th className="font-bold">{item._id}</th>
                 </tr>
               </thead>
               <tbody>
