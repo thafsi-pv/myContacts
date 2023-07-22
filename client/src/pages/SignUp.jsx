@@ -100,7 +100,7 @@ function SignUp() {
                   inputProps={{
                     name: "mobile",
                     required: true,
-                    autoFocus: true,
+                    autoFocus: false,
                   }}
                 />
               </div>
