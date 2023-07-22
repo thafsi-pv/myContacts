@@ -27,11 +27,17 @@ function ListContacts() {
   const [allContacts, setAllContacts] = useState([]);
   const navigate = useNavigate();
   const [departments, setDepartments] = useState([]);
-  const [designation, setDesignation] = useState([]);
+  const [designation, setDesignation] = useState({});
   const [selectedDept, setSelectedDept] = useState({});
   const [selectedDesig, setSelectedDesig] = useState({});
+  console.log(
+    "🚀 ~ file: ListContacts.jsx:33 ~ ListContacts ~ selectedDesig:",
+    selectedDesig
+  );
+  const [searchText, setSearchText] = useState("");
   const [contactCount, setContactCount] = useState(0);
   const abortController = useRef(null);
+  const [isAccordionOpen, setIsAccordionOpen] = useState(false);
 
   const handleContact = (id) => {
     navigate("/contactDetails/" + id);
@@ -78,10 +84,19 @@ function ListContacts() {
     setSelectedDesig(selectedOptions);
   };
 
-  const [isAccordionOpen, setIsAccordionOpen] = useState(false);
-
   const toggleAccordion = () => {
     setIsAccordionOpen((prevState) => !prevState);
+  };
+
+  const handleSearchContact = async () => {
+    const designation =
+      selectedDesig.value != undefined ? selectedDesig.value : "";
+    const department =
+      selectedDept.value != undefined ? selectedDept.value : "";
+    const response = await axios.get(`
+      ${CONTACTS_API}/contactGrouped?firstName=${searchText}&designationId=${designation}&departmentId=${department}`);
+    setAllContacts(response?.data?.contactList);
+    toggleAccordion();
   };
 
   // Custom styles for the Select component
@@ -95,7 +110,6 @@ function ListContacts() {
       color: "black", // Set the color to black for menu list items
     }),
   };
-  
 
   if (allContacts.length == 0) {
     return <ShimmerContacts />;
@@ -103,6 +117,7 @@ function ListContacts() {
   return (
     <div className="flex flex-col justify-center mt-16 w-full  lg:w-2/4 m-auto">
       <div className=" top-16 w-full px-5 fixed bg-base-100 p-3 z-[5] ">
+        
         <div className="collapse collapse-arrow bg-base-200">
           <input
             type="radio"
@@ -146,13 +161,16 @@ function ListContacts() {
                   <input
                     className="input !border-gray-600 join-item w-full"
                     placeholder="Search..."
+                    onChange={(e) => setSearchText(e.target.value)}
                   />
                 </div>
               </div>
 
               <div className="indicator">
-                <button className="btn join-item !border-gray-600 !bg-gray-600">
-                  <AiOutlineSearch className="w-5 h-5" />
+                <button
+                  className="btn join-item !border-gray-600 !bg-base-300"
+                  onClick={handleSearchContact}>
+                  <AiOutlineSearch className="w-5 h-5 " />
                 </button>
               </div>
             </div>
