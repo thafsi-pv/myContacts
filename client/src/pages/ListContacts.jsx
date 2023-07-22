@@ -30,6 +30,7 @@ function ListContacts() {
   const [designation, setDesignation] = useState([]);
   const [selectedDept, setSelectedDept] = useState({});
   const [selectedDesig, setSelectedDesig] = useState({});
+  const [contactCount, setContactCount] = useState(0);
   const abortController = useRef(null);
 
   const handleContact = (id) => {
@@ -50,7 +51,12 @@ function ListContacts() {
     const response = await axios.get(CONTACTS_API + "/contactGrouped", {
       signal: abortController.current.signal,
     });
-    setAllContacts(response?.data);
+    console.log(
+      "🚀 ~ file: ListContacts.jsx:54 ~ getAllContacts ~ response:",
+      response
+    );
+    setAllContacts(response?.data?.contactList);
+    setContactCount(response?.data?.totalCount);
   };
 
   const getDepartments = async () => {
@@ -72,6 +78,25 @@ function ListContacts() {
     setSelectedDesig(selectedOptions);
   };
 
+  const [isAccordionOpen, setIsAccordionOpen] = useState(false);
+
+  const toggleAccordion = () => {
+    setIsAccordionOpen((prevState) => !prevState);
+  };
+
+  // Custom styles for the Select component
+  const selectStyles = {
+    menuPortal: (base) => ({
+      ...base,
+      zIndex: 9999,
+    }),
+    option: (provided, state) => ({
+      ...provided,
+      color: "black", // Set the color to black for menu list items
+    }),
+  };
+  
+
   if (allContacts.length == 0) {
     return <ShimmerContacts />;
   }
@@ -79,25 +104,38 @@ function ListContacts() {
     <div className="flex flex-col justify-center mt-16 w-full  lg:w-2/4 m-auto">
       <div className=" top-16 w-full px-5 fixed bg-base-100 p-3 z-[5] ">
         <div className="collapse collapse-arrow bg-base-200">
-          <input type="radio" name="my-accordion-2" />
+          <input
+            type="radio"
+            name="my-accordion-2"
+            checked={isAccordionOpen}
+            onClick={toggleAccordion}
+          />
           <div className="collapse-title text-xl font-medium">
-           <p className="text-sm flex"> <AiOutlineSearch className="w-5 h-5" />Search among {allContacts.length} contacts..</p>
+            <p className="text-sm flex">
+              <AiOutlineSearch className="w-5 h-5" />
+              Search among {contactCount} contacts..
+            </p>
           </div>
           <div className="collapse-content">
             <div className="flex gap-2 pb-2">
               <div className="w-full ">
                 <Select
+                  className="w-full" // Add this class to make the select box expand to full width
+                  menuPortalTarget={document.body}
+                  styles={{ ...selectStyles }}
                   placeholder="designation"
                   options={designation}
-                  value={selectedDesig}
+                  //value={selectedDesig}
                   onChange={(e) => handleDesignationChange(e)}
                 />
               </div>
               <div className="w-full ">
                 <Select
-                  placeholder="department"
+                  menuPortalTarget={document.body}
+                  styles={{ ...selectStyles }}
+                  placeholder="Department"
                   options={departments}
-                  value={selectedDept}
+                  //value={selectedDept}
                   onChange={(e) => handleDepartmentChange(e)}
                 />
               </div>
@@ -122,7 +160,7 @@ function ListContacts() {
         </div>
       </div>
 
-      <div className="overflow-x-auto mt-28 p-3 pt-5 max-h-[700px] relative top-0">
+      <div className="overflow-x-auto mt-14 p-3 pt-5 max-h-[700px] relative top-0">
         <table className="table table-pin-rows">
           {allContacts.map((item) => (
             <React.Fragment key={item._id}>

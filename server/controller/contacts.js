@@ -64,9 +64,9 @@ const getAllContactsGroup = async (req, res) => {
         },
       },
     ]);
-
+    const totalCount = await contactModel.countDocuments();
     contactList.sort((a, b) => a._id.localeCompare(b._id));
-    res.json(contactList);
+    res.json({contactList,totalCount});
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
