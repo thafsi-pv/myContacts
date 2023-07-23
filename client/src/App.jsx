@@ -86,7 +86,7 @@ function App() {
     <div>
       <Provider store={store}>
         <InternetConnection>
-          <div className="h-screen max-h-screen" data-theme={theme}>
+          <div className="h-[90vh] max-h-screen" data-theme={theme}>
             <RouterProvider router={appRouter} />
             <Toaster />
           </div>

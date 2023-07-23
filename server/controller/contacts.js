@@ -15,20 +15,20 @@ const getAllContacts = async (req, res) => {
     res.status(400).json({ message: error.message });
   }
 };
+
 const getAllContactsGroup = async (req, res) => {
   try {
-    const { firstName, designationId, departmentId } = req.query;
-    console.log(
-      "🚀 ~ file: contacts.js:20 ~ getAllContactsGroup ~ req.query:",
-      req.query
-    );
+    const { name, designationId, departmentId } = req.query;
 
     // Create an empty filter object to hold the query conditions
     const filter = {};
 
-    // If firstName is provided, add it to the filter
-    if (firstName) {
-      filter["contacts.firstName"] = { $regex: new RegExp(firstName, "i") };
+    // If name is provided, add it to the filter to check both firstName and lastName
+    if (name) {
+      filter.$or = [
+        { "contacts.firstName": { $regex: new RegExp(name, "i") } },
+        { "contacts.lastName": { $regex: new RegExp(name, "i") } },
+      ];
     }
 
     // If designationId is provided, add it to the filter

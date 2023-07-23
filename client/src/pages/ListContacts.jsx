@@ -30,10 +30,6 @@ function ListContacts() {
   const [designation, setDesignation] = useState({});
   const [selectedDept, setSelectedDept] = useState({});
   const [selectedDesig, setSelectedDesig] = useState({});
-  console.log(
-    "🚀 ~ file: ListContacts.jsx:33 ~ ListContacts ~ selectedDesig:",
-    selectedDesig
-  );
   const [searchText, setSearchText] = useState("");
   const [contactCount, setContactCount] = useState(0);
   const abortController = useRef(null);
@@ -57,10 +53,6 @@ function ListContacts() {
     const response = await axios.get(CONTACTS_API + "/contactGrouped", {
       signal: abortController.current.signal,
     });
-    console.log(
-      "🚀 ~ file: ListContacts.jsx:54 ~ getAllContacts ~ response:",
-      response
-    );
     setAllContacts(response?.data?.contactList);
     setContactCount(response?.data?.totalCount);
   };
@@ -94,7 +86,7 @@ function ListContacts() {
     const department =
       selectedDept.value != undefined ? selectedDept.value : "";
     const response = await axios.get(`
-      ${CONTACTS_API}/contactGrouped?firstName=${searchText}&designationId=${designation}&departmentId=${department}`);
+      ${CONTACTS_API}/contactGrouped?name=${searchText}&designationId=${designation}&departmentId=${department}`);
     setAllContacts(response?.data?.contactList);
     toggleAccordion();
   };
@@ -111,119 +103,187 @@ function ListContacts() {
     }),
   };
 
-  if (allContacts.length == 0) {
+  if (
+    allContacts.length == 0 &&
+    searchText == "" &&
+    Object.keys(selectedDept).length === 0 &&
+    Object.keys(selectedDesig).length === 0
+  ) {
     return <ShimmerContacts />;
-  }
-  return (
-    <div className="flex flex-col justify-center mt-16 w-full  lg:w-2/4 m-auto">
-      <div className=" top-16 w-full px-5 fixed bg-base-100 p-3 z-[5] ">
-        
-        <div className="collapse collapse-arrow bg-base-200">
-          <input
-            type="radio"
-            name="my-accordion-2"
-            checked={isAccordionOpen}
-            onClick={toggleAccordion}
-          />
-          <div className="collapse-title text-xl font-medium">
-            <p className="text-sm flex">
-              <AiOutlineSearch className="w-5 h-5" />
-              Search among {contactCount} contacts..
-            </p>
-          </div>
-          <div className="collapse-content">
-            <div className="flex gap-2 pb-2">
-              <div className="w-full ">
-                <Select
-                  className="w-full" // Add this class to make the select box expand to full width
-                  menuPortalTarget={document.body}
-                  styles={{ ...selectStyles }}
-                  placeholder="designation"
-                  options={designation}
-                  //value={selectedDesig}
-                  onChange={(e) => handleDesignationChange(e)}
-                />
-              </div>
-              <div className="w-full ">
-                <Select
-                  menuPortalTarget={document.body}
-                  styles={{ ...selectStyles }}
-                  placeholder="Department"
-                  options={departments}
-                  //value={selectedDept}
-                  onChange={(e) => handleDepartmentChange(e)}
-                />
-              </div>
+  } else {
+    return (
+      <div className="flex flex-col justify-center mt-16 w-full  lg:w-2/4 m-auto">
+        <div className=" top-16 w-full px-5 fixed bg-base-100 p-3 z-[5] ">
+          <div className="collapse collapse-arrow bg-base-200">
+            <input
+              type="radio"
+              name="my-accordion-2"
+              checked={isAccordionOpen}
+              onClick={toggleAccordion}
+            />
+            <div className="collapse-title text-xl font-medium">
+              <p className="text-sm flex">
+                <AiOutlineSearch className="w-5 h-5" />
+                Search among {contactCount} contacts..
+              </p>
             </div>
-            <div className="join w-full !border-gray-600">
-              <div className="w-[100%] lg:w-[40%]">
-                <div>
-                  <input
-                    className="input !border-gray-600 join-item w-full"
-                    placeholder="Search..."
-                    onChange={(e) => setSearchText(e.target.value)}
+            <div className="collapse-content">
+              <div className="flex gap-2 pb-2">
+                <div className="w-full ">
+                  <Select
+                    className="w-full" // Add this class to make the select box expand to full width
+                    menuPortalTarget={document.body}
+                    styles={{ ...selectStyles }}
+                    placeholder="designation"
+                    options={designation}
+                    //value={selectedDesig}
+                    onChange={(e) => handleDesignationChange(e)}
+                  />
+                </div>
+                <div className="w-full ">
+                  <Select
+                    menuPortalTarget={document.body}
+                    styles={{ ...selectStyles }}
+                    placeholder="Department"
+                    options={departments}
+                    //value={selectedDept}
+                    onChange={(e) => handleDepartmentChange(e)}
                   />
                 </div>
               </div>
+              <div className="join w-full !border-gray-600">
+                <div className="w-[100%] lg:w-[40%]">
+                  <div>
+                    <input
+                      className="input !border-gray-600 join-item w-full"
+                      placeholder="Search..."
+                      onChange={(e) => setSearchText(e.target.value)}
+                    />
+                  </div>
+                </div>
 
-              <div className="indicator">
-                <button
-                  className="btn join-item !border-gray-600 !bg-base-300"
-                  onClick={handleSearchContact}>
-                  <AiOutlineSearch className="w-5 h-5 " />
-                </button>
+                <div className="indicator">
+                  <button
+                    className="btn join-item !border-gray-600 !bg-base-300"
+                    onClick={handleSearchContact}>
+                    <AiOutlineSearch className="w-5 h-5 " />
+                  </button>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <div className="overflow-x-auto mt-14 p-3 pt-5 max-h-[700px] relative top-0">
-        <table className="table table-pin-rows">
-          {allContacts.map((item) => (
-            <React.Fragment key={item._id}>
-              <thead>
-                <tr>
-                  <th className="font-bold">{item._id}</th>
-                </tr>
-              </thead>
-              <tbody>
-                {item.contacts.map((contact, index) => (
+        {allContacts.length == 0 &&
+        (searchText != "" ||
+          Object.keys(selectedDept).length !== 0 ||
+          Object.keys(selectedDesig).length !== 0) ? (
+          <div className="mt-28">No result found</div>
+        ) : (
+          <div className="overflow-x-auto mt-14 p-3 pt-5 max-h-[700px] relative top-0">
+            <table className="table table-pin-rows">
+              {allContacts.map((item) => (
+                <React.Fragment key={item._id}>
+                  <thead>
+                    <tr>
+                      <th className="font-bold">{item._id}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {item.contacts.map((contact, index) => (
+                      <tr
+                        key={contact._id}
+                        className="h-10 border-1 border-base-200 hover:bg-base-200 mb-4"
+                        onClick={() => handleContact(contact._id)}>
+                        {/* <td className="p-2">{index + 1}</td> */}
+                        <td className="p-2">
+                          <span
+                            className={`flex items-center justify-center text-white w-10 h-10 rounded-full shadow-lg my-auto text-center text-xl font-bold`}
+                            style={{ backgroundColor: getRandomColorCode() }}>
+                            {getInitialLetters(
+                              (
+                                contact.firstName +
+                                " " +
+                                contact.lastName
+                              ).toString()
+                            )}
+                          </span>
+                        </td>
+                        <td className="w-[80%]">
+                          <div className="flex flex-col justify-start">
+                            <span className="text-lg font-medium">
+                              {contact.firstName} {contact.lastName}
+                            </span>
+                            <div>
+                              <span className="">
+                                {contact?.designation[0]?.name}
+                              </span>
+                              {contact?.designation[0]?.name &&
+                              contact?.department[0]?.name
+                                ? ` | `
+                                : ""}
+                              <span>{contact?.department[0]?.name}</span>
+                            </div>
+                            <div>
+                              <span>
+                                {formatNo(contact.contactNos[0].mobile)}
+                              </span>
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          <BsArrowRight className="h-6 w-6" />
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </React.Fragment>
+              ))}
+            </table>
+          </div>
+        )}
+
+        {/* <div className="overflow-x-auto mt-14 p-3 pt-5 max-h-[700px]">
+          <table className="table table-xs lg:table-lg table-pin-rows table-pin-cols max-h-[68%] overflow-scroll cursor-pointer">
+            <thead>
+              <tr className="!top-[-13px]">
+                <th></th>
+                <td>Image</td>
+                <td>Name</td>
+                <td>View</td>
+              </tr>
+            </thead>
+            <tbody>
+              {allContacts.map((item, index) => {
+                return (
                   <tr
-                    key={contact._id}
+                    key={item._id}
                     className="h-10 border-1 border-base-200 hover:bg-base-200 mb-4"
-                    onClick={() => handleContact(contact._id)}>
-                    {/* <td className="p-2">{index + 1}</td> */}
+                    onClick={() => handleContact(item._id)}>
+                    <td className="p-2">{index + 1}</td>
                     <td className="p-2">
                       <span
                         className={`flex items-center justify-center text-white w-10 h-10 rounded-full shadow-lg my-auto text-center text-xl font-bold`}
                         style={{ backgroundColor: getRandomColorCode() }}>
                         {getInitialLetters(
-                          (
-                            contact.firstName +
-                            " " +
-                            contact.lastName
-                          ).toString()
+                          (item.firstName + " " + item.lastName).toString()
                         )}
                       </span>
                     </td>
                     <td className="w-[80%]">
                       <div className="flex flex-col justify-start">
                         <span className="text-lg font-medium">
-                          {contact.firstName} {contact.lastName}
+                          {item.firstName} {item.lastName}
                         </span>
                         <div>
-                          <span className="">
-                            {contact?.designation[0]?.name}
-                          </span>
-                          {contact?.designation[0]?.name &&
-                          contact?.department[0]?.name
+                          <span className="">{item?.designation[0]?.name}</span>
+                          {item?.designation[0]?.name && item?.department[0]?.name
                             ? ` | `
                             : ""}
-                          <span>{contact?.department[0]?.name}</span>
+                          <span>{item?.department[0]?.name}</span>
                         </div>
                         <div>
-                          <span>{formatNo(contact.contactNos[0].mobile)}</span>
+                          <span>{formatNo(item.contactNos[0].mobile)}</span>
                         </div>
                       </div>
                     </td>
@@ -231,68 +291,14 @@ function ListContacts() {
                       <BsArrowRight className="h-6 w-6" />
                     </td>
                   </tr>
-                ))}
-              </tbody>
-            </React.Fragment>
-          ))}
-        </table>
+                );
+              })}
+            </tbody>
+          </table>
+        </div> */}
       </div>
-
-      {/* <div className="overflow-x-auto mt-14 p-3 pt-5 max-h-[700px]">
-        <table className="table table-xs lg:table-lg table-pin-rows table-pin-cols max-h-[68%] overflow-scroll cursor-pointer">
-          <thead>
-            <tr className="!top-[-13px]">
-              <th></th>
-              <td>Image</td>
-              <td>Name</td>
-              <td>View</td>
-            </tr>
-          </thead>
-          <tbody>
-            {allContacts.map((item, index) => {
-              return (
-                <tr
-                  key={item._id}
-                  className="h-10 border-1 border-base-200 hover:bg-base-200 mb-4"
-                  onClick={() => handleContact(item._id)}>
-                  <td className="p-2">{index + 1}</td>
-                  <td className="p-2">
-                    <span
-                      className={`flex items-center justify-center text-white w-10 h-10 rounded-full shadow-lg my-auto text-center text-xl font-bold`}
-                      style={{ backgroundColor: getRandomColorCode() }}>
-                      {getInitialLetters(
-                        (item.firstName + " " + item.lastName).toString()
-                      )}
-                    </span>
-                  </td>
-                  <td className="w-[80%]">
-                    <div className="flex flex-col justify-start">
-                      <span className="text-lg font-medium">
-                        {item.firstName} {item.lastName}
-                      </span>
-                      <div>
-                        <span className="">{item?.designation[0]?.name}</span>
-                        {item?.designation[0]?.name && item?.department[0]?.name
-                          ? ` | `
-                          : ""}
-                        <span>{item?.department[0]?.name}</span>
-                      </div>
-                      <div>
-                        <span>{formatNo(item.contactNos[0].mobile)}</span>
-                      </div>
-                    </div>
-                  </td>
-                  <td>
-                    <BsArrowRight className="h-6 w-6" />
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </div> */}
-    </div>
-  );
+    );
+  }
 }
 
 export default ListContacts;

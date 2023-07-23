@@ -5,11 +5,11 @@ import BottomNavigation from "../components/BottomNavigation";
 
 function MainPage() {
   return (
-    <div className="max-h-screen">
+    <>
       <Header />
       <Outlet />
       {/* <BottomNavigation/> */}
-    </div>
+    </>
   );
 }
 
