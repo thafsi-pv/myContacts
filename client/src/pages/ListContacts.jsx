@@ -18,6 +18,7 @@ import {
 } from "../const/const";
 import ShimmerContacts from "../components/ShimmerContacts";
 import Select from "react-select";
+import NoResultFound from "../components/NoResultFound";
 
 const keyChanges = {
   _id: "value",
@@ -178,7 +179,7 @@ function ListContacts() {
         (searchText != "" ||
           Object.keys(selectedDept).length !== 0 ||
           Object.keys(selectedDesig).length !== 0) ? (
-          <div className="mt-28">No result found</div>
+          <NoResultFound />
         ) : (
           <div className="overflow-x-auto mt-14 p-3 pt-5 max-h-[700px] relative top-0">
             <table className="table table-pin-rows">
