@@ -8,6 +8,7 @@ import axios from "axios";
 import { USER_API } from "../const/const";
 import { genricError } from "../utils/genricError";
 import { toast } from "react-hot-toast";
+import useLoader from "../hooks/useLoader";
 
 function SignUp() {
   const [values, handleInputChange, handlePhoneInputChange] = useInputChange({
@@ -17,11 +18,12 @@ function SignUp() {
     mobile: "",
     password: "",
   });
-
   const navigate = useNavigate(null);
+  const { isLoading, toggleLoading, loader } = useLoader(false);
 
   const handleSignUp = async () => {
     try {
+      toggleLoading(true);
       const response = await axios.post(USER_API, { data: values });
       if (response.status == 200) {
         toast.success("successfully registered!");
@@ -29,12 +31,14 @@ function SignUp() {
       }
     } catch (error) {
       genricError(error);
+    } finally {
+      toggleLoading(false);
     }
   };
 
   return (
     <div className="h-[100%]">
-      <div className="flex flex-col items-center justify-center h-full m-4 ">
+      <div className="flex flex-col items-center justify-center h-screen m-4 ">
         <div className="max-w-md w-full p-6 bg-base-300  rounded-md shadow-md">
           <div className="flex flex-col items-center justify-center">
             <h2 className="text-sm text-base-500 font-bold">Sign Up</h2>
@@ -137,6 +141,7 @@ function SignUp() {
           </form>
         </div>
       </div>
+      {isLoading && loader}
     </div>
   );
 }

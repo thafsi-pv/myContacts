@@ -10,6 +10,8 @@ import { v4 as uuidv4 } from "uuid";
 import { toast } from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
 import { CONTACTS_API, DEPARTMENT_API, DESIGNATION_API } from "../const/const";
+import useLoader from "../hooks/useLoader";
+import { genricError } from "../utils/genricError";
 
 const keyChanges = {
   _id: "value",
@@ -28,9 +30,9 @@ function AddContact() {
   const [departments, setDepartments] = useState([]);
   const [designation, setDesignation] = useState([]);
   const params = useParams();
-
   const [selectedDept, setSelectedDept] = useState({});
   const [selectedDesig, setSelectedDesig] = useState({});
+  const { isLoading, toggleLoading, loader } = useLoader(false);
 
   useEffect(() => {
     getDepartments();
@@ -107,13 +109,21 @@ function AddContact() {
   };
 
   const handleAddNewContact = async () => {
-    const response = await axios(CONTACTS_API, {
-      method: "POST",
-      data: { newContact, contactNos },
-    });
-    if (response.status == 200) {
-      toast.success("New contact added successfully");
-      navigate("/contactDetails/" + response.data._id);
+    try {
+      toggleLoading(true)
+      const response = await axios(CONTACTS_API, {
+        method: "POST",
+        data: { newContact, contactNos },
+      });
+      if (response.status == 200) {
+        toast.success("New contact added successfully");
+        navigate("/contactDetails/" + response.data._id);
+      }
+    } catch (error) {
+      genricError(error);
+    }
+    finally{
+      toggleLoading(false)
     }
   };
 
@@ -210,6 +220,7 @@ function AddContact() {
         </button>
         <button className="btn btn-neutral w-1/2">Clear</button>
       </div>
+      {isLoading && loader}
     </div>
   );
 }

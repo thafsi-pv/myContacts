@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Input from "../components/Input";
 import { Link, useNavigate } from "react-router-dom";
 import useInputChange from "../hooks/useInputChange";
@@ -7,6 +7,7 @@ import { USER_API } from "../const/const";
 import { genricError } from "../utils/genricError";
 import { useDispatch } from "react-redux";
 import { addPermission, addUserDetails } from "../redux/userPermissionSlice";
+import useLoader from "../hooks/useLoader";
 
 function Login() {
   const dispatch = useDispatch();
@@ -15,6 +16,7 @@ function Login() {
     email: "",
     password: "",
   });
+  const { isLoading, toggleLoading, loader } = useLoader(false);
 
   const getUserPermission = async (id) => {
     const permission = await axios(USER_API + "/permission?id=" + id);
@@ -33,6 +35,7 @@ function Login() {
 
   const handleLogIn = async () => {
     try {
+      toggleLoading(true);
       const response = await axios.post(USER_API + "/signIn", values);
 
       if ((response.status = 200)) {
@@ -42,12 +45,17 @@ function Login() {
       }
     } catch (error) {
       genricError(error);
+    } finally {
+      console.log("finaly");
+      toggleLoading(false);
     }
   };
-
+  // if (isLoading) {
+  //   return loader;
+  // }
   return (
     <div className="h-[90%]">
-      <div className="flex flex-col items-center justify-center h-4/5 m-4 ">
+      <div className="flex flex-col items-center justify-center h-screen m-4 ">
         <div className="max-w-md w-full p-6 bg-base-300  rounded-md shadow-md">
           <div className="flex flex-col items-center justify-center">
             <h2 className="text-sm text-base-500 font-bold">Login</h2>
@@ -99,6 +107,7 @@ function Login() {
           </form>
         </div>
       </div>
+      {isLoading && loader}
     </div>
   );
 }

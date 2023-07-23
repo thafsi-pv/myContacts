@@ -21,6 +21,7 @@ import InternetConnection from "./pages/OfflineMessage";
 import { Toaster } from "react-hot-toast";
 import { Provider } from "react-redux";
 import store from "./redux/store";
+import useLoader from "./hooks/useLoader";
 function App() {
   const { theme } = useContext(ThemeContext);
   const isOnline = navigator.onLine;
@@ -86,9 +87,10 @@ function App() {
     <div>
       <Provider store={store}>
         <InternetConnection>
-          <div className="min-h-[90vh]" data-theme={theme}>
+          <div className="min-h-[100vh]" data-theme={theme}>
             <RouterProvider router={appRouter} />
             <Toaster />
+           
           </div>
         </InternetConnection>
       </Provider>
