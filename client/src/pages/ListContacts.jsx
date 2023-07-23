@@ -181,13 +181,13 @@ function ListContacts() {
           Object.keys(selectedDesig).length !== 0) ? (
           <NoResultFound />
         ) : (
-          <div className="overflow-x-auto mt-14 p-3 pt-5 max-h-[700px] relative top-0">
+          <div className="overflow-y-auto mt-14 p-3 pt-5 max-h-[700px] relative top-0 pb-16">
             <table className="table table-pin-rows">
               {allContacts.map((item) => (
                 <React.Fragment key={item._id}>
                   <thead>
                     <tr>
-                      <th className="font-bold">{item._id}</th>
+                      <th className="font-bold uppercase">{item._id}</th>
                     </tr>
                   </thead>
                   <tbody>
