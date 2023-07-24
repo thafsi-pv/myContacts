@@ -91,7 +91,7 @@ function Login() {
             <button
               type="button"
               onClick={handleLogIn}
-              className="w-full py-2 px-4 bg-green-500 text-white rounded-md hover:bg-green-600 focus:outline-none">
+              className="w-full py-2 px-4 bg-[#00BFA6] text-white rounded-md hover:bg-green-600 focus:outline-none">
               Login
             </button>
             <div className="flex justify-center !mt-10 font-semibold text-xs">

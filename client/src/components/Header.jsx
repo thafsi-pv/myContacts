@@ -57,7 +57,7 @@ function Header() {
       <div className="flex-1">
         <Link to="/">
           <p className="flex text-xl px-4 items-baseline font-semibold hover:bg-base-200 rounded-md">
-            my<p className="text-green-500 p-0 m-0 font-bold text-2xl">C</p>
+            my<p className="text-[#00BFA6] p-0 m-0 font-bold text-2xl">C</p>
             ontacts
           </p>
         </Link>

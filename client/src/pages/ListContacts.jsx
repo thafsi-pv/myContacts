@@ -19,6 +19,8 @@ import {
 import ShimmerContacts from "../components/ShimmerContacts";
 import Select from "react-select";
 import NoResultFound from "../components/NoResultFound";
+import useLoader from "../hooks/useLoader";
+import { genricError } from "../utils/genricError";
 
 const keyChanges = {
   _id: "value",
@@ -35,6 +37,7 @@ function ListContacts() {
   const [contactCount, setContactCount] = useState(0);
   const abortController = useRef(null);
   const [isAccordionOpen, setIsAccordionOpen] = useState(false);
+  const { isLoading, toggleLoading, loader } = useLoader(false);
 
   const handleContact = (id) => {
     navigate("/contactDetails/" + id);
@@ -82,14 +85,21 @@ function ListContacts() {
   };
 
   const handleSearchContact = async () => {
-    const designation =
-      selectedDesig.value != undefined ? selectedDesig.value : "";
-    const department =
-      selectedDept.value != undefined ? selectedDept.value : "";
-    const response = await axios.get(`
-      ${CONTACTS_API}/contactGrouped?name=${searchText}&designationId=${designation}&departmentId=${department}`);
-    setAllContacts(response?.data?.contactList);
-    toggleAccordion();
+    try {
+      toggleLoading(true);
+      const designation =
+        selectedDesig.value != undefined ? selectedDesig.value : "";
+      const department =
+        selectedDept.value != undefined ? selectedDept.value : "";
+      const response = await axios.get(`
+    ${CONTACTS_API}/contactGrouped?name=${searchText}&designationId=${designation}&departmentId=${department}`);
+      setAllContacts(response?.data?.contactList);
+      toggleAccordion();
+    } catch (error) {
+      genricError(error);
+    } finally {
+      toggleLoading(false);
+    }
   };
 
   // Custom styles for the Select component
@@ -297,6 +307,7 @@ function ListContacts() {
             </tbody>
           </table>
         </div> */}
+        {isLoading && loader}
       </div>
     );
   }

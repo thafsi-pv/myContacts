@@ -110,7 +110,7 @@ function AddContact() {
 
   const handleAddNewContact = async () => {
     try {
-      toggleLoading(true)
+      toggleLoading(true);
       const response = await axios(CONTACTS_API, {
         method: "POST",
         data: { newContact, contactNos },
@@ -121,9 +121,8 @@ function AddContact() {
       }
     } catch (error) {
       genricError(error);
-    }
-    finally{
-      toggleLoading(false)
+    } finally {
+      toggleLoading(false);
     }
   };
 
@@ -215,7 +214,9 @@ function AddContact() {
           rows="3"></textarea>
       </div>
       <div className="w-full flex flex-nowrap space-x-2 !mt-10 !mb-20">
-        <button className="btn btn-primary w-1/2" onClick={handleAddNewContact}>
+        <button
+          className="btn bg-[#00BFA6] border-[#00BFA6] w-1/2"
+          onClick={handleAddNewContact}>
           Save
         </button>
         <button className="btn btn-neutral w-1/2">Clear</button>
