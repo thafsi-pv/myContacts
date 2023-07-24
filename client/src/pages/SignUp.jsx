@@ -44,7 +44,7 @@ function SignUp() {
             <h2 className="text-sm text-base-500 font-bold">Sign Up</h2>
             <div className="pb-5">
               <p className="flex text-xl px-4 items-baseline font-bold">
-                my<p className="text-green-500 p-0 m-0 font-bold text-2xl">C</p>
+                my<p className="text-[#00BFA6] p-0 m-0 font-bold text-2xl">C</p>
                 ontacts
               </p>
             </div>
