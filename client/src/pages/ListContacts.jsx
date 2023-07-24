@@ -14,7 +14,8 @@ import Select from "react-select";
 import NoResultFound from "../components/NoResultFound";
 import useLoader from "../hooks/useLoader";
 import { genricError } from "../utils/genricError";
-import ContactListItem from "../components/contactListItem";
+//import ContactListItem from "../components/ContactListItem";
+import ContaListItem from "../components/ContaListItem";
 
 const keyChanges = {
   _id: "value",
@@ -31,8 +32,6 @@ function ListContacts() {
   const abortController = useRef(null);
   const [isAccordionOpen, setIsAccordionOpen] = useState(false);
   const { isLoading, toggleLoading, loader } = useLoader(false);
-
-  
 
   useEffect(() => {
     abortController.current = new AbortController();
@@ -185,7 +184,7 @@ function ListContacts() {
           <div className="overflow-y-auto mt-14 p-3 pt-0 max-h-[700px] relative top-0 pb-16">
             <table className="table table-pin-rows">
               {allContacts.map((item) => (
-                <ContactListItem item={item} />
+                <ContaListItem item={item} />
               ))}
             </table>
           </div>
