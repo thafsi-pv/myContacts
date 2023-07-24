@@ -130,7 +130,7 @@ function SignUp() {
             <div className="flex justify-center !mt-10 font-semibold text-xs">
               <p className="text-gray-500">
                 Already registered?,
-                <span className="text-green-700 hover:cursor-pointer">
+                <span className="text-[#00BFA6] hover:cursor-pointer">
                   <Link to="/login">
                     {" "}
                     <a href=""> LogIn</a>
