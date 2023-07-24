@@ -24,7 +24,7 @@ function ContactListItem({ item }) {
         {item.contacts.map((contact, index) => (
           <tr
             key={contact._id}
-            className="h-10 border-1 border-base-200 hover:bg-base-200 mb-4"
+            className="h-10 border-1 border-base-200 hover:bg-base-200 mb-4 cursor-pointer"
             onClick={() => handleContact(contact._id)}>
             {/* <td className="p-2">{index + 1}</td> */}
             <td className="p-2">

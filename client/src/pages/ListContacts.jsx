@@ -154,7 +154,7 @@ function ListContacts() {
                 </div>
               </div>
               <div className="join w-full !border-gray-600">
-                <div className="w-[100%] lg:w-[40%]">
+                <div className="w-[100%]">
                   <div>
                     <input
                       className="input !border-gray-600 join-item w-full"
