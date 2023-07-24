@@ -4,7 +4,7 @@ import {
   getInitialLetters,
   getRandomColorCode,
 } from "../utils/utils";
-import { BsArrowRight, BsTranslate } from "react-icons/bs";
+import { BsArrowRight } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 
 function ContactListItem({ item }) {
@@ -14,7 +14,7 @@ function ContactListItem({ item }) {
     navigate("/contactDetails/" + id);
   };
   return (
-    <React.Fragment key={item._id}>
+    <React.Fragment >
       <thead>
         <tr>
           <th className="font-bold uppercase">{item._id}</th>

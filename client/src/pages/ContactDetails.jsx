@@ -14,6 +14,7 @@ import {
 } from "../utils/utils";
 import { CONTACTS_API } from "../const/const";
 import { useSelector } from "react-redux";
+import ShimmerContactDetails from "../components/shimmerUI/ShimmerContactDetails";
 
 function ContactDetails() {
   const textareaRef = useRef(null);
@@ -35,7 +36,9 @@ function ContactDetails() {
 
     setDetails(response?.data);
   };
-
+  if (details.length == 0) {
+    return <ShimmerContactDetails />;
+  }
   return (
     <div className="flex justify-center align-middle w-full items-center h-full mt-16">
       <div className=" p-5 m-3 w-full max-w-sm   rounded-lg bg-red-500 dark:bg-base-100 shadow-2xl">
@@ -75,7 +78,7 @@ function ContactDetails() {
               (details[0]?.firstName + " " + details[0]?.lastName).toString()
             )}
           </span>
-          <h5 className="mb-1 text-xl font-medium text-white dark:text-gray-700">
+          <h5 className="mb-1 text-xl font-medium">
             {details[0]?.firstName} {details[0]?.lastName}
           </h5>
           <span className="text-sm text-gray-500 dark:text-gray-400">
@@ -90,7 +93,7 @@ function ContactDetails() {
                 </label>
                 <div className="flex flex-nowrap items-center">
                   <label
-                    className="font-semibold mr-3 dark:text-gray-800"
+                    className="font-semibold mr-3"
                     htmlFor="">
                     {formatNo(details[0]?.contactNos[0][item])}
                   </label>
@@ -126,7 +129,7 @@ function ContactDetails() {
               </div>
             ))}
           {details[0]?.notes && (
-            <div className="flex flex-col mt-4 justify-start">
+            <div className="flex flex-col mt-4">
               <label htmlFor="">Notes:</label>
               <textarea
                 name="notes"

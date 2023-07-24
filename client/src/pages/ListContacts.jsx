@@ -1,20 +1,13 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
-import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { changeKeyInArray } from "../utils/utils";
-import {
-  CONTACTS_API,
-  DEPARTMENT_API,
-  DESIGNATION_API,
-  USER_API,
-} from "../const/const";
-import ShimmerContacts from "../components/ShimmerContacts";
+import { CONTACTS_API, DEPARTMENT_API, DESIGNATION_API } from "../const/const";
+import ShimmerContacts from "../components/shimmerUI/ShimmerContacts";
 import Select from "react-select";
 import NoResultFound from "../components/NoResultFound";
 import useLoader from "../hooks/useLoader";
 import { genricError } from "../utils/genricError";
-//import ContactListItem from "../components/ContactListItem";
 import ContactListItem from "../components/ContactListItem";
 
 const keyChanges = {
@@ -184,7 +177,7 @@ function ListContacts() {
           <div className="overflow-y-auto mt-14 p-3 pt-0 max-h-[700px] relative top-0 pb-16">
             <table className="table table-pin-rows">
               {allContacts.map((item) => (
-                <ContactListItem item={item} />
+                <ContactListItem item={item} key={item._id} />
               ))}
             </table>
           </div>
