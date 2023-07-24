@@ -3,25 +3,24 @@ import {
   createBrowserRouter,
   useNavigate,
 } from "react-router-dom";
+import { Suspense, lazy, useContext, useEffect } from "react";
 import "./App.css";
-import ListContacts from "./pages/ListContacts";
-import ContactDetails from "./pages/ContactDetails";
-import AddContact from "./pages/AddContact";
-import AddDept from "./pages/AddDept";
-import BottomNavigation from "./components/BottomNavigation";
-import MainPage from "./pages/MainPage";
-import Settings from "./pages/Settings";
-import Designation from "./pages/Designation";
-import User from "./pages/User";
-import Login from "./pages/Login";
+const ListContactComponent = lazy(() => import("./pages/ListContacts"));
+const ContactDetails = lazy(() => import("./pages/ContactDetails"));
+const AddContact = lazy(() => import("./pages/AddContact"));
+const AddDept = lazy(() => import("./pages/AddDept"));
+const MainPage = lazy(() => import("./pages/MainPage"));
+const Settings = lazy(() => import("./pages/Settings"));
+const Designation = lazy(() => import("./pages/Designation"));
+const User = lazy(() => import("./pages/User"));
+const Login = lazy(() => import("./pages/Login"));
+const SignUp = lazy(() => import("./pages/SignUp"));
 import { ThemeContext } from "./context/ThemeContext";
-import { useContext, useEffect } from "react";
-import SignUp from "./pages/SignUp";
 import InternetConnection from "./pages/OfflineMessage";
 import { Toaster } from "react-hot-toast";
 import { Provider } from "react-redux";
 import store from "./redux/store";
-import useLoader from "./hooks/useLoader";
+import Loader from "./components/Loader";
 function App() {
   const { theme } = useContext(ThemeContext);
   const isOnline = navigator.onLine;
@@ -37,49 +36,97 @@ function App() {
   const appRouter = createBrowserRouter([
     {
       path: "/",
-      element: <MainPage />,
+      element: (
+        <Suspense fallback={<Loader />}>
+          <MainPage />
+        </Suspense>
+      ),
       children: [
+        // {
+        //   path: "/",
+        //   element: <ListContacts />,
+        // },
         {
           path: "/",
-          element: <ListContacts />,
+          element: (
+            <Suspense fallback={<Loader />}>
+              <ListContactComponent />
+            </Suspense>
+          ),
         },
         {
           path: "/contactDetails/:id",
-          element: <ContactDetails />,
+          element: (
+            <Suspense fallback={<Loader />}>
+              <ContactDetails />
+            </Suspense>
+          ),
         },
         {
           path: "/addNew",
-          element: <AddContact />,
+          element: (
+            <Suspense fallback={<Loader />}>
+              <AddContact />
+            </Suspense>
+          ),
         },
         {
           path: "/updateContact/:id",
-          element: <AddContact />,
+          element: (
+            <Suspense fallback={<Loader />}>
+              <AddContact />
+            </Suspense>
+          ),
         },
         {
           path: "/dept",
-          element: <AddDept />,
+          element: (
+            <Suspense fallback={<Loader />}>
+              <AddDept />
+            </Suspense>
+          ),
         },
         {
           path: "/settings",
-          element: <Settings />,
+          element: (
+            <Suspense fallback={<Loader />}>
+              <Settings />
+            </Suspense>
+          ),
         },
         {
           path: "/designation",
-          element: <Designation />,
+          element: (
+            <Suspense fallback={<Loader />}>
+              <Designation />
+            </Suspense>
+          ),
         },
         {
           path: "/users",
-          element: <User />,
+          element: (
+            <Suspense fallback={<Loader />}>
+              <User />
+            </Suspense>
+          ),
         },
       ],
     },
     {
       path: "/login",
-      element: <Login />,
+      element: (
+        <Suspense fallback={<Loader />}>
+          <Login />
+        </Suspense>
+      ),
     },
     {
       path: "/signup",
-      element: <SignUp />,
+      element: (
+        <Suspense fallback={<Loader />}>
+          <SignUp />
+        </Suspense>
+      ),
     },
   ]);
 
@@ -90,7 +137,6 @@ function App() {
           <div className="min-h-[100vh]" data-theme={theme}>
             <RouterProvider router={appRouter} />
             <Toaster />
-           
           </div>
         </InternetConnection>
       </Provider>
