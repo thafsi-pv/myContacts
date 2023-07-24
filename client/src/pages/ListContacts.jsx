@@ -113,8 +113,8 @@ function ListContacts() {
     return <ShimmerContacts />;
   } else {
     return (
-      <div className="flex flex-col justify-center mt-16 w-full  lg:w-2/4 m-auto">
-        <div className=" top-16 w-full px-5 fixed bg-base-100 p-3 z-[5] ">
+      <div className="flex flex-col justify-center  w-full  lg:w-2/4 m-auto">
+        <div className="w-full px-5 top-16  bg-base-100 p-3 z-[5] relative ">
           <div className="collapse collapse-arrow bg-base-200">
             <input
               type="radio"
@@ -181,7 +181,7 @@ function ListContacts() {
           Object.keys(selectedDesig).length !== 0) ? (
           <NoResultFound />
         ) : (
-          <div className="overflow-y-auto mt-14 p-3 pt-5 max-h-[700px] relative top-0 pb-16">
+          <div className="overflow-y-auto mt-14 p-3 pt-0 max-h-[700px] relative top-0 pb-16">
             <table className="table table-pin-rows">
               {allContacts.map((item) => (
                 <React.Fragment key={item._id}>
