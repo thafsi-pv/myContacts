@@ -124,7 +124,7 @@ function SignUp() {
             <button
               onClick={handleSignUp}
               type="button"
-              className="w-full py-2 px-4 bg-[#00BFA6] text-white rounded-md hover:bg-green-600 focus:outline-none">
+              className="w-full py-2 px-4 bg-[#00BFA6] text-white rounded-md hover:bg-[#00bfa6ba] focus:outline-none">
               Sign Up
             </button>
             <div className="flex justify-center !mt-10 font-semibold text-xs">
