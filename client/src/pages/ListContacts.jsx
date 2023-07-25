@@ -31,12 +31,12 @@ function ListContacts() {
 
   useEffect(() => {
     console.log("Start useEffect event listener");
-    // Attach the scroll event listener to the contact list container when the component mounts
+    // Check if contactListRef.current is not null before adding the event listener
     if (contactListRef.current !== null) {
       console.log("Enter useEffect event listener");
       contactListRef.current.addEventListener("scroll", handleScroll);
     }
-
+  
     // Clean up the event listener when the component unmounts
     return () => {
       if (contactListRef.current !== null) {
@@ -45,6 +45,7 @@ function ListContacts() {
       }
     };
   }, [contactListRef.current]);
+  
 
   useEffect(() => {
     abortController.current = new AbortController();
