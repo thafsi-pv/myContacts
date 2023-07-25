@@ -65,7 +65,10 @@ function ListContacts() {
         signal: abortController.current.signal,
       }
     );
-    console.log("🚀 ~ file: ListContacts.jsx:68 ~ getAllContacts ~ response:", response)
+    console.log(
+      "🚀 ~ file: ListContacts.jsx:68 ~ getAllContacts ~ response:",
+      response
+    );
     setAllContacts((prev) => [...prev, ...response?.data?.contactList]);
     setContactCount(response?.data?.totalCount);
   };
@@ -203,24 +206,24 @@ function ListContacts() {
             </div>
           </div>
         </div>
-
-        {allContacts.length == 0 &&
-        (searchText != "" ||
-          Object.keys(selectedDept).length !== 0 ||
-          Object.keys(selectedDesig).length !== 0) ? (
-          <NoResultFound />
-        ) : (
-          <div
-            className="overflow-y-auto mt-14 p-3 pt-0 max-h-[700px] relative top-0 pb-16"
-            ref={contactListRef}>
-            <table className="table table-pin-rows">
-              {allContacts.map((item) => (
-                <ContactListItem item={item} key={item._id} />
-              ))}
-            </table>
-          </div>
-        )}
-
+        <div
+          className="overflow-y-auto pt-0 max-h-[700px] relative top-0 pb-16"
+          ref={contactListRef}>
+          {allContacts.length == 0 &&
+          (searchText != "" ||
+            Object.keys(selectedDept).length !== 0 ||
+            Object.keys(selectedDesig).length !== 0) ? (
+            <NoResultFound />
+          ) : (
+            <div className="overflow-y-auto mt-14 p-3 pt-0 max-h-[700px] relative top-0 pb-16">
+              <table className="table table-pin-rows">
+                {allContacts.map((item) => (
+                  <ContactListItem item={item} key={item._id} />
+                ))}
+              </table>
+            </div>
+          )}
+        </div>
         {/* <div className="overflow-x-auto mt-14 p-3 pt-5 max-h-[700px]">
           <table className="table table-xs lg:table-lg table-pin-rows table-pin-cols max-h-[68%] overflow-scroll cursor-pointer">
             <thead>
