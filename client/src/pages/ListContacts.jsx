@@ -36,7 +36,7 @@ function ListContacts() {
       console.log("Enter useEffect event listener");
       contactListRef.current.addEventListener("scroll", handleScroll);
     }
-  
+
     // Clean up the event listener when the component unmounts
     return () => {
       if (contactListRef.current !== null) {
@@ -44,8 +44,7 @@ function ListContacts() {
         contactListRef.current.removeEventListener("scroll", handleScroll);
       }
     };
-  }, [contactListRef.current,allContacts]);
-  
+  }, [contactListRef.current, allContacts]);
 
   useEffect(() => {
     abortController.current = new AbortController();
@@ -100,7 +99,7 @@ function ListContacts() {
   //     if ((page * 10) < contactCount) {
   //       console.log("🚀 ~ file: ListContacts.jsx:100 ~ handleScroll ~ contactCount:", contactCount)
   //       console.log("🚀 ~ file: ListContacts.jsx:100 ~ handleScroll ~ (page * 10):", (page * 10))
-        
+
   //       // Increment the page number to fetch the next page of contacts
   //       setPage((prevPage) => prevPage + 1);
   //     }
@@ -230,16 +229,16 @@ function ListContacts() {
             </div>
           </div>
         </div>
-        <div
-          className="pt-0 max-h-[700px] relative top-0 pb-16"
-         >
+        <div className="pt-0  relative top-0 pb-16">
           {allContacts.length == 0 &&
           (searchText != "" ||
             Object.keys(selectedDept).length !== 0 ||
             Object.keys(selectedDesig).length !== 0) ? (
             <NoResultFound />
           ) : (
-            <div className="overflow-y-auto mb-14 mt-14 p-3 pt-0 max-h-[700px] relative top-0 pb-16"  ref={contactListRef}>
+            <div
+              className="overflow-y-auto  mt-14 p-3 pt-0 max-h-[700px] relative top-0 pb-16"
+              ref={contactListRef}>
               <table className="table table-pin-rows">
                 {allContacts.map((item) => (
                   <ContactListItem item={item} key={item._id} />
