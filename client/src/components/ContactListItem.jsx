@@ -27,9 +27,9 @@ function ContactListItem({ item }) {
             className="h-10 border-1 border-base-200 hover:bg-base-200 mb-4 cursor-pointer"
             onClick={() => handleContact(contact._id)}>
             {/* <td className="p-2">{index + 1}</td> */}
-            <td className="p-2">
+            <td className="p-1">
               <span
-                className={`flex items-center justify-center text-white w-10 h-10 rounded-full shadow-lg my-auto text-center text-xl font-bold`}
+                className={`flex items-center justify-center text-white w-10 lg:w-14 h-10 lg:h-14 rounded-full shadow-lg my-auto text-center text-xl font-bold`}
                 style={{ backgroundColor: getRandomColorCode() }}>
                 {getInitialLetters(
                   (contact.firstName + " " + contact.lastName).toString()

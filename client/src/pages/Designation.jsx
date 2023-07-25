@@ -80,7 +80,7 @@ function Designation() {
 
   return (
     <div className="mt-12  p-4 space-y-4 lg:w-2/4 m-auto ">
-      <div className="space-y-2 fixed w-[100%] p-4 bg-base-200 left-0 right-0">
+      <div className="space-y-2 fixed w-[100%] lg:w-2/4 p-4 bg-base-200 left-0 lg:left-1/4 right-0">
         <label htmlFor="name" className="font-semibold">
           Designation
         </label>

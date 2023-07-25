@@ -7,6 +7,7 @@ import { toast } from "react-hot-toast";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import {
+  convertFirstLetterToCapital,
   copyToClipboard,
   formatNo,
   getInitialLetters,
@@ -89,7 +90,7 @@ function ContactDetails() {
             Object.keys(details[0]?.contactNos[0]).map((item, index) => (
               <div key={index} className="flex flex-col mt-4 md:mt-6">
                 <label htmlFor="" className="text-sm">
-                  {item}
+                  {convertFirstLetterToCapital(item)}
                 </label>
                 <div className="flex flex-nowrap items-center">
                   <label
