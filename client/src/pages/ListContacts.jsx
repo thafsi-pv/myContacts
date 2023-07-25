@@ -169,7 +169,7 @@ function ListContacts() {
   } else {
     return (
       <div className="flex flex-col justify-center  w-full  lg:w-2/4 m-auto">
-        <div className="w-full px-5 top-16  bg-base-100 p-3 z-[5] relative ">
+        <div className="w-full px-5 top-16  bg-base-100 p-3 z-[5] fixed ">
           <div className="collapse collapse-arrow bg-base-200">
             <input
               type="radio"
@@ -229,7 +229,7 @@ function ListContacts() {
             </div>
           </div>
         </div>
-        <div className="pt-0  relative top-0 pb-16">
+        <div className="pt-0  relative top-0 pb-4">
           {allContacts.length == 0 &&
           (searchText != "" ||
             Object.keys(selectedDept).length !== 0 ||
@@ -237,7 +237,7 @@ function ListContacts() {
             <NoResultFound />
           ) : (
             <div
-              className="overflow-y-auto  mt-14 p-3 pt-0 max-h-[700px] relative top-0 pb-16"
+              className="overflow-y-auto  mt-24 p-3 pt-0 max-h-[800px] relative top-0 pb-4"
               ref={contactListRef}>
               <table className="table table-pin-rows">
                 {allContacts.map((item) => (
