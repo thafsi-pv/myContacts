@@ -52,24 +52,43 @@ const getAllContactsGroup = async (req, res) => {
         $sort: { firstName: 1 }, // Sort contacts by firstName in ascending order (A to Z)
       },
       {
-        $unwind: "$contacts", // Unwind the contacts array to prepare for $lookup stages
-      },
-      {
-        $match: filter, // Apply the filter to the aggregation pipeline
-      },
-      {
-        $addFields: {
-          firstLetterLower: { $toLower: { $substr: ["$contacts.firstName", 0, 1] } }, // Create a new field with the lowercase version of the first letter
-        },
-      },
-      {
         $group: {
-          _id: "$firstLetterLower", // Group contacts by the new field
-          contacts: { $push: "$contacts" }, // Push the entire contact document into the contacts array
+          _id: { $substr: ["$firstName", 0, 1] }, // Group contacts by the first letter of firstName
+          contacts: { $push: "$$ROOT" }, // Push the entire contact document into the contacts array
         },
       },
       {
         $sort: { _id: 1 }, // Sort the groups based on the first letter in ascending order (A to Z)
+      },
+      {
+        $unwind: "$contacts", // Unwind the contacts array to prepare for $lookup stages
+      },
+      {
+        $lookup: {
+          from: "departments", // Replace "departments" with the actual collection name for departments
+          localField: "contacts.department",
+          foreignField: "_id",
+          as: "contacts.department",
+        },
+      },
+      {
+        $lookup: {
+          from: "designations", // Replace "designations" with the actual collection name for designations
+          localField: "contacts.designation",
+          foreignField: "_id",
+          as: "contacts.designation",
+        },
+      },
+      {
+        $lookup: {
+          from: "contactnumbers", // Replace "contactNos" with the actual collection name for contactNos
+          localField: "contacts.contactNos",
+          foreignField: "_id",
+          as: "contacts.contactNos",
+        },
+      },
+      {
+        $match: filter, // Apply the filter to the aggregation pipeline
       },
       {
         $skip: skipCount, // Add the $skip stage to skip contacts on previous pages
@@ -77,16 +96,22 @@ const getAllContactsGroup = async (req, res) => {
       {
         $limit: contactsPerPage, // Add the $limit stage to limit contacts per page
       },
+      {
+        $group: {
+          _id: "$_id",
+          contacts: { $push: "$contacts" }, // Push the contacts back into the contacts array for each group
+        },
+      },
     ]);
 
     const totalCount = await contactModel.countDocuments(filter); // Get the total count based on the filter
 
+    contactList.sort((a, b) => a._id.localeCompare(b._id));
     res.json({ contactList, totalCount });
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
-};
-
+}; 
 
 // const getAllContactsGroup = async (req, res) => {
 //   try {

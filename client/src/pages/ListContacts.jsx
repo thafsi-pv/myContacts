@@ -65,6 +65,7 @@ function ListContacts() {
         signal: abortController.current.signal,
       }
     );
+    console.log("🚀 ~ file: ListContacts.jsx:68 ~ getAllContacts ~ response:", response)
     setAllContacts((prev) => [...prev, ...response?.data?.contactList]);
     setContactCount(response?.data?.totalCount);
   };
