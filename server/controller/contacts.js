@@ -18,7 +18,12 @@ const getAllContacts = async (req, res) => {
 
 const getAllContactsGroup = async (req, res) => {
   try {
-    const { name, designationId, departmentId } = req.query;
+    const { name, designationId, departmentId, page, pageSize } = req.query;
+    const currentPage = parseInt(page) || 1;
+    const contactsPerPage = parseInt(pageSize) || 10;
+
+    // Calculate the skip count based on the current page and contacts per page
+    const skipCount = (currentPage - 1) * contactsPerPage;
 
     // Create an empty filter object to hold the query conditions
     const filter = {};
@@ -33,16 +38,12 @@ const getAllContactsGroup = async (req, res) => {
 
     // If designationId is provided, add it to the filter
     if (designationId) {
-      filter["contacts.designation._id"] = new mongoose.Types.ObjectId(
-        designationId
-      );
+      filter["contacts.designation._id"] = new mongoose.Types.ObjectId(designationId);
     }
 
     // If departmentId is provided, add it to the filter
     if (departmentId) {
-      filter["contacts.department._id"] = new mongoose.Types.ObjectId(
-        departmentId
-      );
+      filter["contacts.department._id"] = new mongoose.Types.ObjectId(departmentId);
     }
 
     // Use the filter in the $match stage of the aggregation pipeline
@@ -90,6 +91,12 @@ const getAllContactsGroup = async (req, res) => {
         $match: filter, // Apply the filter to the aggregation pipeline
       },
       {
+        $skip: skipCount, // Add the $skip stage to skip contacts on previous pages
+      },
+      {
+        $limit: contactsPerPage, // Add the $limit stage to limit contacts per page
+      },
+      {
         $group: {
           _id: "$_id",
           contacts: { $push: "$contacts" }, // Push the contacts back into the contacts array for each group
@@ -105,6 +112,98 @@ const getAllContactsGroup = async (req, res) => {
     res.status(400).json({ message: error.message });
   }
 };
+
+
+
+// const getAllContactsGroup = async (req, res) => {
+//   try {
+//     const { name, designationId, departmentId } = req.query;
+
+//     // Create an empty filter object to hold the query conditions
+//     const filter = {};
+
+//     // If name is provided, add it to the filter to check both firstName and lastName
+//     if (name) {
+//       filter.$or = [
+//         { "contacts.firstName": { $regex: new RegExp(name, "i") } },
+//         { "contacts.lastName": { $regex: new RegExp(name, "i") } },
+//       ];
+//     }
+
+//     // If designationId is provided, add it to the filter
+//     if (designationId) {
+//       filter["contacts.designation._id"] = new mongoose.Types.ObjectId(
+//         designationId
+//       );
+//     }
+
+//     // If departmentId is provided, add it to the filter
+//     if (departmentId) {
+//       filter["contacts.department._id"] = new mongoose.Types.ObjectId(
+//         departmentId
+//       );
+//     }
+
+//     // Use the filter in the $match stage of the aggregation pipeline
+//     const contactList = await contactModel.aggregate([
+//       {
+//         $sort: { firstName: 1 }, // Sort contacts by firstName in ascending order (A to Z)
+//       },
+//       {
+//         $group: {
+//           _id: { $substr: ["$firstName", 0, 1] }, // Group contacts by the first letter of firstName
+//           contacts: { $push: "$$ROOT" }, // Push the entire contact document into the contacts array
+//         },
+//       },
+//       {
+//         $sort: { _id: 1 }, // Sort the groups based on the first letter in ascending order (A to Z)
+//       },
+//       {
+//         $unwind: "$contacts", // Unwind the contacts array to prepare for $lookup stages
+//       },
+//       {
+//         $lookup: {
+//           from: "departments", // Replace "departments" with the actual collection name for departments
+//           localField: "contacts.department",
+//           foreignField: "_id",
+//           as: "contacts.department",
+//         },
+//       },
+//       {
+//         $lookup: {
+//           from: "designations", // Replace "designations" with the actual collection name for designations
+//           localField: "contacts.designation",
+//           foreignField: "_id",
+//           as: "contacts.designation",
+//         },
+//       },
+//       {
+//         $lookup: {
+//           from: "contactnumbers", // Replace "contactNos" with the actual collection name for contactNos
+//           localField: "contacts.contactNos",
+//           foreignField: "_id",
+//           as: "contacts.contactNos",
+//         },
+//       },
+//       {
+//         $match: filter, // Apply the filter to the aggregation pipeline
+//       },
+//       {
+//         $group: {
+//           _id: "$_id",
+//           contacts: { $push: "$contacts" }, // Push the contacts back into the contacts array for each group
+//         },
+//       },
+//     ]);
+
+//     const totalCount = await contactModel.countDocuments(filter); // Get the total count based on the filter
+
+//     contactList.sort((a, b) => a._id.localeCompare(b._id));
+//     res.json({ contactList, totalCount });
+//   } catch (error) {
+//     res.status(400).json({ message: error.message });
+//   }
+// };
 
 // const getAllContactsGroup = async (req, res) => {
 //   try {

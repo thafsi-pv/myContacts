@@ -25,23 +25,58 @@ function ListContacts() {
   const abortController = useRef(null);
   const [isAccordionOpen, setIsAccordionOpen] = useState(false);
   const { isLoading, toggleLoading, loader } = useLoader(false);
+  const [page, setPage] = useState(1);
+  const pageSize = 10;
+  const contactListRef = useRef(null);
+
+  useEffect(() => {
+    console.log("Start useEffect event listener");
+    // Attach the scroll event listener to the contact list container when the component mounts
+    if (contactListRef.current !== null) {
+      console.log("Enter useEffect event listener");
+      contactListRef.current.addEventListener("scroll", handleScroll);
+    }
+
+    // Clean up the event listener when the component unmounts
+    return () => {
+      if (contactListRef.current !== null) {
+        console.log("leave useEffect event listener");
+        contactListRef.current.removeEventListener("scroll", handleScroll);
+      }
+    };
+  }, [contactListRef.current !== null]);
 
   useEffect(() => {
     abortController.current = new AbortController();
     getAllContacts();
-    getDepartments();
-    getDesignation();
+    if (page == 1) {
+      getDepartments();
+      getDesignation();
+    }
     return () => {
       abortController.current.abort();
     };
-  }, []);
+  }, [page]);
 
   const getAllContacts = async () => {
-    const response = await axios.get(CONTACTS_API + "/contactGrouped", {
-      signal: abortController.current.signal,
-    });
-    setAllContacts(response?.data?.contactList);
+    const response = await axios.get(
+      `${CONTACTS_API}/contactGrouped?page=${page}&pageSize=${pageSize}`,
+      {
+        signal: abortController.current.signal,
+      }
+    );
+    setAllContacts((prev) => [...prev, ...response?.data?.contactList]);
     setContactCount(response?.data?.totalCount);
+  };
+
+  const handleScroll = () => {
+    // Calculate the scroll position of the contact list container
+    const { scrollHeight, scrollTop, clientHeight } = contactListRef.current;
+    // Check if the user has scrolled to the bottom of the contact list container
+    if (scrollHeight - scrollTop === clientHeight) {
+      // Increment the page number to fetch the next page of contacts
+      setPage((prevPage) => prevPage + 1);
+    }
   };
 
   const getDepartments = async () => {
@@ -174,7 +209,9 @@ function ListContacts() {
           Object.keys(selectedDesig).length !== 0) ? (
           <NoResultFound />
         ) : (
-          <div className="overflow-y-auto mt-14 p-3 pt-0 max-h-[700px] relative top-0 pb-16">
+          <div
+            className="overflow-y-auto mt-14 p-3 pt-0 max-h-[700px] relative top-0 pb-16"
+            ref={contactListRef}>
             <table className="table table-pin-rows">
               {allContacts.map((item) => (
                 <ContactListItem item={item} key={item._id} />
