@@ -47,23 +47,23 @@ function ListContacts() {
   }, [contactListRef.current]);
 
   useEffect(() => {
-    abortController.current = new AbortController();
+    //abortController.current = new AbortController();
     getAllContacts();
     if (page == 1) {
       getDepartments();
       getDesignation();
     }
     return () => {
-      abortController.current.abort();
+      //abortController.current.abort();
     };
   }, [page]);
 
   const getAllContacts = async () => {
     const response = await axios.get(
       `${CONTACTS_API}/contactGrouped?page=${page}&pageSize=${pageSize}`,
-      {
-        signal: abortController.current.signal,
-      }
+      // {
+      //   signal: abortController.current.signal,
+      // }
     );
     console.log(
       "🚀 ~ file: ListContacts.jsx:68 ~ getAllContacts ~ response:",
@@ -73,13 +73,36 @@ function ListContacts() {
     setContactCount(response?.data?.totalCount);
   };
 
+  // const handleScroll = () => {
+  //   // Calculate the scroll position of the contact list container
+  //   const { scrollHeight, scrollTop, clientHeight } = contactListRef.current;
+  //   // Check if the user has scrolled to the bottom of the contact list container
+  //   if (scrollHeight - scrollTop === clientHeight) {
+  //     // Increment the page number to fetch the next page of contacts
+  //     setPage((prevPage) => prevPage + 1);
+  //   }
+  // };
+
   const handleScroll = () => {
     // Calculate the scroll position of the contact list container
     const { scrollHeight, scrollTop, clientHeight } = contactListRef.current;
-    // Check if the user has scrolled to the bottom of the contact list container
-    if (scrollHeight - scrollTop === clientHeight) {
-      // Increment the page number to fetch the next page of contacts
-      setPage((prevPage) => prevPage + 1);
+
+    // Define a threshold (percentage of container height) to start loading the next page
+    const threshold = 0.8; // You can adjust this value as needed
+
+    // Calculate the distance from the bottom of the container to the current scroll position
+    const distanceToBottom = scrollHeight - scrollTop - clientHeight;
+
+    // Check if the user has reached the threshold before the scroll end
+    if (distanceToBottom <= clientHeight * threshold) {
+      // Check if there are more contacts to fetch
+      if ((page * 10) < contactCount) {
+        console.log("🚀 ~ file: ListContacts.jsx:100 ~ handleScroll ~ contactCount:", contactCount)
+        console.log("🚀 ~ file: ListContacts.jsx:100 ~ handleScroll ~ (page * 10):", (page * 10))
+        
+        // Increment the page number to fetch the next page of contacts
+        setPage((prevPage) => prevPage + 1);
+      }
     }
   };
 
