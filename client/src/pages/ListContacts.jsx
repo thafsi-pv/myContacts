@@ -28,6 +28,7 @@ function ListContacts() {
   const [page, setPage] = useState(1);
   const pageSize = 10;
   const contactListRef = useRef(null);
+  const [lazyLoad, setLazyLoad] = useState(false);
 
   useEffect(() => {
     console.log("Start useEffect event listener");
@@ -59,18 +60,25 @@ function ListContacts() {
   }, [page]);
 
   const getAllContacts = async () => {
-    const response = await axios.get(
-      `${CONTACTS_API}/contactGrouped?page=${page}&pageSize=${pageSize}`,
-      {
-        signal: abortController.current.signal,
-      }
-    );
-    console.log(
-      "🚀 ~ file: ListContacts.jsx:68 ~ getAllContacts ~ response:",
-      response
-    );
-    setAllContacts((prev) => [...prev, ...response?.data?.contactList]);
-    setContactCount(response?.data?.totalCount);
+    try {
+      setLazyLoad(true);
+      const response = await axios.get(
+        `${CONTACTS_API}/contactGrouped?page=${page}&pageSize=${pageSize}`,
+        {
+          signal: abortController.current.signal,
+        }
+      );
+      console.log(
+        "🚀 ~ file: ListContacts.jsx:71 ~ getAllContacts ~ response:",
+        response
+      );
+      setAllContacts((prev) => [...prev, ...response?.data?.contactList]);
+      setContactCount(response?.data?.totalCount);
+    } catch (error) {
+      genricError(error);
+    } finally {
+      setLazyLoad(false);
+    }
   };
 
   const handleScroll = () => {
@@ -131,13 +139,14 @@ function ListContacts() {
 
   const handleSearchContact = async () => {
     try {
+      setPage(1);
       toggleLoading(true);
       const designation =
         selectedDesig.value != undefined ? selectedDesig.value : "";
       const department =
         selectedDept.value != undefined ? selectedDept.value : "";
       const response = await axios.get(`
-    ${CONTACTS_API}/contactGrouped?name=${searchText}&designationId=${designation}&departmentId=${department}`);
+    ${CONTACTS_API}/contactGrouped?name=${searchText}&designationId=${designation}&departmentId=${department}&page=${page}&pageSize=${pageSize}`);
       setAllContacts(response?.data?.contactList);
       toggleAccordion();
     } catch (error) {
@@ -165,7 +174,7 @@ function ListContacts() {
     Object.keys(selectedDept).length === 0 &&
     Object.keys(selectedDesig).length === 0
   ) {
-    return <ShimmerContacts />;
+    return <ShimmerContacts count={9} showSearch={true} />;
   } else {
     return (
       <div className="flex flex-col justify-center  w-full  lg:w-2/4 m-auto">
@@ -244,6 +253,24 @@ function ListContacts() {
                   <ContactListItem item={item} key={item._id} />
                 ))}
               </table>
+              {lazyLoad && (
+                <div>
+                  <div className="flex items-center ">
+                    <div className="h-12 w-12 bg-gray-400 rounded-full"></div>
+                    <div className="ml-4">
+                      <div className="h-4 bg-gray-400 w-32 rounded"></div>
+                      <div className="h-4 bg-gray-400 w-20 rounded mt-2"></div>
+                    </div>
+                  </div>
+                  <div className="flex items-center ">
+                    <div className="h-12 w-12 bg-gray-400 rounded-full"></div>
+                    <div className="ml-4">
+                      <div className="h-4 bg-gray-400 w-32 rounded"></div>
+                      <div className="h-4 bg-gray-400 w-20 rounded mt-2"></div>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           )}
         </div>

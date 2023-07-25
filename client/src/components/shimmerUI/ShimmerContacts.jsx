@@ -1,11 +1,13 @@
 import React from "react";
 
-const ShimmerContacts = () => {
+const ShimmerContacts = ({ count, showSearch }) => {
   return (
     <div className="flex flex-col p-8 justify-center mt-16 max-h-[700px] lg:w-2/4 m-auto animate-pulse">
-      <div className=" bg-gray-400 rounded-lg p-2 mb-4 !h-10 w-full"></div>
+      {showSearch && (
+        <div className=" bg-gray-400 rounded-lg p-2 mb-4 !h-10 w-full"></div>
+      )}
       <div className="space-y-4">
-        {[...Array(9)].map((_, index) => (
+        {[...Array(count)].map((_, index) => (
           <div className="flex items-center " key={index}>
             <div className="h-12 w-12 bg-gray-400 rounded-full"></div>
             <div className="ml-4">

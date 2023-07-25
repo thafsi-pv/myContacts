@@ -19,6 +19,7 @@ const getAllContacts = async (req, res) => {
 const getAllContactsGroup = async (req, res) => {
   try {
     const { name, designationId, departmentId, page, pageSize } = req.query;
+    console.log("🚀 ~ file: contacts.js:22 ~ getAllContactsGroup ~ req.query:", req.query)
     const currentPage = parseInt(page) || 1;
     const contactsPerPage = parseInt(pageSize) || 10;
 
