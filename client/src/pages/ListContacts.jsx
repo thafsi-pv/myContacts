@@ -44,7 +44,7 @@ function ListContacts() {
         contactListRef.current.removeEventListener("scroll", handleScroll);
       }
     };
-  }, [contactListRef.current]);
+  }, [contactListRef.current,allContacts]);
   
 
   useEffect(() => {
