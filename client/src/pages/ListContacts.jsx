@@ -87,7 +87,10 @@ function ListContacts() {
     // Check if the user has scrolled to the bottom of the contact list container
     if (scrollHeight - scrollTop === clientHeight) {
       // Increment the page number to fetch the next page of contacts
-      setPage((prevPage) => prevPage + 1);
+      if (page <= 3) {
+        console.log("page", page);
+        setPage((prevPage) => page + 1);
+      }
     }
   };
 
@@ -253,8 +256,8 @@ function ListContacts() {
                   <ContactListItem item={item} key={item._id} />
                 ))}
               </table>
-              {lazyLoad && (
-                <div>
+              {!lazyLoad && (
+                <div className="space-y-3">
                   <div className="flex items-center ">
                     <div className="h-12 w-12 bg-gray-400 rounded-full"></div>
                     <div className="ml-4">
