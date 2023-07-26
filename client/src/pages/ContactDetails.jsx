@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { FiPhoneCall } from "react-icons/fi";
+import { GiRotaryPhone } from "react-icons/gi";
+import { CiMobile3 } from "react-icons/ci";
 import { FaWhatsapp } from "react-icons/fa";
 import { BsClipboard2Check, BsPencil, BsTrash3 } from "react-icons/bs";
 import { useRef } from "react";
@@ -93,19 +95,21 @@ function ContactDetails() {
                   {convertFirstLetterToCapital(item)}
                 </label>
                 <div className="flex flex-nowrap items-center">
-                  <label
-                    className="font-semibold mr-3"
-                    htmlFor="">
+                  <label className="font-semibold mr-3" htmlFor="">
                     {formatNo(details[0]?.contactNos[0][item])}
                   </label>
                   <a
                     href={`tel:${details[0]?.contactNos[0][item]}`}
-                    className="inline-flex items-center mr-3 p-2 py-2 text-sm font-medium text-center text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-700 dark:focus:ring-gray-700">
-                    <FiPhoneCall />
+                    className="inline-flex items-center mr-3 p-2 py-2 text-sm font-medium text-center text-gray-900 bg-white border rounded-md">
+                    {item == "office" ? (
+                      <FiPhoneCall className="" />
+                    ) : (
+                      <CiMobile3 />
+                    )}
                   </a>
                   <a
                     href={`https://api.whatsapp.com/send?phone=${details[0]?.contactNos[0][item]}`}
-                    className="inline-flex items-center mr-3 p-2 py-2 text-sm font-medium text-center text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-700 dark:focus:ring-gray-700">
+                    className="inline-flex items-center mr-3 p-2 py-2 text-sm font-medium text-center text-gray-900 bg-white border rounded-md">
                     <FaWhatsapp />
                   </a>
                   <p
@@ -115,7 +119,7 @@ function ContactDetails() {
                         `${formatNo(details[0]?.contactNos[0][item])}`
                       )
                     }
-                    className="inline-flex items-center mr-3 p-2 py-2 text-sm font-medium text-center text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-700 dark:focus:ring-gray-700">
+                    className="inline-flex items-center mr-3 p-2 py-2 text-sm font-medium text-center text-gray-900 bg-white border rounded-md">
                     <BsClipboard2Check />
                   </p>
                 </div>

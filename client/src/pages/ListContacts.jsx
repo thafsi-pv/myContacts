@@ -140,22 +140,24 @@ function ListContacts() {
     setIsAccordionOpen((prevState) => !prevState);
   };
 
-  const handleSearchContact = async () => {
+  const handleSearchContact = async (e) => {
     try {
+      const txt = e.target.value;
+      setSearchText(txt);
       setPage(1);
-      toggleLoading(true);
+      //toggleLoading(true);
       const designation =
         selectedDesig.value != undefined ? selectedDesig.value : "";
       const department =
         selectedDept.value != undefined ? selectedDept.value : "";
       const response = await axios.get(`
-    ${CONTACTS_API}/contactGrouped?name=${searchText}&designationId=${designation}&departmentId=${department}&page=${page}&pageSize=${pageSize}`);
+    ${CONTACTS_API}/contactGrouped?name=${txt}&designationId=${designation}&departmentId=${department}&page=${page}&pageSize=${pageSize}`);
       setAllContacts(response?.data?.contactList);
-      toggleAccordion();
+      // toggleAccordion();
     } catch (error) {
       genricError(error);
     } finally {
-      toggleLoading(false);
+      //toggleLoading(false);
     }
   };
 
@@ -225,7 +227,7 @@ function ListContacts() {
                     <input
                       className="input !border-gray-600 join-item w-full"
                       placeholder="Search..."
-                      onChange={(e) => setSearchText(e.target.value)}
+                      onChange={handleSearchContact}
                     />
                   </div>
                 </div>
@@ -249,7 +251,7 @@ function ListContacts() {
             <NoResultFound />
           ) : (
             <div
-              className="overflow-y-auto  mt-24 p-3 pt-0 max-h-[800px] relative top-0 pb-4"
+              className="overflow-y-auto  mt-36 p-3 pt-0 max-h-[800px] relative top-0 pb-4"
               ref={contactListRef}>
               <table className="table table-pin-rows">
                 {allContacts.map((item) => (
