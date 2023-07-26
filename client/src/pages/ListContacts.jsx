@@ -28,7 +28,30 @@ function ListContacts() {
   const [page, setPage] = useState(1);
   const pageSize = 10;
   const contactListRef = useRef(null);
+  const searchBoxRef = useRef(null);
   const [lazyLoad, setLazyLoad] = useState(false);
+
+  useEffect(() => {
+    // Function to handle the click outside event
+    const handleClickOutside = (event) => {
+      // Check if the clicked target is outside the element
+      if (
+        searchBoxRef.current &&
+        !searchBoxRef.current.contains(event.target)
+      ) {
+        // Perform the action you want when clicking outside the element
+        setIsAccordionOpen(false);
+      }
+    };
+
+    // Add the event listener to the document when the component mounts
+    document.addEventListener("click", handleClickOutside);
+
+    // Clean up the event listener when the component unmounts
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
 
   useEffect(() => {
     console.log("Start useEffect event listener");
@@ -182,8 +205,10 @@ function ListContacts() {
     return <ShimmerContacts count={9} showSearch={true} />;
   } else {
     return (
-      <div className="flex flex-col justify-center  w-full  lg:w-2/4 m-auto">
-        <div className="w-full px-5 top-16  bg-base-100 p-3 z-[5] fixed ">
+      <div className="flex flex-col justify-center  w-full  lg:w-2/4 m-auto absolute">
+        <div
+          className="w-full px-5 top-16  bg-base-100 p-3 z-[5] relative"
+          ref={searchBoxRef}>
           <div className="collapse collapse-arrow bg-base-200">
             <input
               type="radio"
@@ -251,14 +276,14 @@ function ListContacts() {
             <NoResultFound />
           ) : (
             <div
-              className="overflow-y-auto  mt-36 p-3 pt-0 max-h-[800px] relative top-0 pb-4"
+              className="overflow-y-auto  mt-16 p-3 pt-0 max-h-[800px] relative top-0 pb-4"
               ref={contactListRef}>
               <table className="table table-pin-rows">
                 {allContacts.map((item) => (
                   <ContactListItem item={item} key={item._id} />
                 ))}
               </table>
-              {!lazyLoad && (
+              {lazyLoad && (
                 <div className="space-y-3">
                   <div className="flex items-center ">
                     <div className="h-12 w-12 bg-gray-400 rounded-full"></div>

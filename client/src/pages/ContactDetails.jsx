@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { FiPhoneCall } from "react-icons/fi";
 import { GiRotaryPhone } from "react-icons/gi";
-import { CiMobile3 } from "react-icons/ci";
+import { MdOutlinePhonelinkRing } from "react-icons/md";
 import { FaWhatsapp } from "react-icons/fa";
 import { BsClipboard2Check, BsPencil, BsTrash3 } from "react-icons/bs";
 import { useRef } from "react";
@@ -44,7 +44,7 @@ function ContactDetails() {
   }
   return (
     <div className="flex justify-center align-middle w-full items-center h-full mt-16">
-      <div className=" p-5 m-3 w-full max-w-sm   rounded-lg bg-red-500 dark:bg-base-100 shadow-2xl">
+      <div className=" p-5 m-3 w-full max-w-sm rounded-lg bg-red-500 dark:bg-base-100 shadow-2xl">
         {permissionList.includes("AC") && (
           <div className="dropdown dropdown-bottom w-full flex justify-end">
             <label tabIndex={0} className="text-lg font-bold m-1">
@@ -104,7 +104,7 @@ function ContactDetails() {
                     {item == "office" ? (
                       <FiPhoneCall className="" />
                     ) : (
-                      <CiMobile3 />
+                      <MdOutlinePhonelinkRing />
                     )}
                   </a>
                   <a
