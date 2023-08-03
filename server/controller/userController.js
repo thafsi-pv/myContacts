@@ -51,6 +51,24 @@ const signIn = async (req, res) => {
   if (!validatePassword) {
     return res.status(400).json({ message: "Incorrect email/password!.😣" });
   }
+  const permission = await userModel
+    .findById(isExist._id)
+    .select("permission")
+    .populate("permission");
+  console.log(
+    "🚀 ~ file: userController.js:58 ~ signIn ~ permission:",
+    permission
+  );
+
+  if (
+    permission.permission.permmision.length === 0 &&
+    permission.permission.role == "user"
+  ) {
+    console.log("unauthorized");
+    return res.status(403).json({
+      message: "Upon approval ✋🏽. so please wait for a while!",
+    });
+  }
 
   //generate accesstoken
   const accesstoken = generateAccessToken(isExist._id);
@@ -90,7 +108,6 @@ const getPermissionByUserId = async (req, res) => {
       .findById(id)
       .select(["permission", "firstName", "lastName", "email"])
       .populate("permission");
-    console.log("🚀 ~ file: userController.js:93 ~ getPermissionByUserId ~ data:", data)
     res.json(data);
   } catch (error) {
     res.status(400).json(error);

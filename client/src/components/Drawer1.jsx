@@ -63,7 +63,7 @@ const Drawer = () => {
 
           {/* Department Group */}
           <div className="group">
-            {(userDetails.role == "admin" || permissionList.length != 0) && (
+            {(userDetails.role == "admin" || permissionList.includes('AC','DPT','DSG') != 0) && (
               <h2 className="group-heading border-b p-1 border-gray-700 font-semibold">
                 Add/Update
               </h2>
@@ -123,7 +123,7 @@ const Drawer = () => {
           {/* Report Group */}
           <div className="group">
             {(userDetails.role == "admin" ||
-              permissionList.includes("AC","VC,")) && (
+              permissionList.includes("AC","VC")) && (
               <>
                 <h2 className="group-heading border-b p-1 border-gray-700 font-semibold">
                   Report
