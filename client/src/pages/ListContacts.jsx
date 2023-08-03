@@ -9,6 +9,7 @@ import NoResultFound from "../components/NoResultFound";
 import useLoader from "../hooks/useLoader";
 import { genricError } from "../utils/genricError";
 import ContactListItem from "../components/ContactListItem";
+import { useSelector } from "react-redux";
 
 const keyChanges = {
   _id: "value",
@@ -30,6 +31,8 @@ function ListContacts() {
   const contactListRef = useRef(null);
   const searchBoxRef = useRef(null);
   const [lazyLoad, setLazyLoad] = useState(false);
+  const { permissionList,userDetails } = useSelector((store) => store.permission);
+  
 
   useEffect(() => {
     // Function to handle the click outside event
@@ -206,157 +209,109 @@ function ListContacts() {
   } else {
     return (
       <div className="flex flex-col justify-center  w-full  lg:w-2/4 m-auto">
-        <div
-          className="w-full px-5 top-16  bg-base-100 p-3 z-[5] relative"
-          ref={searchBoxRef}>
-          <div className="collapse collapse-arrow bg-base-200">
-            <input
-              type="radio"
-              name="my-accordion-2"
-              checked={isAccordionOpen}
-              onClick={toggleAccordion}
-            />
-            <div className="collapse-title text-xl font-medium">
-              <p className="text-sm flex">
-                <AiOutlineSearch className="w-5 h-5" />
-                Search among {contactCount} contacts..
-              </p>
-            </div>
-            <div className="collapse-content">
-              <div className="flex gap-2 pb-2">
-                <div className="w-full ">
-                  <Select
-                    className="w-full" // Add this class to make the select box expand to full width
-                    menuPortalTarget={document.body}
-                    styles={{ ...selectStyles }}
-                    placeholder="designation"
-                    options={designation}
-                    //value={selectedDesig}
-                    onChange={(e) => handleDesignationChange(e)}
-                  />
-                </div>
-                <div className="w-full ">
-                  <Select
-                    menuPortalTarget={document.body}
-                    styles={{ ...selectStyles }}
-                    placeholder="Department"
-                    options={departments}
-                    //value={selectedDept}
-                    onChange={(e) => handleDepartmentChange(e)}
-                  />
-                </div>
-              </div>
-              <div className="join w-full !border-gray-600">
-                <div className="w-[100%]">
-                  <div>
-                    <input
-                      className="input !border-gray-600 join-item w-full"
-                      placeholder="Search..."
-                      onChange={handleSearchContact}
-                    />
-                  </div>
-                </div>
-
-                <div className="indicator">
-                  <button
-                    className="btn join-item !border-gray-600 !bg-base-300"
-                    onClick={handleSearchContact}>
-                    <AiOutlineSearch className="w-5 h-5 " />
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="pt-0  relative top-0 pb-4">
-          {allContacts.length == 0 &&
-          (searchText != "" ||
-            Object.keys(selectedDept).length !== 0 ||
-            Object.keys(selectedDesig).length !== 0) ? (
-            <NoResultFound />
-          ) : (
+        {(userDetails.role == "admin" || permissionList.includes("VC")) && (
+          <>
             <div
-              className="overflow-y-auto  mt-16 p-3 pt-0 max-h-[800px] relative top-0 pb-4"
-              ref={contactListRef}>
-              <table className="table table-pin-rows">
-                {allContacts.map((item) => (
-                  <ContactListItem item={item} key={item._id} />
-                ))}
-              </table>
-              {lazyLoad && (
-                <div className="space-y-3">
-                  <div className="flex items-center ">
-                    <div className="h-12 w-12 bg-gray-400 rounded-full"></div>
-                    <div className="ml-4">
-                      <div className="h-4 bg-gray-400 w-32 rounded"></div>
-                      <div className="h-4 bg-gray-400 w-20 rounded mt-2"></div>
+              className="w-full px-5 top-16  bg-base-100 p-3 z-[5] relative"
+              ref={searchBoxRef}>
+              <div className="collapse collapse-arrow bg-base-200">
+                <input
+                  type="radio"
+                  name="my-accordion-2"
+                  checked={isAccordionOpen}
+                  onClick={toggleAccordion}
+                />
+                <div className="collapse-title text-xl font-medium">
+                  <p className="text-sm flex">
+                    <AiOutlineSearch className="w-5 h-5" />
+                    Search among {contactCount} contacts..
+                  </p>
+                </div>
+                <div className="collapse-content">
+                  <div className="flex gap-2 pb-2">
+                    <div className="w-full ">
+                      <Select
+                        className="w-full" // Add this class to make the select box expand to full width
+                        menuPortalTarget={document.body}
+                        styles={{ ...selectStyles }}
+                        placeholder="designation"
+                        options={designation}
+                        //value={selectedDesig}
+                        onChange={(e) => handleDesignationChange(e)}
+                      />
+                    </div>
+                    <div className="w-full ">
+                      <Select
+                        menuPortalTarget={document.body}
+                        styles={{ ...selectStyles }}
+                        placeholder="Department"
+                        options={departments}
+                        //value={selectedDept}
+                        onChange={(e) => handleDepartmentChange(e)}
+                      />
                     </div>
                   </div>
-                  <div className="flex items-center ">
-                    <div className="h-12 w-12 bg-gray-400 rounded-full"></div>
-                    <div className="ml-4">
-                      <div className="h-4 bg-gray-400 w-32 rounded"></div>
-                      <div className="h-4 bg-gray-400 w-20 rounded mt-2"></div>
+                  <div className="join w-full !border-gray-600">
+                    <div className="w-[100%]">
+                      <div>
+                        <input
+                          className="input !border-gray-600 join-item w-full"
+                          placeholder="Search..."
+                          onChange={handleSearchContact}
+                        />
+                      </div>
+                    </div>
+
+                    <div className="indicator">
+                      <button
+                        className="btn join-item !border-gray-600 !bg-base-300"
+                        onClick={handleSearchContact}>
+                        <AiOutlineSearch className="w-5 h-5 " />
+                      </button>
                     </div>
                   </div>
+                </div>
+              </div>
+            </div>
+            <div className="pt-0  relative top-0 pb-4">
+              {allContacts.length == 0 &&
+              (searchText != "" ||
+                Object.keys(selectedDept).length !== 0 ||
+                Object.keys(selectedDesig).length !== 0) ? (
+                <NoResultFound />
+              ) : (
+                <div
+                  className="overflow-y-auto  mt-16 p-3 pt-0 max-h-[800px] relative top-0 pb-4"
+                  ref={contactListRef}>
+                  <table className="table table-pin-rows">
+                    {allContacts.map((item) => (
+                      <ContactListItem item={item} key={item._id} />
+                    ))}
+                  </table>
+                  {lazyLoad && (
+                    <div className="space-y-3">
+                      <div className="flex items-center ">
+                        <div className="h-12 w-12 bg-gray-400 rounded-full"></div>
+                        <div className="ml-4">
+                          <div className="h-4 bg-gray-400 w-32 rounded"></div>
+                          <div className="h-4 bg-gray-400 w-20 rounded mt-2"></div>
+                        </div>
+                      </div>
+                      <div className="flex items-center ">
+                        <div className="h-12 w-12 bg-gray-400 rounded-full"></div>
+                        <div className="ml-4">
+                          <div className="h-4 bg-gray-400 w-32 rounded"></div>
+                          <div className="h-4 bg-gray-400 w-20 rounded mt-2"></div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </div>
               )}
             </div>
-          )}
-        </div>
-        {/* <div className="overflow-x-auto mt-14 p-3 pt-5 max-h-[700px]">
-          <table className="table table-xs lg:table-lg table-pin-rows table-pin-cols max-h-[68%] overflow-scroll cursor-pointer">
-            <thead>
-              <tr className="!top-[-13px]">
-                <th></th>
-                <td>Image</td>
-                <td>Name</td>
-                <td>View</td>
-              </tr>
-            </thead>
-            <tbody>
-              {allContacts.map((item, index) => {
-                return (
-                  <tr
-                    key={item._id}
-                    className="h-10 border-1 border-base-200 hover:bg-base-200 mb-4"
-                    onClick={() => handleContact(item._id)}>
-                    <td className="p-2">{index + 1}</td>
-                    <td className="p-2">
-                      <span
-                        className={`flex items-center justify-center text-white w-10 h-10 rounded-full shadow-lg my-auto text-center text-xl font-bold`}
-                        style={{ backgroundColor: getRandomColorCode() }}>
-                        {getInitialLetters(
-                          (item.firstName + " " + item.lastName).toString()
-                        )}
-                      </span>
-                    </td>
-                    <td className="w-[80%]">
-                      <div className="flex flex-col justify-start">
-                        <span className="text-lg font-medium">
-                          {item.firstName} {item.lastName}
-                        </span>
-                        <div>
-                          <span className="">{item?.designation[0]?.name}</span>
-                          {item?.designation[0]?.name && item?.department[0]?.name
-                            ? ` | `
-                            : ""}
-                          <span>{item?.department[0]?.name}</span>
-                        </div>
-                        <div>
-                          <span>{formatNo(item.contactNos[0].mobile)}</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <BsArrowRight className="h-6 w-6" />
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div> */}
+          </>
+        )}
+
         {isLoading && loader}
       </div>
     );

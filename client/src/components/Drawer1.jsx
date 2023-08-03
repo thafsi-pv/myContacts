@@ -13,11 +13,16 @@ import { IoPersonAdd } from "react-icons/io5";
 import { DrawerContext } from "../context/DrawerContext";
 import { useSelector } from "react-redux";
 
-
 const Drawer = () => {
   const [isOpen, setIsOpen] = useState(true);
   const { showDrawer, toggleDrawer } = useContext(DrawerContext);
-  const { permissionList, userDetails } = useSelector((store) => store.permission);
+  const { permissionList, userDetails } = useSelector(
+    (store) => store.permission
+  );
+  console.log(
+    "🚀 ~ file: Drawer1.jsx:21 ~ Drawer ~ permissionList:",
+    permissionList
+  );
 
   // const toggleDrawer = () => {
   //   setIsOpen(!isOpen);
@@ -42,23 +47,27 @@ const Drawer = () => {
         <ul className="menu pl-8 pt-10 w-80 h-full bg-base-200 text-base-content space-y-5">
           {/* Logout Group */}
           <div className="group">
-            <li onClick={toggleDrawer}>
-              <Link to="/">
-                <a className="text-md font-semibold flex items-center">
-                  <span>
-                    <BiHome className="mr-2 h-6 w-6" />
-                  </span>
-                  All Contacts
-                </a>
-              </Link>
-            </li>
+            {(userDetails.role == "admin" || permissionList.includes("VC")) && (
+              <li onClick={toggleDrawer}>
+                <Link to="/">
+                  <a className="text-md font-semibold flex items-center">
+                    <span>
+                      <BiHome className="mr-2 h-6 w-6" />
+                    </span>
+                    All Contacts
+                  </a>
+                </Link>
+              </li>
+            )}
           </div>
 
           {/* Department Group */}
           <div className="group">
-            <h2 className="group-heading border-b p-1 border-gray-700 font-semibold">
-              Add/Update
-            </h2>
+            {(userDetails.role == "admin" || permissionList.length != 0) && (
+              <h2 className="group-heading border-b p-1 border-gray-700 font-semibold">
+                Add/Update
+              </h2>
+            )}
             {(userDetails.role == "admin" || permissionList.includes("AC")) && (
               <li className="pt-2" onClick={toggleDrawer}>
                 <Link to="/addNew">
@@ -71,7 +80,8 @@ const Drawer = () => {
                 </Link>
               </li>
             )}
-            {(userDetails.role == "admin" || permissionList.includes("DPT")) && (
+            {(userDetails.role == "admin" ||
+              permissionList.includes("DPT")) && (
               <li className="" onClick={toggleDrawer}>
                 <Link to="/dept">
                   <a className="text-md font-semibold flex items-center">
@@ -83,7 +93,8 @@ const Drawer = () => {
                 </Link>
               </li>
             )}
-            {(userDetails.role == "admin" || permissionList.includes("DSG")) && (
+            {(userDetails.role == "admin" ||
+              permissionList.includes("DSG")) && (
               <li onClick={toggleDrawer}>
                 <Link to="/designation">
                   <a className="text-md font-semibold flex items-center">
@@ -111,24 +122,30 @@ const Drawer = () => {
 
           {/* Report Group */}
           <div className="group">
-            <h2 className="group-heading border-b p-1 border-gray-700 font-semibold">
-              Report
-            </h2>
-            <li onClick={toggleDrawer}>
-              <div>
-                <PDFDownloadLink document={<PDFFile />} filename="FORM">
-                  {({ loading }) =>
-                    loading ? (
-                      <button>Loading Document...</button>
-                    ) : (
-                      <button className="text-md font-semibold flex items-center">
-                        <BsFiletypePdf className="mr-2 h-6 w-6" /> Save as pdf
-                      </button>
-                    )
-                  }
-                </PDFDownloadLink>
-              </div>
-            </li>
+            {(userDetails.role == "admin" ||
+              permissionList.includes("AC","VC,")) && (
+              <>
+                <h2 className="group-heading border-b p-1 border-gray-700 font-semibold">
+                  Report
+                </h2>
+                <li onClick={toggleDrawer}>
+                  <div>
+                    <PDFDownloadLink document={<PDFFile />} filename="FORM">
+                      {({ loading }) =>
+                        loading ? (
+                          <button>Loading Document...</button>
+                        ) : (
+                          <button className="text-md font-semibold flex items-center">
+                            <BsFiletypePdf className="mr-2 h-6 w-6" /> Save as
+                            pdf
+                          </button>
+                        )
+                      }
+                    </PDFDownloadLink>
+                  </div>
+                </li>
+              </>
+            )}
           </div>
 
           {/* Settings Group */}

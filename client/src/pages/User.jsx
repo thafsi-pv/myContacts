@@ -69,6 +69,9 @@ function User() {
               Name
             </th>
             <th className="text-center border !border-gray-300">
+              View Contacts
+            </th>
+            <th className="text-center border !border-gray-300">
               Add Contacts
             </th>
             <th className="text-center border !border-gray-300">Department</th>
@@ -87,6 +90,16 @@ function User() {
                 {item.firstName}
                 <br />
                 {item.email}
+              </td>
+              <td className="text-center border !border-gray-300">
+                <input
+                  id={`chk${item._id}`}
+                  type="checkbox"
+                  className="toggle toggle-success"
+                  name="VC"
+                  checked={item.permission.permmision.includes("VC")}
+                  onChange={() => handleChkChange(item)}
+                />
               </td>
               <td className="text-center border !border-gray-300">
                 <input
