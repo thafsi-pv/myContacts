@@ -205,7 +205,7 @@ function ListContacts() {
     return <ShimmerContacts count={9} showSearch={true} />;
   } else {
     return (
-      <div className="flex flex-col justify-center  w-full  lg:w-2/4 m-auto absolute">
+      <div className="flex flex-col justify-center  w-full  lg:w-2/4 m-auto">
         <div
           className="w-full px-5 top-16  bg-base-100 p-3 z-[5] relative"
           ref={searchBoxRef}>

@@ -84,8 +84,8 @@ function Header() {
           className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52">
           <li>
             <div className=" border-b border-gray-500 rounded-none flex flex-col items-start">
-              <p>
-                {userDetails?.firstName} {userDetails?.lastName}
+              <p className="font-semibold">
+                👋🏻Hey,{userDetails?.firstName} {userDetails?.lastName}
               </p>
               <p>{userDetails?.email}</p>
             </div>
