@@ -6,7 +6,7 @@ import { FaWhatsapp } from "react-icons/fa";
 import { BsClipboard2Check, BsPencil, BsTrash3 } from "react-icons/bs";
 import { useRef } from "react";
 import { Toaster, toast } from "react-hot-toast";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import {
   convertFirstLetterToCapital,
@@ -18,16 +18,14 @@ import {
 import { CONTACTS_API } from "../const/const";
 import { useSelector } from "react-redux";
 import ShimmerContactDetails from "../components/shimmerUI/ShimmerContactDetails";
+import { genricError } from "../utils/genricError";
 
 function ContactDetails() {
   const textareaRef = useRef(null);
   const param = useParams();
   const [details, setDetails] = useState([]);
-  console.log(
-    "🚀 ~ file: ContactDetails.jsx:26 ~ ContactDetails ~ details:",
-    details
-  );
   const { permissionList } = useSelector((store) => store.permission);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (param.id) {
@@ -69,12 +67,17 @@ function ContactDetails() {
     );
   };
 
-  const handleYes = (toastId) => {
-    console.log(
-      "🚀 ~ file: ContactDetails.jsx:79 ~ handleYes ~ toastId:",
-      toastId
-    );
-    toast.dismiss(toastId, true);
+  const handleYes = async (toastId) => {
+    try {
+      toast.dismiss(toastId, true);
+      const response = await axios.delete(`${CONTACTS_API}/${param.id}`);
+      if (response.status == 200) {
+        toast.success("Contact deleted successfully👍🏻");
+        navigate("/");
+      }
+    } catch (error) {
+      genricError(error);
+    }
   };
 
   if (details.length == 0) {

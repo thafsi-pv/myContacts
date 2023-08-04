@@ -352,7 +352,7 @@ const addOrUpdateContact = async (req, res) => {
         "🚀 ~ file: contacts.js:359 ~ addOrUpdateContact ~ newContactDetails:",
         newContactDetails
       );
-     return res.status(200).json(newContactDetails);
+      return res.status(200).json(newContactDetails);
     }
     const numbers = await contactNumberModel.create(contactNos);
     newContact.contactNos = numbers._id;
@@ -363,9 +363,39 @@ const addOrUpdateContact = async (req, res) => {
   }
 };
 
+const deleteContactById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    console.log("🚀 ~ file: contacts.js:368 ~ deleteContactById ~ id:", id);
+
+    // Ensure the id parameter is valid (optional)
+    if (!id) {
+      return res.status(400).json({ message: "Invalid id provided" });
+    }
+
+    const response = await contactModel.findByIdAndDelete(id);
+
+    if (!response) {
+      return res.status(404).json({ message: "Contact not found" });
+    }
+
+    console.log(
+      "🚀 ~ file: contacts.js:369 ~ deleteContactById ~ response:",
+      response
+    );
+
+    res.status(200).json({ response });
+  } catch (error) {
+    console.error("Error deleting contact:", error);
+    res.status(500).json({ message: "Error deleting contact" });
+  }
+};
+
+
 module.exports = {
   getAllContacts,
   contactGetById,
   addOrUpdateContact,
   getAllContactsGroup,
+  deleteContactById,
 };
