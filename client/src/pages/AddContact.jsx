@@ -21,7 +21,15 @@ function AddContact() {
   const navigate = useNavigate();
   const firsNameRef = useRef(null);
   const [newContact, setNewContact] = useState([]);
+  console.log(
+    "🚀 ~ file: AddContact.jsx:24 ~ AddContact ~ newContact:",
+    newContact
+  );
   const [contactNos, setContactNos] = useState();
+  console.log(
+    "🚀 ~ file: AddContact.jsx:26 ~ AddContact ~ contactNos:",
+    contactNos
+  );
   const [phoneInput, setPhoneInput] = useState([
     { id: uuidv4(), phone: "Mobile", name: "mobile" },
     { id: uuidv4(), phone: "WhatsApp", name: "whatsApp" },
@@ -110,20 +118,38 @@ function AddContact() {
 
   const handleAddNewContact = async () => {
     try {
-      toggleLoading(true);
-      const response = await axios(CONTACTS_API, {
-        method: "POST",
-        data: { newContact, contactNos },
-      });
-      if (response.status == 200) {
-        toast.success("New contact added successfully");
-        navigate("/contactDetails/" + response.data._id);
+      const validation = handleValidation();
+      if (validation) {
+        toggleLoading(true);
+        const response = await axios(CONTACTS_API, {
+          method: "POST",
+          data: { newContact, contactNos },
+        });
+        if (response.status == 200) {
+          toast.success("New contact added successfully");
+          navigate("/contactDetails/" + response.data._id);
+        }
       }
     } catch (error) {
       genricError(error);
     } finally {
       toggleLoading(false);
     }
+  };
+
+  const handleValidation = () => {
+    if (
+      newContact.length == 0 ||
+      newContact.firstName == undefined ||
+      newContact.firstName == ""
+    ) {
+      toast.error("FirstName is required! ☹️");
+      return false;
+    } else if (contactNos == undefined && contactNos?.length == 0) {
+      toast.error("Atleast one contact no is required! ☹️");
+      return false;
+    }
+    return true;
   };
 
   return (
