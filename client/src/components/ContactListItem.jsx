@@ -32,7 +32,7 @@ function ContactListItem({ item }) {
                 className={`flex items-center justify-center text-white w-10 lg:w-14 h-10 lg:h-14 rounded-full shadow-lg my-auto text-center text-xl font-bold`}
                 style={{ backgroundColor: getRandomColorCode() }}>
                 {getInitialLetters(
-                  (contact.firstName + " " + contact.lastName).toString()
+                  (contact?.firstName?.split(" ") + " " + contact?.lastName?.split(" ")).toString()
                 )}
               </span>
             </td>

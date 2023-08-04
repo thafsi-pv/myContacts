@@ -50,8 +50,16 @@ function ContactDetails() {
         <div className="bg-white p-3 rounded-md text-black font-semibold shadow-md">
           Do you want to delete this contact? 🤨
           <div className="flex justify-end space-x-3">
-            <button className="btn btn-outline m-2" onClick={() => toast.dismiss(t.id)}>No</button>
-            <button className="btn btn-error m-2" onClick={() => handleYes(t.id)}>Yes</button>
+            <button
+              className="btn btn-outline m-2"
+              onClick={() => toast.dismiss(t.id)}>
+              No
+            </button>
+            <button
+              className="btn btn-error m-2"
+              onClick={() => handleYes(t.id)}>
+              Yes
+            </button>
           </div>
         </div>
       ),
@@ -59,11 +67,13 @@ function ContactDetails() {
         duration: 10000,
       }
     );
-
   };
 
   const handleYes = (toastId) => {
-    console.log("🚀 ~ file: ContactDetails.jsx:79 ~ handleYes ~ toastId:", toastId)
+    console.log(
+      "🚀 ~ file: ContactDetails.jsx:79 ~ handleYes ~ toastId:",
+      toastId
+    );
     toast.dismiss(toastId, true);
   };
 
@@ -106,7 +116,11 @@ function ContactDetails() {
             className={`flex items-center justify-center text-white w-24 h-24 mb-3 rounded-full shadow-lg my-auto text-center text-5xl font-bold`}
             style={{ backgroundColor: getRandomColorCode() }}>
             {getInitialLetters(
-              (details[0]?.firstName + " " + details[0]?.lastName).toString()
+              (
+                details[0]?.firstName?.split(" ") +
+                " " +
+                details[0]?.lastName?.split(" ")
+              ).toString()
             )}
           </span>
           <h5 className="mb-1 text-xl font-medium">
