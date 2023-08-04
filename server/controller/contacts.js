@@ -37,7 +37,7 @@ const getAllContactsGroup = async (req, res) => {
       filter.$or = [
         { "contacts.firstName": { $regex: new RegExp(name, "i") } },
         { "contacts.lastName": { $regex: new RegExp(name, "i") } },
-        { "contacts.lastName": { $exists: false } }, // Check if lastName field does not exist
+        //{ "contacts.lastName": { $exists: false } }, // Check if lastName field does not exist
       ];
     }
 
