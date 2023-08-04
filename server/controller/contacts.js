@@ -331,7 +331,28 @@ const addOrUpdateContact = async (req, res) => {
   try {
     const { newContact, contactNos } = req.body;
 
-    if (newContact?._id != 0) {
+    if (newContact?._id != "") {
+      const data = await contactModel
+        .find({ _id: newContact._id })
+        .select("contactNos");
+      const contactNoId = data[0]?.contactNos?.toString();
+
+      const newContactNo = await contactNumberModel.findByIdAndDelete(
+        contactNoId,
+        { new: true }
+      );
+      const numbers = await contactNumberModel.create(contactNos);
+      newContact.contactNos = numbers._id;
+      const newContactDetails = await contactModel.findByIdAndUpdate(
+        newContact._id,
+        newContact,
+        { new: true }
+      );
+      console.log(
+        "🚀 ~ file: contacts.js:359 ~ addOrUpdateContact ~ newContactDetails:",
+        newContactDetails
+      );
+     return res.status(200).json(newContactDetails);
     }
     const numbers = await contactNumberModel.create(contactNos);
     newContact.contactNos = numbers._id;

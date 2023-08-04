@@ -150,11 +150,11 @@ function AddContact() {
       return false;
     }
     const isPhoneNumberValid = Object.values(contactNos).every(
-      (number) => number.length === 12
+      (number) => number.toString().length == 12
     );
-    console.log("🚀 ~ file: AddContact.jsx:155 ~ handleValidation ~ isPhoneNumberValid:", isPhoneNumberValid)
+
     if (!isPhoneNumberValid) {
-      toast.error(`Entered a valid no! 😕`);
+      toast.error(`Entered a valid contact no! 😕`);
       return false;
     }
     return true;
@@ -189,7 +189,7 @@ function AddContact() {
           <Select
             options={designation}
             value={selectedDesig}
-            placeholder='Select Designation'
+            placeholder="Select Designation"
             onChange={(e) => handleDesignationChange(e)}
           />
         </div>
@@ -197,7 +197,7 @@ function AddContact() {
           <label htmlFor="office">Department</label>
           <Select
             options={departments}
-            placeholder='Select Department'
+            placeholder="Select Department"
             value={selectedDept}
             onChange={(e) => handleDepartmentChange(e)}
           />

@@ -5,7 +5,7 @@ import { MdOutlinePhonelinkRing } from "react-icons/md";
 import { FaWhatsapp } from "react-icons/fa";
 import { BsClipboard2Check, BsPencil, BsTrash3 } from "react-icons/bs";
 import { useRef } from "react";
-import { toast } from "react-hot-toast";
+import { Toaster, toast } from "react-hot-toast";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import {
@@ -23,7 +23,10 @@ function ContactDetails() {
   const textareaRef = useRef(null);
   const param = useParams();
   const [details, setDetails] = useState([]);
-  console.log("🚀 ~ file: ContactDetails.jsx:26 ~ ContactDetails ~ details:", details)
+  console.log(
+    "🚀 ~ file: ContactDetails.jsx:26 ~ ContactDetails ~ details:",
+    details
+  );
   const { permissionList } = useSelector((store) => store.permission);
 
   useEffect(() => {
@@ -40,6 +43,30 @@ function ContactDetails() {
 
     setDetails(response?.data);
   };
+
+  const showConfirmation = () => {
+    const confirmationToast = toast.custom(
+      (t) => (
+        <div className="bg-white p-3 rounded-md text-black font-semibold">
+          Do you want to delete this contact? 🤨
+          <div className="flex justify-end space-x-3">
+            <button className="btn btn-outline m-2" onClick={() => toast.dismiss(t.id)}>No</button>
+            <button className="btn btn-error m-2" onClick={() => handleYes(t.id)}>Yes</button>
+          </div>
+        </div>
+      ),
+      {
+        duration: 10000,
+      }
+    );
+
+  };
+
+  const handleYes = (toastId) => {
+    console.log("🚀 ~ file: ContactDetails.jsx:79 ~ handleYes ~ toastId:", toastId)
+    toast.dismiss(toastId, true);
+  };
+
   if (details.length == 0) {
     return <ShimmerContactDetails />;
   }
@@ -61,7 +88,7 @@ function ContactDetails() {
                   </a>
                 </Link>
               </li>
-              <li>
+              <li onClick={showConfirmation}>
                 <a>
                   <BsTrash3 /> Delete
                 </a>
