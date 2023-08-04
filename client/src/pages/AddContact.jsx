@@ -154,7 +154,7 @@ function AddContact() {
     );
     console.log("🚀 ~ file: AddContact.jsx:155 ~ handleValidation ~ isPhoneNumberValid:", isPhoneNumberValid)
     if (!isPhoneNumberValid) {
-      toast.error(`Entered a non valid no! 😕`);
+      toast.error(`Entered a valid no! 😕`);
       return false;
     }
     return true;

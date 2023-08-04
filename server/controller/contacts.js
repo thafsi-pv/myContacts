@@ -119,7 +119,10 @@ const getAllContactsGroup = async (req, res) => {
         },
       },
     ]);
-    console.log("🚀 ~ file: contacts.js:122 ~ getAllContactsGroup ~ contactList:", contactList)
+    console.log(
+      "🚀 ~ file: contacts.js:122 ~ getAllContactsGroup ~ contactList:",
+      contactList
+    );
 
     const totalCount = await contactModel.countDocuments(filter); // Get the total count based on the filter
 
@@ -316,7 +319,8 @@ const contactGetById = async (req, res) => {
     const contactList = await contactModel
       .find({ _id: id })
       .populate("department")
-      .populate("contactNos", "-_id -__v");
+      .populate("contactNos", "-_id -__v")
+      .populate("designation");
     res.json(contactList);
   } catch (error) {
     res.status(400).json({ message: error.message });
