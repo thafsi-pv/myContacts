@@ -143,10 +143,18 @@ function AddContact() {
       newContact.firstName == undefined ||
       newContact.firstName == ""
     ) {
-      toast.error("FirstName is required! ☹️");
+      toast.error(`FirstName is required! 😕`);
       return false;
     } else if (contactNos == undefined && contactNos?.length == 0) {
-      toast.error("Atleast one contact no is required! ☹️");
+      toast.error(`Atleast one contact no is required! 😕`);
+      return false;
+    }
+    const isPhoneNumberValid = Object.values(contactNos).every(
+      (number) => number.length === 12
+    );
+    console.log("🚀 ~ file: AddContact.jsx:155 ~ handleValidation ~ isPhoneNumberValid:", isPhoneNumberValid)
+    if (!isPhoneNumberValid) {
+      toast.error(`Entered a non valid no! 😕`);
       return false;
     }
     return true;
