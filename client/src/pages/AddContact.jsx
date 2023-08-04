@@ -38,8 +38,8 @@ function AddContact() {
   const [departments, setDepartments] = useState([]);
   const [designation, setDesignation] = useState([]);
   const params = useParams();
-  const [selectedDept, setSelectedDept] = useState({});
-  const [selectedDesig, setSelectedDesig] = useState({});
+  const [selectedDept, setSelectedDept] = useState(null);
+  const [selectedDesig, setSelectedDesig] = useState(null);
   const { isLoading, toggleLoading, loader } = useLoader(false);
 
   useEffect(() => {
@@ -145,7 +145,7 @@ function AddContact() {
     ) {
       toast.error(`FirstName is required! 😕`);
       return false;
-    } else if (contactNos == undefined && contactNos?.length == 0) {
+    } else if (contactNos == undefined || contactNos?.length == 0) {
       toast.error(`Atleast one contact no is required! 😕`);
       return false;
     }
@@ -189,6 +189,7 @@ function AddContact() {
           <Select
             options={designation}
             value={selectedDesig}
+            placeholder='Select Designation'
             onChange={(e) => handleDesignationChange(e)}
           />
         </div>
@@ -196,6 +197,7 @@ function AddContact() {
           <label htmlFor="office">Department</label>
           <Select
             options={departments}
+            placeholder='Select Department'
             value={selectedDept}
             onChange={(e) => handleDepartmentChange(e)}
           />

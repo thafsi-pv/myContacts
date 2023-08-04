@@ -29,10 +29,12 @@ export const changeKeyInArray = (array, keyChanges) => {
 };
 
 export const formatNo = (no) => {
-  const formattedPhoneNumber = no
-    .toString()
-    .replace(/^(\d{2})(\d{4})(\d{3})(\d{3})$/, "+$1 $2 $3 $4");
-  return formattedPhoneNumber;
+  if (no) {
+    const formattedPhoneNumber = no
+      .toString()
+      .replace(/^(\d{2})(\d{4})(\d{3})(\d{3})$/, "+$1 $2 $3 $4");
+    return formattedPhoneNumber;
+  }
 };
 
 export function getRandomColorCode() {

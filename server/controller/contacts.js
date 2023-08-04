@@ -19,7 +19,10 @@ const getAllContacts = async (req, res) => {
 const getAllContactsGroup = async (req, res) => {
   try {
     const { name, designationId, departmentId, page, pageSize } = req.query;
-    console.log("🚀 ~ file: contacts.js:22 ~ getAllContactsGroup ~ req.query:", req.query)
+    console.log(
+      "🚀 ~ file: contacts.js:22 ~ getAllContactsGroup ~ req.query:",
+      req.query
+    );
     const currentPage = parseInt(page) || 1;
     const contactsPerPage = parseInt(pageSize) || 10;
 
@@ -34,17 +37,22 @@ const getAllContactsGroup = async (req, res) => {
       filter.$or = [
         { "contacts.firstName": { $regex: new RegExp(name, "i") } },
         { "contacts.lastName": { $regex: new RegExp(name, "i") } },
+        { "contacts.lastName": { $exists: false } }, // Check if lastName field does not exist
       ];
     }
 
     // If designationId is provided, add it to the filter
     if (designationId) {
-      filter["contacts.designation._id"] = new mongoose.Types.ObjectId(designationId);
+      filter["contacts.designation._id"] = new mongoose.Types.ObjectId(
+        designationId
+      );
     }
 
     // If departmentId is provided, add it to the filter
     if (departmentId) {
-      filter["contacts.department._id"] = new mongoose.Types.ObjectId(departmentId);
+      filter["contacts.department._id"] = new mongoose.Types.ObjectId(
+        departmentId
+      );
     }
 
     // Use the filter in the $match stage of the aggregation pipeline
@@ -66,7 +74,7 @@ const getAllContactsGroup = async (req, res) => {
       },
       {
         $lookup: {
-          from: "departments", // Replace "departments" with the actual collection name for departments
+          from: "departments",
           localField: "contacts.department",
           foreignField: "_id",
           as: "contacts.department",
@@ -74,7 +82,7 @@ const getAllContactsGroup = async (req, res) => {
       },
       {
         $lookup: {
-          from: "designations", // Replace "designations" with the actual collection name for designations
+          from: "designations",
           localField: "contacts.designation",
           foreignField: "_id",
           as: "contacts.designation",
@@ -82,14 +90,21 @@ const getAllContactsGroup = async (req, res) => {
       },
       {
         $lookup: {
-          from: "contactnumbers", // Replace "contactNos" with the actual collection name for contactNos
+          from: "contactnumbers",
           localField: "contacts.contactNos",
           foreignField: "_id",
           as: "contacts.contactNos",
         },
       },
+      // Add the $ifNull stage for the department and designation fields
       {
-        $match: filter, // Apply the filter to the aggregation pipeline
+        $addFields: {
+          "contacts.department": { $ifNull: ["$contacts.department", null] },
+          "contacts.designation": { $ifNull: ["$contacts.designation", null] },
+        },
+      },
+      {
+        $match: filter,
       },
       {
         $skip: skipCount, // Add the $skip stage to skip contacts on previous pages
@@ -104,6 +119,7 @@ const getAllContactsGroup = async (req, res) => {
         },
       },
     ]);
+    console.log("🚀 ~ file: contacts.js:122 ~ getAllContactsGroup ~ contactList:", contactList)
 
     const totalCount = await contactModel.countDocuments(filter); // Get the total count based on the filter
 
@@ -112,7 +128,7 @@ const getAllContactsGroup = async (req, res) => {
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
-}; 
+};
 
 // const getAllContactsGroup = async (req, res) => {
 //   try {

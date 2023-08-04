@@ -14,7 +14,7 @@ function ContactListItem({ item }) {
     navigate("/contactDetails/" + id);
   };
   return (
-    <React.Fragment >
+    <React.Fragment>
       <thead>
         <tr>
           <th className="font-bold uppercase">{item._id}</th>
@@ -49,7 +49,9 @@ function ContactListItem({ item }) {
                   <span>{contact?.department[0]?.name}</span>
                 </div>
                 <div>
-                  <span>{formatNo(contact.contactNos[0].mobile)}</span>
+                  <span>
+                    {formatNo(Object.values(contact.contactNos[0])[1])}
+                  </span>
                 </div>
               </div>
             </td>
