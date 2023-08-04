@@ -47,7 +47,7 @@ function ContactDetails() {
   const showConfirmation = () => {
     const confirmationToast = toast.custom(
       (t) => (
-        <div className="bg-white p-3 rounded-md text-black font-semibold">
+        <div className="bg-white p-3 rounded-md text-black font-semibold shadow-md">
           Do you want to delete this contact? 🤨
           <div className="flex justify-end space-x-3">
             <button className="btn btn-outline m-2" onClick={() => toast.dismiss(t.id)}>No</button>
