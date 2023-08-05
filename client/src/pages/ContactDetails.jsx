@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { FiPhoneCall } from "react-icons/fi";
-import { GiRotaryPhone } from "react-icons/gi";
 import { MdOutlinePhonelinkRing } from "react-icons/md";
 import { FaWhatsapp } from "react-icons/fa";
 import { BsClipboard2Check, BsPencil, BsTrash3 } from "react-icons/bs";
 import { useRef } from "react";
-import { Toaster, toast } from "react-hot-toast";
+import { toast } from "react-hot-toast";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import {
