@@ -55,8 +55,8 @@ function Login() {
   //   return loader;
   // }
   return (
-    <div className="h-[90%]">
-      <div className="flex flex-col items-center justify-center h-screen m-4 ">
+    <div className="">
+      <div className="flex flex-col items-center justify-center h-screen mx-4 ">
         <div className="max-w-md w-full p-6 bg-base-300  rounded-md shadow-md">
           <div className="flex flex-col items-center justify-center">
             <h2 className="text-sm text-base-500 font-bold">Login</h2>

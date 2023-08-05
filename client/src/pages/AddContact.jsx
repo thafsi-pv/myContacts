@@ -161,7 +161,7 @@ function AddContact() {
   };
 
   return (
-    <div className="p-5 space-y-3 mt-16 lg:w-2/4 m-auto relative overflow-y-scroll h-screen">
+    <div className="p-5 space-y-3 mt-16 lg:w-2/4 m-auto relative overflow-y-scroll h-screen pb-56 !mb-52">
       <div className="flex space-x-2 w-full">
         <div className="w-1/2">
           <label htmlFor="name">First Name</label>
@@ -189,7 +189,7 @@ function AddContact() {
           <Select
             options={designation}
             value={selectedDesig}
-            placeholder="Select designa.."
+            placeholder="Select desig.."
             onChange={(e) => handleDesignationChange(e)}
           />
         </div>
@@ -197,7 +197,7 @@ function AddContact() {
           <label htmlFor="office">Department</label>
           <Select
             options={departments}
-            placeholder="Select Departm.."
+            placeholder="Select dep.."
             value={selectedDept}
             onChange={(e) => handleDepartmentChange(e)}
           />
@@ -249,7 +249,7 @@ function AddContact() {
           cols="30"
           rows="3"></textarea>
       </div>
-      <div className="w-full flex flex-nowrap space-x-2 !mt-10 !mb-20">
+      <div className="w-full flex flex-nowrap space-x-2 !mt-10 ">
         <button
           className="btn bg-[#00BFA6] border-[#00BFA6] w-1/2"
           onClick={handleAddNewContact}>

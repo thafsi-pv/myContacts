@@ -83,7 +83,7 @@ function ContactDetails() {
     return <ShimmerContactDetails />;
   }
   return (
-    <div className="flex justify-center align-middle w-full items-center h-screen mt-16 mb-14 pb-14 overflow-y-scroll relative">
+    <div className="flex justify-center align-middle w-full items-center h-screen mt-16 mb-14 pb-44 overflow-y-scroll relative">
       <div className=" p-5 m-3 w-full max-w-sm rounded-lg bg-red-500 dark:bg-base-100 shadow-2xl">
         {permissionList.includes("AC") && (
           <div className="dropdown dropdown-bottom w-full flex justify-end">
