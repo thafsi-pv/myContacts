@@ -281,7 +281,7 @@ function ListContacts() {
                 <NoResultFound />
               ) : (
                 <div
-                  className="overflow-y-auto  mt-16 p-3 pt-0 max-h-[800px] relative top-0 pb-4"
+                  className="overflow-y-auto  mt-16 p-3 pt-0 max-h-[800px] relative top-0 pb-64"
                   ref={contactListRef}>
                   <table className="table table-pin-rows">
                     {allContacts.map((item) => (
@@ -290,6 +290,20 @@ function ListContacts() {
                   </table>
                   {lazyLoad && (
                     <div className="space-y-3">
+                      <div className="flex items-center ">
+                        <div className="h-12 w-12 bg-gray-400 rounded-full"></div>
+                        <div className="ml-4">
+                          <div className="h-4 bg-gray-400 w-32 rounded"></div>
+                          <div className="h-4 bg-gray-400 w-20 rounded mt-2"></div>
+                        </div>
+                      </div>
+                      <div className="flex items-center ">
+                        <div className="h-12 w-12 bg-gray-400 rounded-full"></div>
+                        <div className="ml-4">
+                          <div className="h-4 bg-gray-400 w-32 rounded"></div>
+                          <div className="h-4 bg-gray-400 w-20 rounded mt-2"></div>
+                        </div>
+                      </div>
                       <div className="flex items-center ">
                         <div className="h-12 w-12 bg-gray-400 rounded-full"></div>
                         <div className="ml-4">

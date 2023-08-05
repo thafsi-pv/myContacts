@@ -130,7 +130,7 @@ function App() {
     <div>
       <Provider store={store}>
         <InternetConnection>
-          <div className="min-h-[100vh]" data-theme={theme}>
+          <div className="" data-theme={theme}>
             <RouterProvider router={appRouter} />
             <Toaster />
           </div>
