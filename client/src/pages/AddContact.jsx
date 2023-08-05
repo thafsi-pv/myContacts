@@ -255,7 +255,7 @@ function AddContact() {
           onClick={handleAddNewContact}>
           Save
         </button>
-        <button className="btn btn-neutral w-1/2">Clear</button>
+        <button className="btn  btn-outline w-1/2">Clear</button>
       </div>
       {isLoading && loader}
     </div>
