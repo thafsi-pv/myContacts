@@ -161,7 +161,7 @@ function AddContact() {
   };
 
   return (
-    <div className="p-5 space-y-3 mt-16 lg:w-2/4 m-auto">
+    <div className="p-5 space-y-3 mt-16 lg:w-2/4 m-auto relative overflow-y-scroll h-screen">
       <div className="flex space-x-2 w-full">
         <div className="w-1/2">
           <label htmlFor="name">First Name</label>
@@ -189,7 +189,7 @@ function AddContact() {
           <Select
             options={designation}
             value={selectedDesig}
-            placeholder="Select Designation"
+            placeholder="Select designa.."
             onChange={(e) => handleDesignationChange(e)}
           />
         </div>
@@ -197,7 +197,7 @@ function AddContact() {
           <label htmlFor="office">Department</label>
           <Select
             options={departments}
-            placeholder="Select Department"
+            placeholder="Select Departm.."
             value={selectedDept}
             onChange={(e) => handleDepartmentChange(e)}
           />
