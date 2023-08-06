@@ -19,15 +19,6 @@ const Drawer = () => {
   const { permissionList, userDetails } = useSelector(
     (store) => store.permission
   );
-  console.log(
-    "🚀 ~ file: Drawer1.jsx:21 ~ Drawer ~ permissionList:",
-    permissionList
-  );
-
-  // const toggleDrawer = () => {
-  //   setIsOpen(!isOpen);
-  // };
-
   return (
     <div className={`drawer ${showDrawer ? "open" : ""}`}>
       <input

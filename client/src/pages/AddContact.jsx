@@ -21,15 +21,7 @@ function AddContact() {
   const navigate = useNavigate();
   const firsNameRef = useRef(null);
   const [newContact, setNewContact] = useState([]);
-  console.log(
-    "🚀 ~ file: AddContact.jsx:24 ~ AddContact ~ newContact:",
-    newContact
-  );
   const [contactNos, setContactNos] = useState();
-  console.log(
-    "🚀 ~ file: AddContact.jsx:26 ~ AddContact ~ contactNos:",
-    contactNos
-  );
   const [phoneInput, setPhoneInput] = useState([
     { id: uuidv4(), phone: "Mobile", name: "mobile" },
     { id: uuidv4(), phone: "WhatsApp", name: "whatsApp" },
@@ -83,7 +75,6 @@ function AddContact() {
 
   const getDesignation = async () => {
     const data = await axios(DESIGNATION_API);
-    console.log("🚀 ~ file: AddContact.jsx:70 ~ getDesignation ~ data:", data);
     const updatedArray = changeKeyInArray(data.data, keyChanges);
     setDesignation(updatedArray);
   };
@@ -125,7 +116,6 @@ function AddContact() {
           method: "POST",
           data: { newContact, contactNos },
         });
-        console.log("🚀 ~ file: AddContact.jsx:128 ~ handleAddNewContact ~ response:", response)
         if (response.status == 200) {
           if (newContact._id) {
             toast.success("Contact updated successfully");

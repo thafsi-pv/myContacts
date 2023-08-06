@@ -37,8 +37,6 @@ function Login() {
     try {
       toggleLoading(true);
       const response = await axios.post(USER_API + "/signIn", values);
-      console.log("🚀 ~ file: Login.jsx:40 ~ handleLogIn ~ login-response:", response)
-
       if ((response.status = 200)) {
         localStorage.setItem("myc_token", response.data.accesstoken);
         getUserPermission(response.data.id);

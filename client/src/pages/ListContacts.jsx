@@ -31,8 +31,9 @@ function ListContacts() {
   const contactListRef = useRef(null);
   const searchBoxRef = useRef(null);
   const [lazyLoad, setLazyLoad] = useState(false);
-  const { permissionList,userDetails } = useSelector((store) => store.permission);
-  
+  const { permissionList, userDetails } = useSelector(
+    (store) => store.permission
+  );
 
   useEffect(() => {
     // Function to handle the click outside event
@@ -57,17 +58,14 @@ function ListContacts() {
   }, []);
 
   useEffect(() => {
-    console.log("Start useEffect event listener");
     // Check if contactListRef.current is not null before adding the event listener
     if (contactListRef.current !== null) {
-      console.log("Enter useEffect event listener");
       contactListRef.current.addEventListener("scroll", handleScroll);
     }
 
     // Clean up the event listener when the component unmounts
     return () => {
       if (contactListRef.current !== null) {
-        console.log("leave useEffect event listener");
         contactListRef.current.removeEventListener("scroll", handleScroll);
       }
     };
@@ -93,10 +91,6 @@ function ListContacts() {
         {
           signal: abortController.current.signal,
         }
-      );
-      console.log(
-        "🚀 ~ file: ListContacts.jsx:71 ~ getAllContacts ~ response:",
-        response
       );
       setAllContacts((prev) => [...prev, ...response?.data?.contactList]);
       setContactCount(response?.data?.totalCount);
