@@ -125,8 +125,13 @@ function AddContact() {
           method: "POST",
           data: { newContact, contactNos },
         });
+        console.log("🚀 ~ file: AddContact.jsx:128 ~ handleAddNewContact ~ response:", response)
         if (response.status == 200) {
-          toast.success("New contact added successfully");
+          if (newContact._id) {
+            toast.success("Contact updated successfully");
+          } else {
+            toast.success("New contact added successfully");
+          }
           navigate("/contactDetails/" + response.data._id);
         }
       }

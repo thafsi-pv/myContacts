@@ -330,8 +330,9 @@ const contactGetById = async (req, res) => {
 const addOrUpdateContact = async (req, res) => {
   try {
     const { newContact, contactNos } = req.body;
+    console.log("🚀 ~ file: contacts.js:333 ~ addOrUpdateContact ~ newContact:", newContact)
 
-    if (newContact?._id != "") {
+    if (newContact?._id) {
       const data = await contactModel
         .find({ _id: newContact._id })
         .select("contactNos");
