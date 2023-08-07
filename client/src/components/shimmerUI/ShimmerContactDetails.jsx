@@ -2,7 +2,7 @@ import React from "react";
 
 function ShimmerContactDetails() {
   return (
-    <div className="flex justify-center align-middle w-full items-center h-full mt-16 animate-pulse">
+    <div className="flex justify-center align-middle w-full items-center mt-16 animate-pulse">
       <div className=" p-5 m-3 w-full max-w-sm   rounded-lg bg-red-500 dark:bg-base-100 shadow-2xl">
         <div className="flex flex-col items-center pb-10 mt-10">
           <span
