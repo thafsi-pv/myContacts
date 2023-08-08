@@ -155,6 +155,13 @@ function AddContact() {
     return true;
   };
 
+  const handleClearContact = () => {
+    setNewContact([]);
+    setContactNos(null);
+    setSelectedDept(null);
+    setSelectedDesig(null);
+  };
+
   return (
     <div className="p-5 space-y-3 mt-16 lg:w-2/4 m-auto relative overflow-y-scroll h-screen pb-56 !mb-52">
       <div className="flex space-x-2 w-full">
@@ -250,7 +257,9 @@ function AddContact() {
           onClick={handleAddNewContact}>
           Save
         </button>
-        <button className="btn  btn-outline w-1/2">Clear</button>
+        <button className="btn  btn-outline w-1/2" onClick={handleClearContact}>
+          Clear
+        </button>
       </div>
       {isLoading && loader}
     </div>
