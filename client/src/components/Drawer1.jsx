@@ -72,6 +72,19 @@ const Drawer = () => {
               </li>
             )}
             {(userDetails.role == "admin" ||
+              permissionList.includes("INST")) && (
+              <li className="" onClick={toggleDrawer}>
+                <Link to="/institution">
+                  <a className="text-md font-semibold flex items-center">
+                    <span>
+                      <FaRegBuilding className="mr-2 h-6 w-6" />
+                    </span>
+                    Institution
+                  </a>
+                </Link>
+              </li>
+            )}
+            {(userDetails.role == "admin" ||
               permissionList.includes("DPT")) && (
               <li className="" onClick={toggleDrawer}>
                 <Link to="/dept">

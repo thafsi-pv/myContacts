@@ -185,9 +185,9 @@ function AddContact() {
           />
         </div>
       </div>
-      <div className="flex gap-2">
+      <div className="flex flex-col flex-wrap">
         <div className="w-full ">
-          <label htmlFor="office">Designation</label>
+          <label htmlFor="office">Institution</label>
           <Select
             options={designation}
             value={selectedDesig}
@@ -195,14 +195,25 @@ function AddContact() {
             onChange={(e) => handleDesignationChange(e)}
           />
         </div>
-        <div className="w-full ">
-          <label htmlFor="office">Department</label>
-          <Select
-            options={departments}
-            placeholder="Select dep.."
-            value={selectedDept}
-            onChange={(e) => handleDepartmentChange(e)}
-          />
+        <div className="flex gap-1">
+          <div className="w-full ">
+            <label htmlFor="office">Designation</label>
+            <Select
+              options={designation}
+              value={selectedDesig}
+              placeholder="Select desig.."
+              onChange={(e) => handleDesignationChange(e)}
+            />
+          </div>
+          <div className="w-full ">
+            <label htmlFor="office">Department</label>
+            <Select
+              options={departments}
+              placeholder="Select dep.."
+              value={selectedDept}
+              onChange={(e) => handleDepartmentChange(e)}
+            />
+          </div>
         </div>
       </div>
       {phoneInput.map((input, index) => (

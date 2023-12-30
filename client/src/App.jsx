@@ -9,6 +9,7 @@ const ListContactComponent = lazy(() => import("./pages/ListContacts"));
 const ContactDetails = lazy(() => import("./pages/ContactDetails"));
 const AddContact = lazy(() => import("./pages/AddContact"));
 const AddDept = lazy(() => import("./pages/AddDept"));
+const AddInstitution = lazy(() => import("./pages/AddInstitution"));
 const MainPage = lazy(() => import("./pages/MainPage"));
 const Settings = lazy(() => import("./pages/Settings"));
 const Designation = lazy(() => import("./pages/Designation"));
@@ -79,6 +80,14 @@ function App() {
           element: (
             <Suspense fallback={<Loader />}>
               <AddDept />
+            </Suspense>
+          ),
+        },
+        {
+          path: "/institution",
+          element: (
+            <Suspense fallback={<Loader />}>
+              <AddInstitution />
             </Suspense>
           ),
         },
