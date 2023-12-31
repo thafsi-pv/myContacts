@@ -35,41 +35,41 @@ function ListContacts() {
     (store) => store.permission
   );
 
-  useEffect(() => {
-    // Function to handle the click outside event
-    const handleClickOutside = (event) => {
-      // Check if the clicked target is outside the element
-      if (
-        searchBoxRef.current &&
-        !searchBoxRef.current.contains(event.target)
-      ) {
-        // Perform the action you want when clicking outside the element
-        setIsAccordionOpen(false);
-      }
-    };
+  // useEffect(() => {
+  //   // Function to handle the click outside event
+  //   const handleClickOutside = (event) => {
+  //     // Check if the clicked target is outside the element
+  //     if (
+  //       searchBoxRef.current &&
+  //       !searchBoxRef.current.contains(event.target)
+  //     ) {
+  //       // Perform the action you want when clicking outside the element
+  //       setIsAccordionOpen(false);
+  //     }
+  //   };
 
-    // Add the event listener to the document when the component mounts
-    document.addEventListener("click", handleClickOutside);
+  //   // Add the event listener to the document when the component mounts
+  //   document.addEventListener("click", handleClickOutside);
 
-    // Clean up the event listener when the component unmounts
-    return () => {
-      document.removeEventListener("click", handleClickOutside);
-    };
-  }, []);
+  //   // Clean up the event listener when the component unmounts
+  //   return () => {
+  //     document.removeEventListener("click", handleClickOutside);
+  //   };
+  // }, []);
 
-  useEffect(() => {
-    // Check if contactListRef.current is not null before adding the event listener
-    if (contactListRef.current !== null) {
-      contactListRef.current.addEventListener("scroll", handleScroll);
-    }
+  // useEffect(() => {
+  //   // Check if contactListRef.current is not null before adding the event listener
+  //   if (contactListRef.current !== null) {
+  //     contactListRef.current.addEventListener("scroll", handleScroll);
+  //   }
 
-    // Clean up the event listener when the component unmounts
-    return () => {
-      if (contactListRef.current !== null) {
-        contactListRef.current.removeEventListener("scroll", handleScroll);
-      }
-    };
-  }, [contactListRef.current, allContacts]);
+  //   // Clean up the event listener when the component unmounts
+  //   return () => {
+  //     if (contactListRef.current !== null) {
+  //       contactListRef.current.removeEventListener("scroll", handleScroll);
+  //     }
+  //   };
+  // }, [contactListRef.current, allContacts]);
 
   useEffect(() => {
     abortController.current = new AbortController();
@@ -222,46 +222,59 @@ function ListContacts() {
                   </p>
                 </div>
                 <div className="collapse-content">
-                  <div className="flex gap-2 pb-2">
+                  <div className="flex flex-col gap-1">
                     <div className="w-full ">
                       <Select
                         className="w-full" // Add this class to make the select box expand to full width
                         menuPortalTarget={document.body}
                         styles={{ ...selectStyles }}
-                        placeholder="designation"
+                        placeholder="Institution"
                         options={designation}
                         //value={selectedDesig}
                         onChange={(e) => handleDesignationChange(e)}
                       />
                     </div>
-                    <div className="w-full ">
-                      <Select
-                        menuPortalTarget={document.body}
-                        styles={{ ...selectStyles }}
-                        placeholder="Department"
-                        options={departments}
-                        //value={selectedDept}
-                        onChange={(e) => handleDepartmentChange(e)}
-                      />
-                    </div>
-                  </div>
-                  <div className="join w-full !border-gray-600">
-                    <div className="w-[100%]">
-                      <div>
-                        <input
-                          className="input !border-gray-600 join-item w-full"
-                          placeholder="Search..."
-                          onChange={handleSearchContact}
+                    <div className="flex gap-2">
+                      <div className="w-full ">
+                        <Select
+                          className="w-full" // Add this class to make the select box expand to full width
+                          menuPortalTarget={document.body}
+                          styles={{ ...selectStyles }}
+                          placeholder="Designation"
+                          options={designation}
+                          //value={selectedDesig}
+                          onChange={(e) => handleDesignationChange(e)}
+                        />
+                      </div>
+                      <div className="w-full ">
+                        <Select
+                          menuPortalTarget={document.body}
+                          styles={{ ...selectStyles }}
+                          placeholder="Department"
+                          options={departments}
+                          //value={selectedDept}
+                          onChange={(e) => handleDepartmentChange(e)}
                         />
                       </div>
                     </div>
+                    <div className="join w-full !border-gray-600">
+                      <div className="w-[100%]">
+                        <div>
+                          <input
+                            className="input !border-gray-600 join-item w-full"
+                            placeholder="Search..."
+                            onChange={handleSearchContact}
+                          />
+                        </div>
+                      </div>
 
-                    <div className="indicator">
-                      <button
-                        className="btn join-item !border-gray-600 !bg-base-300"
-                        onClick={handleSearchContact}>
-                        <AiOutlineSearch className="w-5 h-5 " />
-                      </button>
+                      <div className="indicator">
+                        <button
+                          className="btn join-item !border-gray-600 !bg-base-300"
+                          onClick={handleSearchContact}>
+                          <AiOutlineSearch className="w-5 h-5 " />
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>

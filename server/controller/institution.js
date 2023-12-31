@@ -10,6 +10,7 @@ const getAllInstitution = async (req, res) => {
 };
 
 const addOrUpdateInstitution = async (req, res) => {
+  console.log("🚀 ~ file: institution.js:13 ~ addOrUpdateInstitution ~ req:", req)
   try {
     let updatedInstitution;
     const { newInstitution } = req.body;

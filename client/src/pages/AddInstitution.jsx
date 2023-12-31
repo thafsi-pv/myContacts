@@ -1,4 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import Input from "../components/Input";
+import { BiPencil, BiTrash } from "react-icons/bi";
+import axios from "axios";
+import { INSTITUTION_API } from "../const/const";
+import { genricError } from "../utils/genricError";
+
 
 function AddInstitution() {
   const [newInstitution, setNewInstitution] = useState({ id: 0, name: "", isActive: true });
@@ -21,7 +27,7 @@ function AddInstitution() {
 
   const handleAddInstitution = async () => {
     try {
-      const response = await axios(DEPARTMENT_API, {
+      const response = await axios(INSTITUTION_API, {
         method: "POST",
         data: { newInstitution },
       });
@@ -42,6 +48,7 @@ function AddInstitution() {
         setNewInstitution({ id: 0, name: "", isActive: true });
       }
     } catch (error) {
+      console.log("🚀 ~ file: AddInstitution.jsx:51 ~ handleAddInstitution ~ error:", error)
       genricError(error);
     }
   };
@@ -56,7 +63,7 @@ function AddInstitution() {
 
     if (result) {
       // Perform the delete operation
-      const response = await axios(DEPARTMENT_API, {
+      const response = await axios(INSTITUTION_API, {
         method: "DELETE",
         data: { id },
       });
