@@ -23,6 +23,7 @@ function ContactDetails() {
   const textareaRef = useRef(null);
   const param = useParams();
   const [details, setDetails] = useState([]);
+  console.log("🚀 ~ file: ContactDetails.jsx:26 ~ ContactDetails ~ details:", details)
   const { permissionList } = useSelector((store) => store.permission);
   const navigate = useNavigate();
 
@@ -128,6 +129,9 @@ function ContactDetails() {
           <h5 className="mb-1 text-xl font-medium">
             {details[0]?.firstName} {details[0]?.lastName}
           </h5>
+          <span className="text-sm text-gray-500 dark:text-gray-400">
+            {details[0]?.institution[0]?.name}
+          </span>
           <span className="text-sm text-gray-500 dark:text-gray-400">
             {details[0]?.designation[0]?.name}
           </span>

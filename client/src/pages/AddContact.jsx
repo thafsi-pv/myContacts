@@ -9,7 +9,12 @@ import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 import { toast } from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
-import { CONTACTS_API, DEPARTMENT_API, DESIGNATION_API } from "../const/const";
+import {
+  CONTACTS_API,
+  DEPARTMENT_API,
+  DESIGNATION_API,
+  INSTITUTION_API,
+} from "../const/const";
 import useLoader from "../hooks/useLoader";
 import { genricError } from "../utils/genricError";
 
@@ -28,15 +33,18 @@ function AddContact() {
     { id: uuidv4(), phone: "Office", name: "office" },
   ]);
   const [departments, setDepartments] = useState([]);
+  const [institution, setInstitution] = useState([]);
   const [designation, setDesignation] = useState([]);
   const params = useParams();
   const [selectedDept, setSelectedDept] = useState(null);
   const [selectedDesig, setSelectedDesig] = useState(null);
+  const [selectedInstitution, setSelectedInstitution] = useState(null);
   const { isLoading, toggleLoading, loader } = useLoader(false);
 
   useEffect(() => {
     getDepartments();
     getDesignation();
+    getInstitution();
     firsNameRef.current.focus();
     if (params.id) {
       getContactDetailsById();
@@ -55,6 +63,10 @@ function AddContact() {
     setSelectedDept({
       value: data[0].department[0]._id,
       label: data[0].department[0].name,
+    });
+    setSelectedInstitution({
+      value: data[0].institution[0]._id,
+      label: data[0].institution[0].name,
     });
     setSelectedDesig({
       value: data[0].designation[0]._id,
@@ -77,6 +89,12 @@ function AddContact() {
     const data = await axios(DESIGNATION_API);
     const updatedArray = changeKeyInArray(data.data, keyChanges);
     setDesignation(updatedArray);
+  };
+
+  const getInstitution = async () => {
+    const data = await axios(INSTITUTION_API);
+    const updatedArray = changeKeyInArray(data.data, keyChanges);
+    setInstitution(updatedArray);
   };
 
   const addMorePhoneInput = () => {
@@ -102,9 +120,15 @@ function AddContact() {
     setNewContact((prev) => ({ ...prev, department: selectedOptions.value }));
     setSelectedDept(selectedOptions);
   };
+
   const handleDesignationChange = (selectedOptions) => {
     setNewContact((prev) => ({ ...prev, designation: selectedOptions.value }));
     setSelectedDesig(selectedOptions);
+  };
+  
+  const handleInstitutionChange = (selectedOptions) => {
+    setNewContact((prev) => ({ ...prev, institution: selectedOptions.value }));
+    setSelectedInstitution(selectedOptions);
   };
 
   const handleAddNewContact = async () => {
@@ -189,10 +213,10 @@ function AddContact() {
         <div className="w-full ">
           <label htmlFor="office">Institution</label>
           <Select
-            options={designation}
-            value={selectedDesig}
-            placeholder="Select desig.."
-            onChange={(e) => handleDesignationChange(e)}
+            options={institution}
+            value={selectedInstitution}
+            placeholder="Select Institution"
+            onChange={(e) => handleInstitutionChange(e)}
           />
         </div>
         <div className="flex gap-1">

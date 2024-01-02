@@ -320,7 +320,8 @@ const contactGetById = async (req, res) => {
       .find({ _id: id })
       .populate("department")
       .populate("contactNos", "-_id -__v")
-      .populate("designation");
+      .populate("designation")
+      .populate("institution");
     res.json(contactList);
   } catch (error) {
     res.status(400).json({ message: error.message });
@@ -330,7 +331,10 @@ const contactGetById = async (req, res) => {
 const addOrUpdateContact = async (req, res) => {
   try {
     const { newContact, contactNos } = req.body;
-    console.log("🚀 ~ file: contacts.js:333 ~ addOrUpdateContact ~ newContact:", newContact)
+    console.log(
+      "🚀 ~ file: contacts.js:333 ~ addOrUpdateContact ~ newContact:",
+      newContact
+    );
 
     if (newContact?._id) {
       const data = await contactModel
@@ -391,7 +395,6 @@ const deleteContactById = async (req, res) => {
     res.status(500).json({ message: "Error deleting contact" });
   }
 };
-
 
 module.exports = {
   getAllContacts,

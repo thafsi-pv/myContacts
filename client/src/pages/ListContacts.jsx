@@ -10,6 +10,7 @@ import useLoader from "../hooks/useLoader";
 import { genricError } from "../utils/genricError";
 import ContactListItem from "../components/ContactListItem";
 import { useSelector } from "react-redux";
+import { FaFilterCircleXmark } from "react-icons/fa6";
 
 const keyChanges = {
   _id: "value",
@@ -215,11 +216,14 @@ function ListContacts() {
                   checked={isAccordionOpen}
                   onClick={toggleAccordion}
                 />
-                <div className="collapse-title text-xl font-medium">
+                <div className=" flex justify-between collapse-title text-xl font-medium">
                   <p className="text-sm flex">
                     <AiOutlineSearch className="w-5 h-5" />
                     Search among {contactCount} contacts..
                   </p>
+                  <span className="z-10">
+                    <FaFilterCircleXmark />
+                  </span>
                 </div>
                 <div className="collapse-content">
                   <div className="flex flex-col gap-1">
