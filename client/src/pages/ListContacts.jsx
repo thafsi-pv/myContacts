@@ -23,6 +23,14 @@ function ListContacts() {
   const [selectedDept, setSelectedDept] = useState({});
   const [selectedDesig, setSelectedDesig] = useState({});
   const [searchText, setSearchText] = useState("");
+
+  const [searchTerms, setSearchTerms] = useState({
+    institution: "",
+    department: "",
+    designation: "",
+    searchText: "",
+  });
+
   const [contactCount, setContactCount] = useState(0);
   const abortController = useRef(null);
   const [isAccordionOpen, setIsAccordionOpen] = useState(false);
