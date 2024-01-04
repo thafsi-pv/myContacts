@@ -1,4 +1,6 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { DESIGNATION_API } from '../const/const';
+import axios from 'axios';
 
 function useDesignation() {
     const [newDesignation, setNewDesignation] = useState({ id: 0, name: "", isActive: true });
