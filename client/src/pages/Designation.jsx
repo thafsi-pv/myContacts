@@ -4,8 +4,17 @@ import { BiPencil, BiTrash } from "react-icons/bi";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import { DESIGNATION_API } from "../const/const";
+import useDesignation from "./useDesignation";
 
 function Designation() {
+  const {
+    newDesignation,
+    designation,
+    handleInputChange,
+    handleAddDesignattion,
+    handleEditDesignattion,
+    handleDeleteDesignation,
+  } = useDesignation();
   // const [newDesignation, setNewDesignation] = useState({ id: 0, name: "", isActive: true });
   // const [designation, setDesignation] = useState([]);
 
@@ -114,7 +123,7 @@ function Designation() {
           <button className="btn btn-neutral w-1/2">Clear</button>
         </div>
       </div>
-      <div className="!mt-60 max-h-50 overflow-y-scroll !mb-8">
+      {/* <div className="!mt-60 max-h-50 overflow-y-scroll !mb-8">
         {designation.map((Designation) => (
           <div
             key={Designation._id}
@@ -144,7 +153,7 @@ function Designation() {
             </div>
           </div>
         ))}
-      </div>
+      </div> */}
     </div>
   );
 }
