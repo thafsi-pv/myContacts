@@ -5,6 +5,7 @@ import axios from "axios";
 import { toast } from "react-hot-toast";
 import { DESIGNATION_API } from "../const/const";
 import useDesignation from "./useDesignation";
+import DesignationList from "../components/designation/DesignationList";
 
 function Designation() {
   const {
@@ -123,6 +124,11 @@ function Designation() {
           <button className="btn btn-neutral w-1/2">Clear</button>
         </div>
       </div>
+      <DesignationList
+        designation={designation}
+        handleEditDesignattion={handleEditDesignattion}
+        handleDeleteDesignation={handleDeleteDesignation}
+      />
       {/* <div className="!mt-60 max-h-50 overflow-y-scroll !mb-8">
         {designation.map((Designation) => (
           <div
