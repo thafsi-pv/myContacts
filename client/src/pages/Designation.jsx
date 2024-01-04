@@ -6,77 +6,77 @@ import { toast } from "react-hot-toast";
 import { DESIGNATION_API } from "../const/const";
 
 function Designation() {
-  const [newDesignation, setNewDesignation] = useState({ id: 0, name: "", isActive: true });
-  const [designation, setDesignation] = useState([]);
+  // const [newDesignation, setNewDesignation] = useState({ id: 0, name: "", isActive: true });
+  // const [designation, setDesignation] = useState([]);
 
-  useEffect(() => {
-    getDesignation();
-  }, []);
+  // useEffect(() => {
+  //   getDesignation();
+  // }, []);
 
-  const getDesignation = async () => {
-    const data = await axios(DESIGNATION_API);
-    setDesignation(data?.data);
-  };
+  // const getDesignation = async () => {
+  //   const data = await axios(DESIGNATION_API);
+  //   setDesignation(data?.data);
+  // };
 
-  const handleInputChange = (e) => {
-    const val =
-      e.target.type === "checkbox" ? e.target.checked : e.target.value;
-    setNewDesignation((prev) => ({ ...prev, [e.target.name]: val }));
-  };
+  // const handleInputChange = (e) => {
+  //   const val =
+  //     e.target.type === "checkbox" ? e.target.checked : e.target.value;
+  //   setNewDesignation((prev) => ({ ...prev, [e.target.name]: val }));
+  // };
 
-  const handleAddDesignattion = async () => {
-    try {
-      const response = await axios(DESIGNATION_API, {
-        method: "POST",
-        data: { newDesignation },
-      });
-      if (response.status == 200) {
-        if (newDesignation.id != 0) {
-          const itemIndex = designation.findIndex(
-            (item) => item._id == newDesignation.id
-          );
-          const Designations = [...designation];
-          Designations[itemIndex].name = response.data.name;
-          Designations[itemIndex].isActive = response.data.isActive;
-          setDesignation(Designations);
-          toast.success("Designation updated successfully");
-        } else {
-          setDesignation((prev) => [...prev, response?.data]);
-          toast.success("Designation added successfully");
-        }
-        setNewDesignation({ id: 0, name: "", isActive: true });
-      }
-    } catch (error) {
-      console.log("🚀 ~ file: Designation.jsx:52 ~ handleAddDesignattion ~ error:", error)
-      toast.error(error.response.data.message);
-    }
-  };
+  // const handleAddDesignattion = async () => {
+  //   try {
+  //     const response = await axios(DESIGNATION_API, {
+  //       method: "POST",
+  //       data: { newDesignation },
+  //     });
+  //     if (response.status == 200) {
+  //       if (newDesignation.id != 0) {
+  //         const itemIndex = designation.findIndex(
+  //           (item) => item._id == newDesignation.id
+  //         );
+  //         const Designations = [...designation];
+  //         Designations[itemIndex].name = response.data.name;
+  //         Designations[itemIndex].isActive = response.data.isActive;
+  //         setDesignation(Designations);
+  //         toast.success("Designation updated successfully");
+  //       } else {
+  //         setDesignation((prev) => [...prev, response?.data]);
+  //         toast.success("Designation added successfully");
+  //       }
+  //       setNewDesignation({ id: 0, name: "", isActive: true });
+  //     }
+  //   } catch (error) {
+  //     console.log("🚀 ~ file: Designation.jsx:52 ~ handleAddDesignattion ~ error:", error)
+  //     toast.error(error.response.data.message);
+  //   }
+  // };
 
-  const handleEditDesignattion = (Designation) => {
-    const { _id, name, isActive } = Designation;
-    setNewDesignation({ id: _id, name, isActive });
-  };
+  // const handleEditDesignattion = (Designation) => {
+  //   const { _id, name, isActive } = Designation;
+  //   setNewDesignation({ id: _id, name, isActive });
+  // };
 
-  const handleDeleteDesignation = async (id) => {
-    const result = window.confirm("Are you sure you want to delete?");
+  // const handleDeleteDesignation = async (id) => {
+  //   const result = window.confirm("Are you sure you want to delete?");
 
-    if (result) {
-      // Perform the delete operation
-      const response = await axios(DESIGNATION_API, {
-        method: "DELETE",
-        data: { id },
-      });
-      if (response.status == 200) {
-        const desig = [...designation];
-        const filterList = desig.filter((item) => item._id != id);
-        setDesignation(filterList);
-        toast.success("Designattion deleted successfully");
-      }
-    } else {
-      // User canceled the delete operation
-      console.log("Delete operation canceled");
-    }
-  };
+  //   if (result) {
+  //     // Perform the delete operation
+  //     const response = await axios(DESIGNATION_API, {
+  //       method: "DELETE",
+  //       data: { id },
+  //     });
+  //     if (response.status == 200) {
+  //       const desig = [...designation];
+  //       const filterList = desig.filter((item) => item._id != id);
+  //       setDesignation(filterList);
+  //       toast.success("Designattion deleted successfully");
+  //     }
+  //   } else {
+  //     // User canceled the delete operation
+  //     console.log("Delete operation canceled");
+  //   }
+  // };
 
   return (
     <div className="mt-12  p-4 space-y-4 lg:w-2/4 m-auto ">
