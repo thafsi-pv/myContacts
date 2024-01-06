@@ -1,83 +1,17 @@
-import React, { useEffect, useState } from "react";
-import Input from "../components/Input";
+import React from "react";
 import { BiPencil, BiTrash } from "react-icons/bi";
-import axios from "axios";
-import { INSTITUTION_API } from "../const/const";
-import { genricError } from "../utils/genricError";
-
+import Input from "../components/Input";
+import useInstitution from "../hooks/useInstitution";
 
 function AddInstitution() {
-  const [newInstitution, setNewInstitution] = useState({ id: 0, name: "", isActive: true });
-  const [departments, setInstitution] = useState([]);
-
-  useEffect(() => {
-    getInstitution();
-  }, []);
-
-  const getInstitution = async () => {
-    const data = await axios(INSTITUTION_API);
-    setInstitution(data?.data);
-  };
-
-  const handleInputChange = (e) => {
-    const val =
-      e.target.type === "checkbox" ? e.target.checked : e.target.value;
-    setNewInstitution((prev) => ({ ...prev, [e.target.name]: val }));
-  };
-
-  const handleAddInstitution = async () => {
-    try {
-      const response = await axios(INSTITUTION_API, {
-        method: "POST",
-        data: { newInstitution },
-      });
-      if (response.status == 200) {
-        if (newInstitution.id != 0) {
-          const itemIndex = departments.findIndex(
-            (item) => item._id == newInstitution.id
-          );
-          const depts = [...departments];
-          depts[itemIndex].name = response.data.name;
-          depts[itemIndex].isActive = response.data.isActive;
-          setInstitution(depts);
-          toast.success("Institution updated successfully");
-        } else {
-          setInstitution((prev) => [...prev, response?.data]);
-          toast.success("Institution added successfully");
-        }
-        setNewInstitution({ id: 0, name: "", isActive: true });
-      }
-    } catch (error) {
-      console.log("🚀 ~ file: AddInstitution.jsx:51 ~ handleAddInstitution ~ error:", error)
-      genricError(error);
-    }
-  };
-
-  const handleEditInstitution = (Institution) => {
-    const { _id, name, isActive } = Institution;
-    setNewInstitution({ id: _id, name, isActive });
-  };
-
-  const handleDeleteDetartment = async (id) => {
-    const result = window.confirm("Are you sure you want to delete?");
-
-    if (result) {
-      // Perform the delete operation
-      const response = await axios(INSTITUTION_API, {
-        method: "DELETE",
-        data: { id },
-      });
-      if (response.status == 200) {
-        const Institution = [...departments];
-        const filterList = Institution.filter((item) => item._id != id);
-        setInstitution(filterList);
-        toast.success("Institution deleted successfully");
-      }
-    } else {
-      // User canceled the delete operation
-      console.log("Delete operation canceled");
-    }
-  };
+  const {
+    newInstitution,
+    institution,
+    handleInputChange,
+    handleAddInstitution,
+    handleEditInstitution,
+    handleDeleteDetartment,
+  } = useInstitution();
 
   return (
     <div className="mt-12  p-4 space-y-4 lg:w-2/4 m-auto ">
@@ -116,7 +50,7 @@ function AddInstitution() {
         </div>
       </div>
       <div className="!mt-60 max-h-50 overflow-y-scroll !mb-8">
-        {departments.map((Institution) => (
+        {institution.map((Institution) => (
           <div
             key={Institution._id}
             className="flex justify-between p-3 border-b border-b-base-300">
