@@ -8,9 +8,13 @@ const contactRouter = require("./router/contacts");
 const designationRouter = require("./router/designation");
 const userRouter = require("./router/userRouter");
 const institutionRouter = require("./router/institution");
+const corsOptions = {
+  origin: "http://localhost:5173/",
+  optionsSuccessStatus: 200, // For legacy browser support
+};
 
 const app = express();
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json());
 connectDB();
 
