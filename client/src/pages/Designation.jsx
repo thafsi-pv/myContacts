@@ -1,11 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Input from "../components/Input";
-import { BiPencil, BiTrash } from "react-icons/bi";
-import axios from "axios";
-import { toast } from "react-hot-toast";
-import { DESIGNATION_API } from "../const/const";
-import useDesignation from "./useDesignation";
 import DesignationList from "../components/designation/DesignationList";
+import useDesignation from "./useDesignation";
 
 function Designation() {
   const {
