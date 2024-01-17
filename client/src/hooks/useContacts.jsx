@@ -1,5 +1,3 @@
-import React from "react";
-
 function useContacts() {
   const getDepartments = async () => {
     const data = await axios(DEPARTMENT_API);

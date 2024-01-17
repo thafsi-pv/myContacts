@@ -80,7 +80,6 @@ function ListContacts() {
   //   };
   // }, [contactListRef.current, allContacts]);
 
-  
   useEffect(() => {
     abortController.current = new AbortController();
     getAllContacts();
