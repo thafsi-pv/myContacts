@@ -5,6 +5,7 @@ function useContacts() {
     setDepartments(updatedArray);
   };
 
+  
   const getDesignation = async () => {
     const data = await axios(DESIGNATION_API);
     const updatedArray = changeKeyInArray(data.data, keyChanges);
