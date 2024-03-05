@@ -1,4 +1,3 @@
-import React from "react";
 import Input from "../components/Input";
 import DesignationList from "../components/designation/DesignationList";
 import useDesignation from "./useDesignation";
