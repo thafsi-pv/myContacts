@@ -8,7 +8,7 @@ export const copyToClipboard = (textareaRef, text) => {
     document.execCommand("copy");
     console.log("Text copied to clipboard:", text);
     textareaRef.current.blur();
-    toast.success("No coppied");
+    toast.success("No copied to clipboard");
   } catch (error) {
     console.error("Failed to copy text:", error);
   }
