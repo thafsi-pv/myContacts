@@ -1,4 +1,7 @@
-import React from "react";
+import { useEffect, useState } from "react";
+import { INSTITUTION_API } from "../const/const";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 function useInstitution() {
   const [newInstitution, setNewInstitution] = useState({
@@ -79,7 +82,14 @@ function useInstitution() {
       console.log("Delete operation canceled");
     }
   };
-  return {newInstitution,institution,handleInputChange,handleAddInstitution,handleEditInstitution,handleDeleteDetartment}
+  return {
+    newInstitution,
+    institution,
+    handleInputChange,
+    handleAddInstitution,
+    handleEditInstitution,
+    handleDeleteDetartment,
+  };
 }
 
 export default useInstitution;

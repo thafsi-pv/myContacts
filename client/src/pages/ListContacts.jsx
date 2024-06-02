@@ -1,8 +1,13 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useCallback } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
 import axios from "axios";
 import { changeKeyInArray } from "../utils/utils";
-import { CONTACTS_API, DEPARTMENT_API, DESIGNATION_API } from "../const/const";
+import {
+  CONTACTS_API,
+  DEPARTMENT_API,
+  DESIGNATION_API,
+  INSTITUTION_API,
+} from "../const/const";
 import ShimmerContacts from "../components/shimmerUI/ShimmerContacts";
 import Select from "react-select";
 import NoResultFound from "../components/NoResultFound";
@@ -11,95 +16,56 @@ import { genricError } from "../utils/genricError";
 import ContactListItem from "../components/ContactListItem";
 import { useSelector } from "react-redux";
 import { FaFilterCircleXmark } from "react-icons/fa6";
+import { useInView } from "react-intersection-observer";
 
 const keyChanges = {
   _id: "value",
   name: "label",
 };
+
 function ListContacts() {
   const [allContacts, setAllContacts] = useState([]);
   const [departments, setDepartments] = useState([]);
-  const [designation, setDesignation] = useState({});
+  const [designation, setDesignation] = useState([]);
+  const [institution, setInstitution] = useState([]);
   const [selectedDept, setSelectedDept] = useState({});
   const [selectedDesig, setSelectedDesig] = useState({});
+  const [selectedInsti, setSelectedInsti] = useState({});
   const [searchText, setSearchText] = useState("");
-
-  const [searchTerms, setSearchTerms] = useState({
-    institution: "",
-    department: "",
-    designation: "",
-    searchText: "",
-  });
-
   const [contactCount, setContactCount] = useState(0);
-  const abortController = useRef(null);
   const [isAccordionOpen, setIsAccordionOpen] = useState(false);
   const { isLoading, toggleLoading, loader } = useLoader(false);
   const [page, setPage] = useState(1);
-  const pageSize = 10;
-  const contactListRef = useRef(null);
-  const searchBoxRef = useRef(null);
+  const pageSize = 20;
   const [lazyLoad, setLazyLoad] = useState(false);
-  const { permissionList, userDetails } = useSelector(
-    (store) => store.permission
-  );
+  const { permissionList, userDetails } = useSelector((store) => store.permission);
 
-  // useEffect(() => {
-  //   // Function to handle the click outside event
-  //   const handleClickOutside = (event) => {
-  //     // Check if the clicked target is outside the element
-  //     if (
-  //       searchBoxRef.current &&
-  //       !searchBoxRef.current.contains(event.target)
-  //     ) {
-  //       // Perform the action you want when clicking outside the element
-  //       setIsAccordionOpen(false);
-  //     }
-  //   };
-
-  //   // Add the event listener to the document when the component mounts
-  //   document.addEventListener("click", handleClickOutside);
-
-  //   // Clean up the event listener when the component unmounts
-  //   return () => {
-  //     document.removeEventListener("click", handleClickOutside);
-  //   };
-  // }, []);
-
-  // useEffect(() => {
-  //   // Check if contactListRef.current is not null before adding the event listener
-  //   if (contactListRef.current !== null) {
-  //     contactListRef.current.addEventListener("scroll", handleScroll);
-  //   }
-
-  //   // Clean up the event listener when the component unmounts
-  //   return () => {
-  //     if (contactListRef.current !== null) {
-  //       contactListRef.current.removeEventListener("scroll", handleScroll);
-  //     }
-  //   };
-  // }, [contactListRef.current, allContacts]);
+  // useInView hook from react-intersection-observer
+  const { ref, inView } = useInView({
+    threshold: 0,
+    triggerOnce: false,
+  });
 
   useEffect(() => {
-    abortController.current = new AbortController();
     getAllContacts();
-    if (page == 1) {
+    if (page === 1) {
+      getInstitution();
       getDepartments();
       getDesignation();
     }
-    return () => {
-      abortController.current.abort();
-    };
   }, [page]);
+
+  useEffect(() => {
+    if (inView) {
+      setPage((prevPage) => prevPage + 1);
+    }
+  }, [inView]);
 
   const getAllContacts = async () => {
     try {
       setLazyLoad(true);
       const response = await axios.get(
-        `${CONTACTS_API}/contactGrouped?page=${page}&pageSize=${pageSize}`,
-        {
-          signal: abortController.current.signal,
-        }
+        `${CONTACTS_API}/contactGrouped?page=${page}&pageSize=${pageSize}`
       );
       setAllContacts((prev) => [...prev, ...response?.data?.contactList]);
       setContactCount(response?.data?.totalCount);
@@ -109,42 +75,6 @@ function ListContacts() {
       setLazyLoad(false);
     }
   };
-
-  const handleScroll = () => {
-    // Calculate the scroll position of the contact list container
-    const { scrollHeight, scrollTop, clientHeight } = contactListRef.current;
-    // Check if the user has scrolled to the bottom of the contact list container
-    if (scrollHeight - scrollTop === clientHeight) {
-      // Increment the page number to fetch the next page of contacts
-      if (page <= 3) {
-        console.log("page", page);
-        setPage((prevPage) => page + 1);
-      }
-    }
-  };
-
-  // const handleScroll = () => {
-  //   // Calculate the scroll position of the contact list container
-  //   const { scrollHeight, scrollTop, clientHeight } = contactListRef.current;
-
-  //   // Define a threshold (percentage of container height) to start loading the next page
-  //   const threshold = 0.8; // You can adjust this value as needed
-
-  //   // Calculate the distance from the bottom of the container to the current scroll position
-  //   const distanceToBottom = scrollHeight - scrollTop - clientHeight;
-
-  //   // Check if the user has reached the threshold before the scroll end
-  //   if (distanceToBottom <= clientHeight * threshold) {
-  //     // Check if there are more contacts to fetch
-  //     if ((page * 10) < contactCount) {
-  //       console.log("🚀 ~ file: ListContacts.jsx:100 ~ handleScroll ~ contactCount:", contactCount)
-  //       console.log("🚀 ~ file: ListContacts.jsx:100 ~ handleScroll ~ (page * 10):", (page * 10))
-
-  //       // Increment the page number to fetch the next page of contacts
-  //       setPage((prevPage) => prevPage + 1);
-  //     }
-  //   }
-  // };
 
   const getDepartments = async () => {
     const data = await axios(DEPARTMENT_API);
@@ -158,11 +88,22 @@ function ListContacts() {
     setDesignation(updatedArray);
   };
 
+  const getInstitution = async () => {
+    const data = await axios(INSTITUTION_API);
+    const updatedArray = changeKeyInArray(data.data, keyChanges);
+    setInstitution(updatedArray);
+  };
+
   const handleDepartmentChange = (selectedOptions) => {
     setSelectedDept(selectedOptions);
   };
+
   const handleDesignationChange = (selectedOptions) => {
     setSelectedDesig(selectedOptions);
+  };
+
+  const handleInstitutionChange = (selectedOptions) => {
+    setSelectedInsti(selectedOptions);
   };
 
   const toggleAccordion = () => {
@@ -174,23 +115,19 @@ function ListContacts() {
       const txt = e.target.value;
       setSearchText(txt);
       setPage(1);
-      //toggleLoading(true);
-      const designation =
-        selectedDesig.value != undefined ? selectedDesig.value : "";
-      const department =
-        selectedDept.value != undefined ? selectedDept.value : "";
-      const response = await axios.get(`
-    ${CONTACTS_API}/contactGrouped?name=${txt}&designationId=${designation}&departmentId=${department}&page=${page}&pageSize=${pageSize}`);
+
+      const designation = selectedDesig.value || "";
+      const department = selectedDept.value || "";
+      const institution = selectedInsti.value || "";
+      const response = await axios.get(
+        `${CONTACTS_API}/contactGrouped?name=${txt}&designationId=${designation}&departmentId=${department}&page=${page}&pageSize=${pageSize}&institutionId=${institution}`
+      );
       setAllContacts(response?.data?.contactList);
-      // toggleAccordion();
     } catch (error) {
       genricError(error);
-    } finally {
-      //toggleLoading(false);
     }
   };
 
-  // Custom styles for the Select component
   const selectStyles = {
     menuPortal: (base) => ({
       ...base,
@@ -198,25 +135,23 @@ function ListContacts() {
     }),
     option: (provided, state) => ({
       ...provided,
-      color: "black", // Set the color to black for menu list items
+      color: "black",
     }),
   };
 
   if (
-    allContacts.length == 0 &&
-    searchText == "" &&
+    allContacts.length === 0 &&
+    searchText === "" &&
     Object.keys(selectedDept).length === 0 &&
     Object.keys(selectedDesig).length === 0
   ) {
     return <ShimmerContacts count={9} showSearch={true} />;
   } else {
     return (
-      <div className="flex flex-col justify-center  w-full  lg:w-2/4 m-auto">
-        {(userDetails.role == "admin" || permissionList.includes("VC")) && (
+      <div className="flex flex-col justify-center w-full lg:w-2/4 m-auto">
+        {(userDetails.role === "admin" || permissionList.includes("VC")) && (
           <>
-            <div
-              className="w-full px-5 top-16  bg-base-100 p-3 z-[5] relative"
-              ref={searchBoxRef}>
+            <div className="w-full px-5 top-16 bg-base-100 p-3 z-[5] relative">
               <div className="collapse collapse-arrow bg-base-200">
                 <input
                   type="radio"
@@ -224,7 +159,7 @@ function ListContacts() {
                   checked={isAccordionOpen}
                   onClick={toggleAccordion}
                 />
-                <div className=" flex justify-between collapse-title text-xl font-medium">
+                <div className="flex justify-between collapse-title text-xl font-medium">
                   <p className="text-sm flex">
                     <AiOutlineSearch className="w-5 h-5" />
                     Search among {contactCount} contacts..
@@ -235,37 +170,34 @@ function ListContacts() {
                 </div>
                 <div className="collapse-content">
                   <div className="flex flex-col gap-1">
-                    <div className="w-full ">
+                    <div className="w-full">
                       <Select
-                        className="w-full" // Add this class to make the select box expand to full width
+                        className="w-full"
                         menuPortalTarget={document.body}
                         styles={{ ...selectStyles }}
                         placeholder="Institution"
-                        options={designation}
-                        //value={selectedDesig}
-                        onChange={(e) => handleDesignationChange(e)}
+                        options={institution}
+                        onChange={handleInstitutionChange}
                       />
                     </div>
                     <div className="flex gap-2">
-                      <div className="w-full ">
+                      <div className="w-full">
                         <Select
-                          className="w-full" // Add this class to make the select box expand to full width
+                          className="w-full"
                           menuPortalTarget={document.body}
                           styles={{ ...selectStyles }}
                           placeholder="Designation"
                           options={designation}
-                          //value={selectedDesig}
-                          onChange={(e) => handleDesignationChange(e)}
+                          onChange={handleDesignationChange}
                         />
                       </div>
-                      <div className="w-full ">
+                      <div className="w-full">
                         <Select
                           menuPortalTarget={document.body}
                           styles={{ ...selectStyles }}
                           placeholder="Department"
                           options={departments}
-                          //value={selectedDept}
-                          onChange={(e) => handleDepartmentChange(e)}
+                          onChange={handleDepartmentChange}
                         />
                       </div>
                     </div>
@@ -279,12 +211,12 @@ function ListContacts() {
                           />
                         </div>
                       </div>
-
                       <div className="indicator">
                         <button
                           className="btn join-item !border-gray-600 !bg-base-300"
-                          onClick={handleSearchContact}>
-                          <AiOutlineSearch className="w-5 h-5 " />
+                          onClick={handleSearchContact}
+                        >
+                          <AiOutlineSearch className="w-5 h-5" />
                         </button>
                       </div>
                     </div>
@@ -292,45 +224,46 @@ function ListContacts() {
                 </div>
               </div>
             </div>
-            <div className="pt-0  relative top-0 pb-4">
-              {allContacts.length == 0 &&
-              (searchText != "" ||
+            <div className="pt-0 relative top-0 pb-4">
+              {allContacts.length === 0 &&
+              (searchText !== "" ||
                 Object.keys(selectedDept).length !== 0 ||
                 Object.keys(selectedDesig).length !== 0) ? (
                 <NoResultFound />
               ) : (
-                <div
-                  className="overflow-y-auto  mt-16 p-3 pt-0 max-h-[800px] relative top-0 pb-64"
-                  ref={contactListRef}>
+                <div className="overflow-y-auto mt-16 p-3 pt-0 max-h-[800px] relative top-0 pb-64">
                   <table className="table table-pin-rows">
-                    {allContacts.map((item) => (
-                      <ContactListItem item={item} key={item._id} />
-                    ))}
+                    {allContacts.map((item, index) => {
+                      return (
+                        <ContactListItem item={item} key={item._id} />
+                      );
+                    })}
                   </table>
+                  <div ref={ref}></div> {/* Intersection Observer Element */}
                   {lazyLoad && (
                     <div className="space-y-3">
-                      <div className="flex items-center ">
+                      <div className="flex items-center">
                         <div className="h-12 w-12 bg-gray-400 rounded-full"></div>
                         <div className="ml-4">
                           <div className="h-4 bg-gray-400 w-32 rounded"></div>
                           <div className="h-4 bg-gray-400 w-20 rounded mt-2"></div>
                         </div>
                       </div>
-                      <div className="flex items-center ">
+                      <div className="flex items-center">
                         <div className="h-12 w-12 bg-gray-400 rounded-full"></div>
                         <div className="ml-4">
                           <div className="h-4 bg-gray-400 w-32 rounded"></div>
                           <div className="h-4 bg-gray-400 w-20 rounded mt-2"></div>
                         </div>
                       </div>
-                      <div className="flex items-center ">
+                      <div className="flex items-center">
                         <div className="h-12 w-12 bg-gray-400 rounded-full"></div>
                         <div className="ml-4">
                           <div className="h-4 bg-gray-400 w-32 rounded"></div>
                           <div className="h-4 bg-gray-400 w-20 rounded mt-2"></div>
                         </div>
                       </div>
-                      <div className="flex items-center ">
+                      <div className="flex items-center">
                         <div className="h-12 w-12 bg-gray-400 rounded-full"></div>
                         <div className="ml-4">
                           <div className="h-4 bg-gray-400 w-32 rounded"></div>
@@ -344,7 +277,6 @@ function ListContacts() {
             </div>
           </>
         )}
-
         {isLoading && loader}
       </div>
     );

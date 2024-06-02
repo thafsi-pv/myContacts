@@ -1,4 +1,3 @@
-import React from "react";
 import { BiPencil, BiTrash } from "react-icons/bi";
 import Input from "../components/Input";
 import useInstitution from "../hooks/useInstitution";

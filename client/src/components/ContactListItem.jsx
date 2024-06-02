@@ -32,7 +32,11 @@ function ContactListItem({ item }) {
                 className={`flex items-center justify-center text-white w-10 lg:w-14 h-10 lg:h-14 rounded-full shadow-lg my-auto text-center text-xl font-bold`}
                 style={{ backgroundColor: getRandomColorCode() }}>
                 {getInitialLetters(
-                  (contact?.firstName?.split(" ") + " " + contact?.lastName?.split(" ")).toString()
+                  (
+                    contact?.firstName?.split(" ") +
+                    " " +
+                    contact?.lastName?.split(" ")
+                  ).toString()
                 )}
               </span>
             </td>
@@ -42,6 +46,10 @@ function ContactListItem({ item }) {
                   {contact.firstName} {contact.lastName}
                 </span>
                 <div>
+                  <span className="">{contact?.institution[0]?.name}</span>
+                  {contact?.designation[0]?.name && contact?.institution[0]?.name
+                    ? ` | `
+                    : ""}
                   <span className="">{contact?.designation[0]?.name}</span>
                   {contact?.designation[0]?.name && contact?.department[0]?.name
                     ? ` | `

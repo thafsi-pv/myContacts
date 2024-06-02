@@ -15,62 +15,63 @@ const getAllContacts = async (req, res) => {
     res.status(400).json({ message: error.message });
   }
 };
-
 const getAllContactsGroup = async (req, res) => {
   try {
-    const { name, designationId, departmentId, page, pageSize } = req.query;
-    console.log(
-      "🚀 ~ file: contacts.js:22 ~ getAllContactsGroup ~ req.query:",
-      req.query
-    );
+    const { name, designationId, departmentId, page, pageSize, institutionId } = req.query;
+    console.log("🚀 ~ file: contacts.js:22 ~ getAllContactsGroup ~ req.query:", req.query);
+
     const currentPage = parseInt(page) || 1;
     const contactsPerPage = parseInt(pageSize) || 10;
 
-    // Calculate the skip count based on the current page and contacts per page
     const skipCount = (currentPage - 1) * contactsPerPage;
 
-    // Create an empty filter object to hold the query conditions
     const filter = {};
 
-    // If name is provided, add it to the filter to check both firstName and lastName
     if (name) {
       filter.$or = [
-        { "contacts.firstName": { $regex: new RegExp(name, "i") } },
-        { "contacts.lastName": { $regex: new RegExp(name, "i") } },
-        //{ "contacts.lastName": { $exists: false } }, // Check if lastName field does not exist
+        { "firstName": { $regex: new RegExp(name, "i") } },
+        { "lastName": { $regex: new RegExp(name, "i") } },
       ];
     }
 
-    // If designationId is provided, add it to the filter
     if (designationId) {
-      filter["contacts.designation._id"] = new mongoose.Types.ObjectId(
-        designationId
-      );
+      filter["designation"] = new mongoose.Types.ObjectId(designationId);
     }
 
-    // If departmentId is provided, add it to the filter
     if (departmentId) {
-      filter["contacts.department._id"] = new mongoose.Types.ObjectId(
-        departmentId
-      );
+      filter["department"] = new mongoose.Types.ObjectId(departmentId);
     }
 
-    // Use the filter in the $match stage of the aggregation pipeline
+    if (institutionId) {
+      filter["institution"] = new mongoose.Types.ObjectId(institutionId);
+    }
+
     const contactList = await contactModel.aggregate([
       {
-        $sort: { firstName: 1 }, // Sort contacts by firstName in ascending order (A to Z)
+        $match: filter,
+      },
+      {
+        $sort: { firstName: 1 },
       },
       {
         $group: {
-          _id: { $substr: ["$firstName", 0, 1] }, // Group contacts by the first letter of firstName
-          contacts: { $push: "$$ROOT" }, // Push the entire contact document into the contacts array
+          _id: { $substr: ["$firstName", 0, 1] },
+          contacts: { $push: "$$ROOT" },
         },
       },
       {
-        $sort: { _id: 1 }, // Sort the groups based on the first letter in ascending order (A to Z)
+        $sort: { _id: 1 },
       },
       {
-        $unwind: "$contacts", // Unwind the contacts array to prepare for $lookup stages
+        $unwind: "$contacts",
+      },
+      {
+        $lookup: {
+          from: "institutions",
+          localField: "contacts.institution",
+          foreignField: "_id",
+          as: "contacts.institution",
+        },
       },
       {
         $lookup: {
@@ -96,35 +97,30 @@ const getAllContactsGroup = async (req, res) => {
           as: "contacts.contactNos",
         },
       },
-      // Add the $ifNull stage for the department and designation fields
       {
         $addFields: {
           "contacts.department": { $ifNull: ["$contacts.department", null] },
           "contacts.designation": { $ifNull: ["$contacts.designation", null] },
+          "contacts.institution": { $ifNull: ["$contacts.institution", null] },
         },
       },
       {
-        $match: filter,
+        $skip: skipCount,
       },
       {
-        $skip: skipCount, // Add the $skip stage to skip contacts on previous pages
-      },
-      {
-        $limit: contactsPerPage, // Add the $limit stage to limit contacts per page
+        $limit: contactsPerPage,
       },
       {
         $group: {
           _id: "$_id",
-          contacts: { $push: "$contacts" }, // Push the contacts back into the contacts array for each group
+          contacts: { $push: "$contacts" },
         },
       },
     ]);
-    console.log(
-      "🚀 ~ file: contacts.js:122 ~ getAllContactsGroup ~ contactList:",
-      contactList
-    );
 
-    const totalCount = await contactModel.countDocuments(filter); // Get the total count based on the filter
+    console.log("🚀 ~ file: contacts.js:122 ~ getAllContactsGroup ~ contactList:", contactList);
+
+    const totalCount = await contactModel.countDocuments(filter);
 
     contactList.sort((a, b) => a._id.localeCompare(b._id));
     res.json({ contactList, totalCount });
@@ -132,6 +128,127 @@ const getAllContactsGroup = async (req, res) => {
     res.status(400).json({ message: error.message });
   }
 };
+// const getAllContactsGroup = async (req, res) => {
+//   try {
+//     const { name, designationId, departmentId, page, pageSize, institutionId } = req.query;
+//     console.log("🚀 ~ file: contacts.js:22 ~ getAllContactsGroup ~ req.query:", req.query);
+
+//     const currentPage = parseInt(page) || 1;
+//     const contactsPerPage = parseInt(pageSize) || 10;
+
+//     // Calculate the skip count based on the current page and contacts per page
+//     const skipCount = (currentPage - 1) * contactsPerPage;
+
+//     // Create an empty filter object to hold the query conditions
+//     const filter = {};
+
+//     // If name is provided, add it to the filter to check both firstName and lastName
+//     if (name) {
+//       filter.$or = [
+//         { "contacts.firstName": { $regex: new RegExp(name, "i") } },
+//         { "contacts.lastName": { $regex: new RegExp(name, "i") } },
+//       ];
+//     }
+
+//     // If designationId is provided, add it to the filter
+//     if (designationId) {
+//       filter["contacts.designation._id"] = new mongoose.Types.ObjectId(designationId);
+//     }
+
+//     // If departmentId is provided, add it to the filter
+//     if (departmentId) {
+//       filter["contacts.department._id"] = new mongoose.Types.ObjectId(departmentId);
+//     }
+
+//     // If institutionId is provided, add it to the filter
+//     if (institutionId) {
+//       filter["contacts.institution._id"] = new mongoose.Types.ObjectId(institutionId);
+//     }
+
+//     // Use the filter in the $match stage of the aggregation pipeline
+//     const contactList = await contactModel.aggregate([
+//       {
+//         $sort: { firstName: 1 }, // Sort contacts by firstName in ascending order (A to Z)
+//       },
+//       {
+//         $group: {
+//           _id: { $substr: ["$firstName", 0, 1] }, // Group contacts by the first letter of firstName
+//           contacts: { $push: "$$ROOT" }, // Push the entire contact document into the contacts array
+//         },
+//       },
+//       {
+//         $sort: { _id: 1 }, // Sort the groups based on the first letter in ascending order (A to Z)
+//       },
+//       {
+//         $unwind: "$contacts", // Unwind the contacts array to prepare for $lookup stages
+//       },
+//       {
+//         $lookup: {
+//           from: "institution",
+//           localField: "contacts.institution",
+//           foreignField: "_id",
+//           as: "contacts.institution",
+//         },
+//       },
+//       {
+//         $lookup: {
+//           from: "departments",
+//           localField: "contacts.department",
+//           foreignField: "_id",
+//           as: "contacts.department",
+//         },
+//       },
+//       {
+//         $lookup: {
+//           from: "designations",
+//           localField: "contacts.designation",
+//           foreignField: "_id",
+//           as: "contacts.designation",
+//         },
+//       },
+//       {
+//         $lookup: {
+//           from: "contactnumbers",
+//           localField: "contacts.contactNos",
+//           foreignField: "_id",
+//           as: "contacts.contactNos",
+//         },
+//       },
+//       // Add the $ifNull stage for the department and designation fields
+//       {
+//         $addFields: {
+//           "contacts.department": { $ifNull: ["$contacts.department", null] },
+//           "contacts.designation": { $ifNull: ["$contacts.designation", null] },
+//           "contacts.institution": { $ifNull: ["$contacts.institution", null] },
+//         },
+//       },
+//       {
+//         $match: filter,
+//       },
+//       {
+//         $skip: skipCount, // Add the $skip stage to skip contacts on previous pages
+//       },
+//       {
+//         $limit: contactsPerPage, // Add the $limit stage to limit contacts per page
+//       },
+//       {
+//         $group: {
+//           _id: "$_id",
+//           contacts: { $push: "$contacts" }, // Push the contacts back into the contacts array for each group
+//         },
+//       },
+//     ]);
+
+//     console.log("🚀 ~ file: contacts.js:122 ~ getAllContactsGroup ~ contactList:", contactList);
+
+//     const totalCount = await contactModel.countDocuments(filter); // Get the total count based on the filter
+
+//     contactList.sort((a, b) => a._id.localeCompare(b._id));
+//     res.json({ contactList, totalCount });
+//   } catch (error) {
+//     res.status(400).json({ message: error.message });
+//   }
+// };
 
 // const getAllContactsGroup = async (req, res) => {
 //   try {
